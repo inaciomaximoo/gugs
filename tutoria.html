@@ -823,7 +823,7 @@ let isMistakesTest = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Carregar questões
-    currentTestQuestions = sampleQuestions.slice(0, totalQuestions);
+    currentTestQuestions = shuffleArray(sampleQuestions).slice(0, totalQuestions);
 
     // Inicializar array de respostas e tempos
     userAnswers = new Array(currentTestQuestions.length).fill(null);
@@ -1465,58 +1465,64 @@ function closeMistakesTestPopup() {
 
 
 
-function startNormalTest() {
-    // Pegar 20 questões aleatórias
-    currentTestQuestions = [...sampleQuestions]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 20);
-    
+        function startNormalTest() {
+    // Pegar 20 questões aleatórias com distribuição uniforme
+    currentTestQuestions = shuffleArray(sampleQuestions).slice(0, 20);
+
     totalQuestions = 20;
     questionsPerPage = 1;
     isMistakesTest = false;
-    
+
     // Resetar respostas e tempos
     userAnswers = new Array(totalQuestions).fill(null);
     testStatistics.questionTimes = new Array(totalQuestions).fill(0);
     testStatistics.startTime = null;
-    
+
     // Mostrar primeira questão
+    currentQuestionIndex = 0;
     showQuestion(0);
     updateProgressBar();
-    
+
     // Atualizar interface
     document.getElementById('quizPage').style.display = 'block';
     document.getElementById('resultsPage').style.display = 'none';
 }
 
 function restartTest() {
-    startNormalTest();
-
-    // Resetar para o modo normal (1 questão por página)
     questionsPerPage = 1;
-    
-    // Voltar para a página do quiz
-    document.getElementById('quizPage').style.display = 'block';
-    document.getElementById('resultsPage').style.display = 'none';
+    isMistakesTest = false;
 
-    // Gerar novas questões (ou usar as padrão)
-    currentTestQuestions = sampleQuestions.slice(0, totalQuestions);
+    // Pegar 20 novas questões aleatórias com distribuição uniforme
+    currentTestQuestions = shuffleArray(sampleQuestions).slice(0, totalQuestions);
 
     // Resetar respostas e tempos
     userAnswers = new Array(currentTestQuestions.length).fill(null);
     testStatistics.questionTimes = new Array(currentTestQuestions.length).fill(0);
     testStatistics.startTime = null;
 
-    // Mostrar primeira questão
     currentQuestionIndex = 0;
-    showQuestion(currentQuestionIndex);
     updateProgressBar();
 
-     // Destruir gráficos antigos
+    // Destruir gráficos antigos
     Object.values(charts).forEach(chart => {
         if (chart) chart.destroy();
     });
+
+    // Mostrar primeira questão
+    showQuestion(currentQuestionIndex);
+    document.getElementById('quizPage').style.display = 'block';
+    document.getElementById('resultsPage').style.display = 'none';
 }
+
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 
 function reviewQuestions() {
     alert("Navegue pelas questões usando os botões 'Anterior' e 'Próxima' para revisar.");
