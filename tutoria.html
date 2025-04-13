@@ -1361,9 +1361,9 @@ function calculateResults() {
 
 
 
- function getTopMistakenQuestions() {
+function getTopMistakenQuestions() {
     const mistakeCounts = {};
-    
+
     // Somente erros de provas normais (isMistakesTest = false)
     userAttemptsHistory.forEach(attempt => {
         if (!attempt.isMistakesTest) {
@@ -1374,17 +1374,17 @@ function calculateResults() {
             });
         }
     });
-    
+
     // Ordenar do maior para o menor número de erros
     const sortedMistakes = Object.entries(mistakeCounts)
         .sort((a, b) => b[1] - a[1]);
-    
+
     // Montar lista de questões mais erradas
     const topQuestions = [];
     sortedMistakes.forEach(([questionId]) => {
         // 1) Tentar achar no array sampleQuestions via .id
         let question = sampleQuestions.find(q => q.id == questionId);
-        
+
         // 2) Se não encontrar, tratar questionId como índice numérico
         if (!question) {
             const index = parseInt(questionId, 10);
@@ -1392,27 +1392,33 @@ function calculateResults() {
                 question = sampleQuestions[index];
             }
         }
-        
+
         // 3) Se question foi encontrado e não está duplicado, adiciona
         if (question && !topQuestions.includes(question)) {
             topQuestions.push(question);
         }
     });
-    
+
     // Retornar no máximo 20 questões (4 páginas de 5 cada)
     return topQuestions.slice(0, 20);
 }
 
 function showMistakesTestPopup() {
     const topMistakes = getTopMistakenQuestions();
-    
-    // Caso não haja questões suficientes
-    if (topMistakes.length === 0) {
-        alert("Você ainda não tem questões erradas suficientes para criar uma prova personalizada. Continue praticando!");
+
+    // Verificação mínima de 20 questões únicas com erro
+    if (topMistakes.length < 20) {
+        alert(`Você precisa de pelo menos 20 questões erradas para gerar uma prova personalizada.\n\nAtualmente você possui ${topMistakes.length} questões registradas como erro.\n\nContinue praticando para liberar essa funcionalidade!`);
         return;
     }
-    
-    // Exibe o popup
+
+    // Se quiser mostrar essa info no popup
+    const mistakesCountText = document.getElementById('mistakesCountText');
+    if (mistakesCountText) {
+        mistakesCountText.textContent = `Você errou ${topMistakes.length} questões diferentes. Esta prova irá conter as 20 que você mais errou.`;
+    }
+
+    // Mostrar o popup
     document.getElementById('mistakesTestPopup').classList.add('active');
 }
 
@@ -1423,7 +1429,6 @@ function startMistakesTest() {
     // Obter a lista (máx. 20) das questões mais erradas
     const topQuestions = getTopMistakenQuestions();
     if (!topQuestions || topQuestions.length === 0) {
-        // Caso algo inesperado retorne vazio
         alert("Não há questões erradas suficientes para iniciar essa prova.");
         return;
     }
@@ -1431,7 +1436,7 @@ function startMistakesTest() {
     currentTestQuestions = topQuestions;
     totalQuestions = currentTestQuestions.length;
 
-    // Configurar para 5 questões por página (no máximo 4 páginas)
+    // Configurar para 5 questões por página
     questionsPerPage = 5;
     isMistakesTest = true;
 
@@ -1440,7 +1445,7 @@ function startMistakesTest() {
     testStatistics.questionTimes = new Array(totalQuestions).fill(0);
     testStatistics.startTime = null;
 
-    // Exibir a primeira página (questões índice 0 a 4)
+    // Exibir a primeira página
     showQuestionsPage(0);
 
     // Mostrar a área do quiz e ocultar a de resultados
@@ -1454,7 +1459,6 @@ function startMistakesTest() {
 function closeMistakesTestPopup() {
     document.getElementById('mistakesTestPopup').classList.remove('active');
 }
-
 
 
 
