@@ -17,6 +17,55 @@
             --transition: all 0.3s ease;
         }
 
+
+/* Caixa padrão */
+.mistakes-test-option {
+    background-color: var(--white);
+    color: var(--dark);
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--gray-light);
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estilo do botão */
+.quiz-action-button {
+    padding: 12px 20px;
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quiz-action-button:hover {
+    background-color: var(--secondary);
+}
+
+/* Modo escuro */
+body.dark-mode .mistakes-test-option {
+    background-color: var(--gray-light);
+    border-color: var(--gray);
+}
+
+body.dark-mode .mistakes-test-option p {
+    color: white;
+}
+
+body.dark-mode .quiz-action-button {
+    background-color: var(--primary-light);
+    color: #fff;
+}
+
+body.dark-mode .quiz-action-button:hover {
+    background-color: var(--secondary);
+}
+
+
         .dark-mode {
             --primary: #4895ef;
             --primary-light: #4361ee;
