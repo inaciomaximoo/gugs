@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioética e Objeção de Consciência em TRS</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --background-color: #fff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+        
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide-title {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+        
+        .slide-subtitle {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .content {
+            flex: 1;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            padding-left: 10px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #555;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        
+        .author {
+            text-align: right;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .two-columns {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .slide-number {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        
+        .case-study {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            margin: 20px 0;
+        }
+        
+        .case-question {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .principle-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .principle-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .data-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .data-icon {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .data-content {
+            flex: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .two-columns {
+                flex-direction: column;
+            }
+            
+            .slide-title {
+                font-size: 1.8rem;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Bioética e Objeção de Consciência em TRS</div>
+        <div>Disciplina: Bioética | Curso: Medicina</div>
+    </div>
+
+    <!-- Slide 1: Título -->
+    <div class="slide">
+        <h1 class="slide-title">Conflitos Éticos na Terapia Renal Substitutiva</h1>
+        <div class="content">
+            <h2>Princípios da Bioética e Objeção de Consciência</h2>
+            <div class="highlight">
+                <p>Autores do estudo:</p>
+                <p><strong>Tatiane da Silva Campos</strong> e <strong>Andréia Patrícia Gomes</strong></p>
+            </div>
+            <div class="footer">
+                Revista Bioética, 2024 | DOI: 10.1590/1983-803420243715PT
+            </div>
+        </div>
+        <div class="slide-number">1</div>
+    </div>
+
+    <!-- Slide 2: Introdução -->
+    <div class="slide">
+        <h1 class="slide-title">Introdução</h1>
+        <div class="content">
+            <h2 class="slide-subtitle">Contexto</h2>
+            <ul>
+                <li>Doença Renal Crônica (DRC) exige decisões complexas sobre Terapia Renal Substitutiva (TRS): hemodiálise, diálise peritoneal ou tratamento conservador</li>
+                <li>Dilemas éticos envolvem autonomia do paciente, beneficência, justiça e objeção de consciência dos profissionais</li>
+            </ul>
+            
+            <h2 class="slide-subtitle">Objetivo da apresentação</h2>
+            <ul>
+                <li>Articular os princípios da bioética com os conflitos identificados no estudo</li>
+                <li>Discutir o conceito de objeção de consciência na prática médica</li>
+            </ul>
+            
+            <div class="quote">
+                "O processo de tomada de decisão é pautado, em sua maioria, pela beneficência e não maleficência, tentando favorecer a condição clínica relacionada a não funcionamento renal."
+                <div class="author">- Campos & Gomes, 2024</div>
+            </div>
+        </div>
+        <div class="slide-number">2</div>
+    </div>
+
+    <!-- Slide 3: Princípios da Bioética -->
+    <div class="slide">
+        <h1 class="slide-title">Princípios da Bioética (Beauchamp & Childress)</h1>
+        <div class="content">
+            <div class="two-columns">
+                <div class="column">
+                    <div class="principle-card">
+                        <div class="principle-title">1. Autonomia</div>
+                        <p>Respeito às escolhas do paciente</p>
+                        <div class="highlight">
+                            <p><strong>Dados do estudo:</strong> Apenas 3 profissionais mencionaram a participação ativa do paciente na decisão (E25, E28, E56)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <div class="principle-title">2. Beneficência</div>
+                        <p>Agir para o bem do paciente</p>
+                        <div class="highlight">
+                            <p><strong>Exemplo:</strong> Iniciar TRS para evitar agravos clínicos (E10, E17)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="principle-card">
+                        <div class="principle-title">3. Não Maleficência</div>
+                        <p>Evitar danos</p>
+                        <div class="highlight">
+                            <p><strong>Exemplo:</strong> Evitar diálise em pacientes assintomáticos (E10)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="principle-card">
+                        <div class="principle-title">4. Justiça</div>
+                        <p>Equidade no acesso a tratamentos</p>
+                        <div class="highlight">
+                            <p><strong>Crítica:</strong> Falta de vagas para diálise peritoneal (DP) no SUS (E18, E24)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">3</div>
+    </div>
+
+    <!-- Slide 4: Conflitos Éticos Identificados -->
+    <div class="slide">
+        <h1 class="slide-title">Conflitos Éticos Identificados</h1>
+        <div class="content">
+            <div class="two-columns">
+                <div class="column">
+                    <h2 class="slide-subtitle">Principais Conflitos</h2>
+                    <ul>
+                        <li><strong>Paternalismo:</strong> Decisões centradas no médico, não no paciente (E4, E43)</li>
+                        <li><strong>Limitações do Sistema:</strong> Escassez de recursos (DP) influencia escolhas (E24)</li>
+                        <li><strong>Autonomia vs. Beneficência:</strong> Pacientes recusam TRS, mas médicos insistem por "obrigação moral" (E13, E57)</li>
+                    </ul>
+                </div>
+                
+                <div class="column">
+                    <h2 class="slide-subtitle">Dados Chave</h2>
+                    <div class="data-point">
+                        <div class="data-icon">19</div>
+                        <div class="data-content">
+                            <p>profissionais relataram conflitos com recusa de tratamento (Quadro 1)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <p>"Idosos são frequentemente desencorajados de transplantes (E9, E26)"</p>
+                    </div>
+                    
+                    <div class="quote">
+                        "A gente tem muito aquela postura de a gente tomou a decisão correta, né? Assim, eu fiz o melhor que eu pude, né?"
+                        <div class="author">- Entrevistado E49</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">4</div>
+    </div>
+
+    <!-- Slide 5: Objeção de Consciência -->
+    <div class="slide">
+        <h1 class="slide-title">Objeção de Consciência</h1>
+        <div class="content">
+            <h2 class="slide-subtitle">Definição</h2>
+            <p>Direito do profissional de recusar procedimentos que violam seus valores éticos ou religiosos</p>
+            
+            <h2 class="slide-subtitle">Aplicação no Estudo</h2>
+            <ul>
+                <li>Médicos podem se recusar a iniciar TRS em casos de distanásia (prolongamento artificial da vida sem benefício)</li>
+                <li>Exemplo: Pacientes idosos com comorbidades (E9) ou testemunhas de Jeová recusando transfusões</li>
+            </ul>
+            
+            <h2 class="slide-subtitle">Limites</h2>
+            <ul>
+                <li>Não pode violar direitos do paciente (ex.: negar tratamento sem oferecer alternativas)</li>
+                <li>Deve ser comunicada com transparência e encaminhar o paciente a outro profissional</li>
+            </ul>
+            
+            <div class="highlight">
+                <p>"Se for, se eu estiver de plantão [risos], vamos dizer assim e tiver que botar o paciente para dialisar, ele vai dialisar"</p>
+                <div class="author">- Entrevistado E4</div>
+            </div>
+        </div>
+        <div class="slide-number">5</div>
+    </div>
+
+    <!-- Slide 6: Caso Prático -->
+    <div class="slide">
+        <h1 class="slide-title">Caso Prático</h1>
+        <div class="content">
+            <div class="case-study">
+                <h2 class="slide-subtitle">Cenário</h2>
+                <p>Paciente idoso com DRC avançada recusa hemodiálise, preferindo cuidados paliativos</p>
+                
+                <h2 class="slide-subtitle">Questões</h2>
+                <ol>
+                    <li class="case-question">Como equilibrar autonomia (vontade do paciente) e beneficência (visão médica)?</li>
+                    <li class="case-question">Um médico pode se opor à decisão do paciente por objeção de consciência?</li>
+                </ol>
+                
+                <h2 class="slide-subtitle">Respostas sugeridas</h2>
+                <ul>
+                    <li>Respeitar a autonomia, desde que o paciente esteja lúcido (E57)</li>
+                    <li>Oferecer informações claras e apoio multiprofissional (psicólogo, assistente social)</li>
+                </ul>
+            </div>
+            
+            <div class="quote">
+                "E aí isso alivia muito, eles choram através desse atendimento, falam que... nossa... como ele passou a ter experiência"
+                <div class="author">- Entrevistado E34</div>
+            </div>
+        </div>
+        <div class="slide-number">6</div>
+    </div>
+
+    <!-- Slide 7: Recomendações para a Prática Clínica -->
+    <div class="slide">
+        <h1 class="slide-title">Recomendações para a Prática Clínica</h1>
+        <div class="content">
+            <div class="two-columns">
+                <div class="column">
+                    <div class="data-point">
+                        <div class="data-icon">1</div>
+                        <div class="data-content">
+                            <h3>Tomada de Decisão Compartilhada</h3>
+                            <p>Incluir paciente e equipe multidisciplinar (E15, E56)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="data-point">
+                        <div class="data-icon">2</div>
+                        <div class="data-content">
+                            <h3>Educação em Bioética</h3>
+                            <p>Capacitar profissionais para lidar com conflitos (ex.: treinamento em comunicação, como no estudo espanhol citado)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="data-point">
+                        <div class="data-icon">3</div>
+                        <div class="data-content">
+                            <h3>Reflexão sobre Paternalismo</h3>
+                            <p>Questionar se as decisões são baseadas em evidências ou em viés moral (E49)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <p>"Experimento realizado na Espanha treinou enfermeiros, médicos, nutricionistas e psicólogos especialistas em nefrologia que atendem usuários no momento de escolha da TRS para participar do processo de tomada de decisão."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">7</div>
+    </div>
+
+    <!-- Slide 8: Conclusão -->
+    <div class="slide">
+        <h1 class="slide-title">Conclusão</h1>
+        <div class="content">
+            <ul>
+                <li>O estudo revela que a TRS ainda é pautada pelo paternalismo, com baixa participação do paciente</li>
+                <li>Princípios bioéticos devem guiar decisões, mas a objeção de consciência exige equilíbrio para não violar direitos</li>
+                <li>Desafios: Melhorar acesso a tratamentos (justiça) e capacitar profissionais para autonomia do paciente</li>
+            </ul>
+            
+            <div class="quote">
+                "O paternalismo ainda é presente e forte na população estudada, ponto que precisa ser repensado, uma vez que é desejável que em centros de formação de profissionais haja estímulo a uma educação que favoreça a ética, tanto em questões teóricas, como práticas."
+                <div class="author">- Campos & Gomes, 2024</div>
+            </div>
+        </div>
+        <div class="slide-number">8</div>
+    </div>
+
+    <!-- Slide 9: Perguntas para Debate -->
+    <div class="slide">
+        <h1 class="slide-title">Perguntas para Debate</h1>
+        <div class="content">
+            <div class="two-columns">
+                <div class="column">
+                    <div class="highlight">
+                        <p class="case-question">1. Como promover autonomia do paciente em um sistema com recursos limitados?</p>
+                    </div>
+                    
+                    <div class="highlight">
+                        <p class="case-question">2. Em que situações a objeção de consciência é justificável na nefrologia?</p>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="highlight">
+                        <p class="case-question">3. O paternalismo pode ser benéfico em alguns casos?</p>
+                    </div>
+                    
+                    <div class="quote">
+                        "A beneficência não partilhada pela autonomia evidencia a prática médica paternalista, pois nessas situações o médico entende que a indicação de tratamento relacionada a seu conhecimento sobre o assunto é o ideal para o paciente."
+                        <div class="author">- Balon, 2019</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">9</div>
+    </div>
+
+    <!-- Slide 10: Referências -->
+    <div class="slide">
+        <h1 class="slide-title">Referências</h1>
+        <div class="content">
+            <ul>
+                <li>Beauchamp & Childress (2002). Princípios de Ética Biomédica</li>
+                <li>Portaria 1.675/2018 (SUS)</li>
+                <li>Estudo original: Campos & Gomes (2024). Rev. Bioét. 32</li>
+                <li>Balon R. Paradoxes of retreat from paternalism. Ann Clin Psychiatry. 2019</li>
+                <li>Sanchez-Tomero JA. Thoughts on the start and withdrawal of dialysis. Nefrologia. 2013</li>
+            </ul>
+            
+            <div class="footer">
+                <p>Artigo completo disponível em: <a href="http://dx.doi.org/10.1590/1983-803420243715PT" target="_blank">http://dx.doi.org/10.1590/1983-803420243715PT</a></p>
+                <p>Revista Bioética, 2024; 32: e3715PT 1-12</p>
+            </div>
+        </div>
+        <div class="slide-number">10</div>
+    </div>
+</body>
+</html>
