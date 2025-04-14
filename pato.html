@@ -3,549 +3,714 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia de Estudo de Patologia com Imagens Representativas</title>
+    <title>Patologia do Sistema Geniturinário - Estudo Aprofundado</title>
     <style>
-        /* CSS Profissional (Mantido da versão anterior) */
         :root {
-            --primary-color: #2c3e50; /* Azul Escuro */
-            --secondary-color: #3498db; /* Azul Claro */
-            --accent-color: #e74c3c; /* Vermelho/Laranja */
-            --background-color: #ecf0f1; /* Cinza Claro */
-            --text-color: #34495e; /* Cinza Escuro */
-            --card-bg-color: #ffffff; /* Branco */
-            --border-color: #bdc3c7; /* Cinza Médio */
-            --header-font: 'Georgia', serif;
-            --body-font: 'Arial', sans-serif;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --border-radius: 4px;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        
         body {
-            font-family: var(--body-font);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            background-color: var(--background-color);
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
+            background-color: #f9f9f9;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            background-color: var(--card-bg-color);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
+        
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-top: 1.5em;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
             border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
         }
-
-        header h1 {
-            font-family: var(--header-font);
-            color: var(--primary-color);
-            font-size: 2.8em;
-        }
-
-        .disclaimer {
-            background-color: #fdf_e_c_a; /* Amarelo claro */
-            border: 1px solid #f_a_e_5_8_9;
-            border-left: 5px solid #f_3_9_c_1_2; /* Laranja */
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 5px;
-            font-size: 0.95em;
-        }
-
-        .disclaimer h5 {
-            font-family: var(--header-font);
-            color: #d_3_5_4_0_0; /* Vermelho escuro */
-            margin-bottom: 10px;
-        }
-
-
-        section {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px dashed var(--border-color);
-        }
-
-        section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
+        
         h2 {
-            font-family: var(--header-font);
-            color: var(--primary-color);
-            font-size: 2.2em;
-            margin-bottom: 25px;
+            font-size: 2rem;
+            background-color: var(--light-color);
+            padding: 1rem;
             border-left: 5px solid var(--secondary-color);
-            padding-left: 10px;
         }
-
+        
         h3 {
-            font-family: var(--header-font);
+            font-size: 1.5rem;
             color: var(--secondary-color);
-            font-size: 1.8em;
-            margin-top: 30px;
-            margin-bottom: 20px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 0.5rem;
         }
-
+        
         h4 {
-            font-family: var(--header-font);
-            color: var(--primary-color);
-            font-size: 1.4em;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul, ol {
-            margin-left: 30px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        strong {
-            color: var(--primary-color);
-        }
-
-        .slide-description {
-            background-color: #f8f9fa;
-            border: 1px solid var(--border-color);
-            border-left: 5px solid var(--accent-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-
-        .slide-description h5 {
-            font-family: var(--header-font);
+            font-size: 1.2rem;
             color: var(--accent-color);
-            margin-bottom: 10px;
-            font-size: 1.2em;
         }
-
-        .image-placeholder, .image-container img {
-            border: 1px dashed var(--border-color);
-            padding: 5px; /* Reduzido para imagens reais */
-            text-align: center;
-            margin: 20px auto;
-            background-color: #e9ecef;
-            max-width: 90%; /* Ajustado para imagens */
-            display: block;
+        
+        .section {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        .image-container img {
-             border: 1px solid var(--border-color); /* Borda sólida para imagens reais */
-             background-color: white;
-             padding: 0; /* Sem padding interno para imagem */
+        
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 2rem 0;
+            justify-content: center;
         }
-        .image-placeholder {
-             color: #6c757d;
-             font-style: italic;
-             padding: 20px; /* Padding maior para placeholder */
+        
+        .image-card {
+            flex: 1 1 300px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
-        .caption {
-            font-size: 0.85em;
-            color: #6c757d;
-            text-align: center;
-            margin-top: -10px;
-            margin-bottom: 20px;
+        
+        .image-card:hover {
+            transform: translateY(-5px);
         }
-
-
-        .reference {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-top: 15px;
-            text-align: right;
+        
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
         }
-
-        .comparison-table {
+        
+        .image-caption {
+            padding: 1rem;
+            background-color: var(--light-color);
+        }
+        
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 2rem 0;
         }
-
-        .comparison-table th,
-        .comparison-table td {
-            border: 1px solid var(--border-color);
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
             padding: 12px;
             text-align: left;
         }
-
-        .comparison-table th {
+        
+        th {
             background-color: var(--primary-color);
             color: white;
-            font-family: var(--header-font);
         }
-
-        .comparison-table tr:nth-child(even) {
+        
+        tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-
-        .piece-description {
-             background-color: #e8f6f3;
-             border: 1px solid #a3e4d7;
-             border-left: 5px solid #1abc9c; /* Verde Água */
-             padding: 15px;
-             margin: 20px 0;
-             border-radius: 5px;
-         }
-
-         .piece-description h5 {
-             font-family: var(--header-font);
-             color: #16a085; /* Verde mais escuro */
-             margin-bottom: 10px;
-             font-size: 1.2em;
-         }
-
+        
+        .comparison-table {
+            margin: 2rem 0;
+        }
+        
+        .comparison-table .row {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .comparison-table .header {
+            font-weight: bold;
+            background-color: var(--light-color);
+        }
+        
+        .comparison-table .cell {
+            flex: 1;
+            padding: 1rem;
+        }
+        
+        .highlight {
+            background-color: #fffde7;
+            padding: 1rem;
+            border-left: 4px solid #ffd600;
+            margin: 1rem 0;
+        }
+        
+        .pathology-features {
+            background-color: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+        }
+        
+        .pathology-features h4 {
+            margin-top: 0;
+        }
+        
+        .pathology-features ul {
+            padding-left: 1.5rem;
+        }
+        
+        .references {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media (max-width: 768px) {
+            .image-card {
+                flex: 1 1 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Guia de Estudo Aprofundado em Patologia</h1>
-            <p>Baseado nos Tópicos Solicitados e Ilustrado com Imagens Representativas de Fontes Públicas</p>
-        </header>
-
-        <div class="disclaimer">
-             <h5>Aviso Importante Sobre as Imagens</h5>
-             <p>As imagens incluídas neste guia são <strong>exemplos representativos</strong> obtidos de fontes públicas (como Wikimedia Commons) e licenciadas para reutilização (geralmente Creative Commons). Elas <strong>NÃO SÃO</strong> as figuras específicas do livro Robbins ou as lâminas exatas do acervo Anatpat/Pannoramic mencionadas no roteiro original.</p>
-             <p>O objetivo é fornecer uma ilustração visual dos conceitos. A qualidade e a representatividade exata podem variar. A funcionalidade dos links de imagem depende da estabilidade das fontes externas e não pode ser garantida indefinidamente.</p>
-             <p><strong>É fundamental consultar as referências originais (livros, lâminas físicas/virtuais) para um estudo completo e preciso.</strong></p>
+    <header>
+        <h1>Patologia do Sistema Geniturinário</h1>
+        <p>Estudo aprofundado baseado em Robbins & Cotran Patologia e recursos do AnatPat</p>
+    </header>
+    
+    <div class="section">
+        <h2>1. Patologia Prostática</h2>
+        
+        <h3>a. Inflamações Prostáticas e Hiperplasia Prostática Benigna (HPB)</h3>
+        
+        <div class="pathology-features">
+            <h4>Prostatite Aguda Purulenta</h4>
+            <ul>
+                <li><strong>Etiologia:</strong> Geralmente causada por bactérias gram-negativas (E. coli em 80% dos casos), enterococos ou outros organismos</li>
+                <li><strong>Patogenia:</strong> Infecção ascendente pela uretra ou refluxo de urina infectada para os ductos prostáticos</li>
+                <li><strong>Morfologia (Lâmina Prostatite Purulenta):</strong>
+                    <ul>
+                        <li>Parenquima prostático com infiltrado neutrofílico denso</li>
+                        <li>Microabscessos podem estar presentes</li>
+                        <li>Edema e congestão vascular marcantes</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-
-
-        <section id="prostata">
-            <h2>Sessão 1: Patologia Prostática</h2>
-
-            <h3>a. Inflamações Prostáticas e Hiperplasia Prostática Benigna (HPB)</h3>
-
-            <h4>Etiologia e Patogenia das Prostatites</h4>
-            <p>As prostatites representam um espectro de condições inflamatórias da próstata...</p>
-             <h4>Aspectos Morfológicos das Prostatites</h4>
-            <p><strong>Macroscopia:</strong> Na prostatite aguda...</p>
-            <p><strong>Microscopia:</strong> Aguda (infiltrado neutrofílico), Crônica (infiltrado mononuclear)...</p>
-
-            <div class="slide-description">
-                <h5>Lâmina: Prostatite purulenta (laminário) - Exemplo Representativo</h5>
-                <p><strong>Descrição Histológica Esperada:</strong> Observa-se o parênquima prostático com preservação de algumas estruturas acinares, mas extensamente infiltrado por neutrófilos...</p>
-                <div class="image-container">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Acute_prostatitis_-_high_mag.jpg/640px-Acute_prostatitis_-_high_mag.jpg" alt="Fotomicrografia representativa da Prostatite Aguda/Purulenta - Infiltrado neutrofílico denso intra-acinar e estromal">
-                    <p class="caption">Exemplo de Prostatite Aguda (Purulenta). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
+        
+        <div class="pathology-features">
+            <h4>Prostatite Crônica</h4>
+            <ul>
+                <li><strong>Etiologia:</strong> Pode ser bacteriana (sequela de prostatite aguda) ou abacteriana</li>
+                <li><strong>Patogenia:</strong> Resposta inflamatória persistente com infiltrado linfoplasmocitário</li>
+                <li><strong>Morfologia (Lâmina Prostatite Crônica):</strong>
+                    <ul>
+                        <li>Infiltrado inflamatório crônico (linfócitos, plasmócitos, macrófagos)</li>
+                        <li>Fibrose estromal associada</li>
+                        <li>Atrofia epitelial em áreas afetadas</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="pathology-features">
+            <h4>Hiperplasia Prostática Benigna (HPB)</h4>
+            <ul>
+                <li><strong>Etiologia:</strong> Relacionada ao envelhecimento e à ação dos andrógenos (DHT)</li>
+                <li><strong>Patogenia:</strong> Hiperplasia estromal e epitelial nas zonas transicional e periuretral</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Nódulos hiperplásicos compostos por proporções variáveis de estroma e epitélio glandular</li>
+                        <li>Glândulas com epitélio colunar em duas camadas e lúmen amplo</li>
+                        <li>Corpora amylacea frequentes</li>
+                        <li>Estroma fibromuscular aumentado</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="image-container">
+            <div class="image-card">
+                <img src="https://pathology.jhu.edu/wp-content/uploads/2020/08/prostate-bph.jpg" alt="Hiperplasia Prostática Benigna">
+                <div class="image-caption">
+                    <strong>Hiperplasia Prostática Benigna (HPB)</strong>: Note os nódulos hiperplásicos com glândulas dilatadas e epitélio em duas camadas (Fonte: Robbins)
                 </div>
             </div>
-
-            <div class="slide-description">
-                <h5>Lâmina: Prostatite crônica (laminário) - Exemplo Representativo</h5>
-                <p><strong>Descrição Histológica Esperada:</strong> O estroma prostático apresenta um infiltrado inflamatório mononuclear, composto predominantemente por linfócitos e plasmócitos...</p>
-                <div class="image-container">
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Chronic_prostatitis_-_intermed_mag.jpg/640px-Chronic_prostatitis_-_intermed_mag.jpg" alt="Fotomicrografia representativa da Prostatite Crônica - Agregados linfoplasmocitários no estroma">
-                     <p class="caption">Exemplo de Prostatite Crônica. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
+            <div class="image-card">
+                <img src="https://pathology.jhu.edu/wp-content/uploads/2020/08/prostate-acute-prostatitis.jpg" alt="Prostatite Aguda">
+                <div class="image-caption">
+                    <strong>Prostatite Aguda Purulenta</strong>: Infiltrado neutrofílico denso no parênquima prostático (Fonte: Robbins)
                 </div>
             </div>
-
-            <h4>Etiologia e Patogenia da Hiperplasia Prostática Benigna (HPB)</h4>
-             <p>A HPB é uma proliferação não maligna dos componentes estromais e epiteliais da próstata...</p>
-             <h4>Aspectos Morfológicos da HPB</h4>
-            <p><strong>Macroscopia:</strong> A próstata está aumentada em tamanho e peso...</p>
-             <div class="image-container">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Benign_prostatic_hyperplasia_-_gross_pathology_%28cropped%29.jpeg/640px-Benign_prostatic_hyperplasia_-_gross_pathology_%28cropped%29.jpeg" alt="Figura Macroscópica de HPB - Próstata aumentada com múltiplos nódulos na zona de transição">
-                 <p class="caption">Exemplo Macroscópico de Hiperplasia Prostática Benigna (HPB). Fonte: Wikimedia Commons (Ed Uthman, MD, CC BY 2.0)</p>
-             </div>
-            <p><strong>Microscopia:</strong> Observa-se uma proliferação nodular composta por proporções variáveis de glândulas prostáticas e estroma fibromuscular...</p>
-             <div class="image-container">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Benign_prostatic_hyperplasia_-_intermed_mag.jpg/640px-Benign_prostatic_hyperplasia_-_intermed_mag.jpg" alt="Fotomicrografia de HPB - Nódulos com glândulas e estroma proliferados, camada basal preservada">
-                  <p class="caption">Exemplo Microscópico de HPB. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-             </div>
-
-            <h3>b. Diferença entre Hiperplasia e Neoplasia Maligna (HPB vs. Adenocarcinoma)</h3>
-             <p>A distinção fundamental reside na natureza do crescimento celular...</p>
-            <table class="comparison-table">
-                 </table>
-
-            <h4>Descrição Microscópica Comparativa (Foco nas Lâminas)</h4>
-             <div class="slide-description">
-                <h5>Lâmina: P05/P16/A.164/A.46/56 - Adenocarcinoma de Próstata - Exemplo Representativo</h5>
-                <p><strong>Descrição Histológica Esperada (Adenocarcinoma):</strong> Comparada à HPB, a característica mais marcante é a arquitetura alterada. Observam-se glândulas neoplásicas que são tipicamente menores...</p>
-                 <div class="image-container">
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Prostate_adenocarcinoma_acinar_-_high_mag.jpg/640px-Prostate_adenocarcinoma_acinar_-_high_mag.jpg" alt="Fotomicrografia representativa do Adenocarcinoma de Próstata - Glândulas pequenas, infiltrativas, perda da camada basal, atipia nuclear, nucléolos proeminentes">
-                     <p class="caption">Exemplo de Adenocarcinoma de Próstata (padrão acinar). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                 </div>
-                 <div class="image-container">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Prostate_adenocarcinoma_-_perineural_invasion_-_high_mag.jpg/640px-Prostate_adenocarcinoma_-_perineural_invasion_-_high_mag.jpg" alt="Detalhe de Invasão Perineural no Adenocarcinoma de Próstata">
-                    <p class="caption">Exemplo de Invasão Perineural em Adenocarcinoma de Próstata. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                 </div>
+        </div>
+        
+        <h3>b. Hiperplasia vs Neoplasia Maligna: HPB vs Adenocarcinoma</h3>
+        
+        <div class="comparison-table">
+            <div class="row header">
+                <div class="cell">Característica</div>
+                <div class="cell">Hiperplasia Prostática Benigna (Lâminas P05, A.164)</div>
+                <div class="cell">Adenocarcinoma de Próstata (Lâminas P16, A.46/56)</div>
             </div>
-             <p><strong>Descrição Histológica Esperada (HPB - para comparação):</strong> Glândulas maiores, bem formadas...</p>
-
-            <h3>c. Adenocarcinoma de Próstata</h3>
-            <h4>Grau de Diferenciação Tumoral - Sistema de Gleason</h4>
-             <p>O Sistema de Gleason é o método padrão para graduar o adenocarcinoma de próstata...</p>
-             <div class="slide-description">
-                <h5>Lâmina: P05/A.46/56 - Adenocarcinoma (Avaliação de Gleason) - Exemplos Representativos</h5>
-                 <p><strong>Instrução para Análise:</strong> Ao observar estas lâminas, procure identificar os diferentes padrões arquiteturais...</p>
-                 <div class="image-container">
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Prostate_adenocarcinoma_Gleason_3%2B3%3D6_Histopathology.jpg/640px-Prostate_adenocarcinoma_Gleason_3%2B3%3D6_Histopathology.jpg" alt="Fotomicrografia mostrando Padrão Gleason 3">
-                     <p class="caption">Exemplo de Adenocarcinoma de Próstata, Padrão Gleason 3 (Escore 6 = 3+3). Fonte: Wikimedia Commons (Patho, CC BY-SA 3.0)</p>
-                 </div>
-                 <div class="image-container">
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Prostate_adenocarcinoma_Gleason_4_cribriform_Histopathology.jpg/640px-Prostate_adenocarcinoma_Gleason_4_cribriform_Histopathology.jpg" alt="Fotomicrografia mostrando Padrão Gleason 4 (cribriforme/fusionado)">
-                     <p class="caption">Exemplo de Adenocarcinoma de Próstata, Padrão Gleason 4 (cribriforme). Fonte: Wikimedia Commons (Patho, CC BY-SA 3.0)</p>
-                 </div>
-                 <div class="image-container">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Prostate_cancer_gleason_5.jpg/640px-Prostate_cancer_gleason_5.jpg" alt="Fotomicrografia mostrando Padrão Gleason 5 (lençóis/comedonecrose)">
-                      <p class="caption">Exemplo de Adenocarcinoma de Próstata, Padrão Gleason 5 (lençóis sólidos). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                 </div>
+            <div class="row">
+                <div class="cell">Arquitetura</div>
+                <div class="cell">Nódulos organizados com glândulas de tamanho variável, mas mantendo estrutura lobular</div>
+                <div class="cell">Glândulas pequenas, irregulares, infiltrativas, perda da organização lobular</div>
             </div>
-
-            <h4>Metástases do Adenocarcinoma de Próstata</h4>
-             <p><strong>Características Morfológicas nos Ossos:</strong> As metástases ósseas do câncer de próstata são tipicamente <strong>osteoblásticas</strong>...</p>
-
-            <div class="slide-description">
-                <h5>Lâmina: A.385 - Metástase Óssea de Adenocarcinoma - Exemplo Representativo</h5>
-                <p><strong>Descrição Histológica Esperada:</strong> O tecido ósseo (trabéculas ósseas) apresenta espaços medulares infiltrados por células neoplásicas malignas...</p>
-                 <div class="image-container">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Prostate_adenocarcinoma_metastasis_to_bone_-_intermed_mag.jpg/640px-Prostate_adenocarcinoma_metastasis_to_bone_-_intermed_mag.jpg" alt="Fotomicrografia de Metástase Óssea Osteoblástica de Câncer de Próstata - Ninhos tumorais com reação óssea densa">
-                    <p class="caption">Exemplo de Metástase Óssea (provavelmente osteoblástica) de Adenocarcinoma de Próstata. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                 </div>
+            <div class="row">
+                <div class="cell">Epitélio</div>
+                <div class="cell">Duas camadas de células (basal e luminal), citoplasma claro</div>
+                <div class="cell">Camada única, perda da camada basal, nucléolos proeminentes</div>
             </div>
-            <p class="reference">Informações baseadas em conceitos gerais de patologia, como os encontrados em Robbins & Cotran.</p>
-        </section>
-
-        <section id="utero">
-             <h2>Sessão 2: Patologia Uterina</h2>
-             <h3>3. Causas Morfológicas de Hemorragias Uterinas Patológicas (HUP)</h3>
-             <h4>Leiomioma (Fibroma)</h4>
-             <div class="slide-description">
-                          <h5>Lâmina: Leiomioma (laminário) / A.107 - Exemplo Representativo</h5>
-                          <p><strong>Descrição Histológica Esperada:</strong> Observam-se feixes de células fusiformes alongadas...</p>
-                          <div class="image-container">
-                               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Leiomyoma_2_high_mag_cropped.jpg/640px-Leiomyoma_2_high_mag_cropped.jpg" alt="Fotomicrografia de Leiomioma Uterino - Feixes de células musculares lisas uniformes">
-                               <p class="caption">Exemplo Microscópico de Leiomioma Uterino. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                          </div>
-                     </div>
-             <h4>Pólipo Endometrial</h4>
-             <div class="image-container">
-                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Endometrial_polyp_-_low_mag.jpg/640px-Endometrial_polyp_-_low_mag.jpg" alt="Fotomicrografia de Pólipo Endometrial - Estroma fibroso, glândulas císticas, vasos espessos">
-                          <p class="caption">Exemplo Microscópico de Pólipo Endometrial. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                     </div>
-             <h4>Hiperplasia Endometrial</h4>
-             <div class="slide-description">
-                         <h5>Lâmina: A.173 / Link anatpat - Hiperplasia Endometrial - Exemplo Representativo</h5>
-                         <p><strong>Descrição Histológica Esperada:</strong> Observa-se um aumento acentuado no número de glândulas endometriais...</p>
-                         <div class="image-container">
-                              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Simple_endometrial_hyperplasia_without_atypia_-_intermed_mag.jpg/640px-Simple_endometrial_hyperplasia_without_atypia_-_intermed_mag.jpg" alt="Fotomicrografia de Hiperplasia Endometrial Sem Atipia - Aumento glândula/estroma, sem atipia citológica">
-                              <p class="caption">Exemplo de Hiperplasia Endometrial Sem Atipia. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                         </div>
-                         <div class="image-container">
-                              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Atypical_endometrial_hyperplasia_-_high_mag.jpg/640px-Atypical_endometrial_hyperplasia_-_high_mag.jpg" alt="Fotomicrografia de Hiperplasia Endometrial Com Atipia (EIN) - Complexidade glandular e atipia nuclear">
-                              <p class="caption">Exemplo de Hiperplasia Endometrial Com Atipia (EIN). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                         </div>
-                     </div>
-              <h4>Adenocarcinoma do Endométrio</h4>
-             <div class="slide-description">
-                                 <h5>Lâmina: A.175 - Adenocarcinoma do Endométrio - Exemplo Representativo</h5>
-                                 <p><strong>Descrição Histológica Esperada (Tipo Endometrioide):</strong> Proliferação neoplásica de glândulas endometriais...</p>
-                                 <div class="image-container">
-                                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Endometrial_adenocarcinoma_FIGO_grade_1_-_intermed_mag.jpg/640px-Endometrial_adenocarcinoma_FIGO_grade_1_-_intermed_mag.jpg" alt="Fotomicrografia de Adenocarcinoma Endometrioide - Glândulas malignas confluentes invadindo o estroma">
-                                      <p class="caption">Exemplo de Adenocarcinoma Endometrioide (FIGO Grau 1). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                                 </div>
-                             </div>
-              <h4>Leiomiossarcoma</h4>
-             <div class="slide-description">
-                                 <h5>Lâmina: Leiomiossarcoma (laminário) / A.193 - Exemplo Representativo</h5>
-                                 <p><strong>Descrição Histológica Esperada:</strong> Proliferação de células fusiformes que lembram músculo liso, mas com acentuada atipia nuclear...</p>
-                                 <div class="image-container">
-                                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Leiomyosarcoma_uterus_40x.jpg/640px-Leiomyosarcoma_uterus_40x.jpg" alt="Fotomicrografia de Leiomiossarcoma - Atipia nuclear acentuada, mitoses frequentes, necrose tumoral">
-                                     <p class="caption">Exemplo Microscópico de Leiomiossarcoma Uterino. Fonte: Wikimedia Commons (KGH, CC BY-SA 3.0)</p>
-                                 </div>
-                             </div>
-              <h3>4. Diferenciar Endometriose / Adenomiose</h3>
-              <div class="slide-description">
-                  <h5>Lâmina: Endometriose (laminário) / A.160 / A.311 - Exemplo Representativo</h5>
-                  <p><strong>Descrição Histológica Esperada (Ex: Endometriose Ovariana):</strong> Em meio a tecido ovariano ou estroma fibroso denso...</p>
-                  <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Endometriosis_-_high_mag.jpg/640px-Endometriosis_-_high_mag.jpg" alt="Fotomicrografia de Endometriose - Glândula e estroma endometriais em localização ectópica, com hemossiderina">
-                       <p class="caption">Exemplo Microscópico de Endometriose (glândula e estroma). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-             </div>
-
-             <div class="slide-description">
-                 <h5>Lâmina: Adenomiose (laminário) - Exemplo Representativo</h5>
-                 <p><strong>Descrição Histológica Esperada:</strong> Observam-se feixes de músculo liso miometrial...</p>
-                 <div class="image-container">
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Adenomyosis_-_high_mag.jpg/640px-Adenomyosis_-_high_mag.jpg" alt="Fotomicrografia de Adenomiose - Ninho de glândula e estroma endometriais dentro do miométrio">
-                      <p class="caption">Exemplo Microscópico de Adenomiose. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                 </div>
-             </div>
-             <p class="reference">Informações baseadas em conceitos gerais de patologia ginecológica.</p>
-        </section>
-
-         <section id="vulva">
-            <h2>Sessão 3: Patologia Vulvar</h2>
-            <h3>3. Principais Lesões Vulvares: Morfologia e Etiopatogenia</h3>
-             <h4>a) Cisto de Bartholin</h4>
-             <div class="image-placeholder">[Não foi encontrada imagem pública adequada com licença permissiva para Cisto de Bartholin - Histologia]</div>
-             <h4>b) Líquen Escleroso</h4>
-             <div class="image-container">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lichen_sclerosus_-_high_mag.jpg/640px-Lichen_sclerosus_-_high_mag.jpg" alt="Fotomicrografia de Líquen Escleroso - Epiderme atrófica, hiperqueratose, esclerose dérmica, infiltrado linfocitário">
-                 <p class="caption">Exemplo Microscópico de Líquen Escleroso Vulvar. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-             </div>
-             <h4>c) Hiperplasia Escamosa Vulvar (Líquen Simples Crônico)</h4>
-             <div class="image-container">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Lichen_simplex_chronicus_intermed_mag.jpg/640px-Lichen_simplex_chronicus_intermed_mag.jpg" alt="Fotomicrografia de Hiperplasia Escamosa Vulvar - Acantose, hiperqueratose, alongamento das cristas epidérmicas">
-                  <p class="caption">Exemplo Microscópico de Hiperplasia Escamosa (Líquen Simples Crônico). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-              </div>
-             <h4>d) Condiloma Acuminado</h4>
-             <div class="image-container">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Condyloma_acuminatum_hpv_koilocytes_2.jpg/640px-Condyloma_acuminatum_hpv_koilocytes_2.jpg" alt="Fotomicrografia de Condiloma Acuminado - Papilomatose, acantose, coilocitose">
-                  <p class="caption">Exemplo Microscópico de Condiloma Acuminado (detalhe da coilocitose). Fonte: Wikimedia Commons (Paulo Mourao, CC BY-SA 3.0)</p>
-              </div>
-             <h4>e) Neoplasia Intraepitelial Vulvar (NIV) vs. Carcinoma Vulvar Invasivo</h4>
-             <div class="image-placeholder">[Não foi encontrada imagem pública adequada com licença permissiva para NIV Usual (uNIV)]</div>
-             <div class="image-placeholder">[Não foi encontrada imagem pública adequada com licença permissiva para NIV Diferenciada (dNIV)]</div>
-             <div class="image-container">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Squamous_cell_carcinoma_vulva_histopathology.jpg/640px-Squamous_cell_carcinoma_vulva_histopathology.jpg" alt="Fotomicrografia de Carcinoma Espinocelular Invasivo Vulvar - Ninhos de células escamosas atípicas invadindo a derme">
-                 <p class="caption">Exemplo de Carcinoma Espinocelular Invasivo Vulvar. Fonte: Wikimedia Commons (Patho, CC BY-SA 3.0)</p>
-             </div>
-             <p class="reference">Informações baseadas em conceitos gerais de patologia vulvar.</p>
-        </section>
-
-         <section id="mama">
-              <h2>Sessão 4: Patologia Mamária</h2>
-              <h3>2. Comparação Histológica: Mama Reprodutiva vs. Pós-Menopausa</h3>
-              <div class="slide-description">
-                  <h5>Lâmina: A.33 - Mama (Fase Reprodutiva vs. Pós-Menopausa) - Exemplo Representativo</h5>
-                  <p><strong>Instrução para Análise:</strong> Observar a proporção entre o tecido glandular e o estroma...</p>
-                  <div class="image-placeholder">[Não foi encontrada imagem pública clara e representativa para Mama em Fase Reprodutiva com licença permissiva]</div>
-                  <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Breast_atrophy_-_intermed_mag.jpg/640px-Breast_atrophy_-_intermed_mag.jpg" alt="Fotomicrografia de Mama na Pós-Menopausa - Atrofia lobular, estroma intralobular fibrótico, substituição gordurosa">
-                       <p class="caption">Exemplo Microscópico de Atrofia Mamária (Pós-Menopausa). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-             </div>
-              <h3>3. Alterações Fibrocísticas da Mama</h3>
-             <div class="slide-description">
-                  <h5>Lâminas: A.43 / Link anatpat - Alterações Fibrocísticas - Exemplos Representativos</h5>
-                  <p><strong>Descrição Histológica Esperada:</strong> A lâmina provavelmente exibirá uma combinação das alterações descritas...</p>
-                  <div class="image-container">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Apocrine_metaplasia_breast_high_mag.jpg/640px-Apocrine_metaplasia_breast_high_mag.jpg" alt="Fotomicrografia mostrando Cisto com Metaplasia Apócrina">
-                       <p class="caption">Exemplo de Metaplasia Apócrina em Cisto Mamário (Alteração Fibrocística). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-                  <div class="image-placeholder">[Não foi encontrada imagem pública clara e representativa para Fibrose e Adenose Esclerosante com licença permissiva]</div>
-                  <div class="image-container">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Usual_ductal_hyperplasia_-_very_high_mag.jpg/640px-Usual_ductal_hyperplasia_-_very_high_mag.jpg" alt="Fotomicrografia mostrando Hiperplasia Epitelial Usual (Ductal)">
-                      <p class="caption">Exemplo de Hiperplasia Ductal Usual (Alteração Fibrocística). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-              </div>
-              <h3>4. Caracterização Histológica do Fibroadenoma</h3>
-             <div class="slide-description">
-                  <h5>Lâminas: A.150 / P53 - Fibroadenoma - Exemplo Representativo</h5>
-                  <p><strong>Descrição Histológica Esperada:</strong> Observa-se um nódulo bem delimitado...</p>
-                  <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Fibroadenoma_-_low_mag.jpg/640px-Fibroadenoma_-_low_mag.jpg" alt="Fotomicrografia de Fibroadenoma - Padrão misto intra e pericanalicular">
-                       <p class="caption">Exemplo Microscópico de Fibroadenoma (baixo aumento, padrão misto). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-                  <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Fibroadenoma_intracanalicular.jpg/640px-Fibroadenoma_intracanalicular.jpg" alt="Fotomicrografia de Fibroadenoma - Padrão Intracanalicular (ductos comprimidos em fendas)">
-                       <p class="caption">Exemplo de Fibroadenoma (padrão intracanalicular). Fonte: Wikimedia Commons (Anipak, CC BY-SA 4.0)</p>
-                  </div>
-                  <div class="image-container">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Fibroadenoma_-_high_mag.jpg/640px-Fibroadenoma_-_high_mag.jpg" alt="Detalhe mostrando dupla camada epitelial em ducto de Fibroadenoma">
-                      <p class="caption">Exemplo de Fibroadenoma (alto aumento, mostrando estroma e epitélio). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-              </div>
-              <p class="reference">Informações baseadas em conceitos gerais de patologia mamária.</p>
-         </section>
-
-         <section id="placenta">
-            <h2>Sessão 5: Patologia da Placenta e Gravidez</h2>
-             <h3>4. Tipos Morfológicos de Infecções Placentárias (Corioamnionite)</h3>
-             <div class="slide-description">
-                  <h5>Lâminas: A.348 / A.347 - Infecção Placentária - Exemplos Representativos</h5>
-                  <p><strong>Descrição Histológica Esperada (Corioamnionite Aguda Ascendente):</strong> ...</p>
-                  <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Chorioamnionitis_-_high_mag.jpg/640px-Chorioamnionitis_-_high_mag.jpg" alt="Fotomicrografia de Corioamnionite - Neutrófilos infiltrando o córion e o âmnio">
-                       <p class="caption">Exemplo de Corioamnionite Aguda. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-                  <div class="image-container">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Funisitis_-_high_mag.jpg/640px-Funisitis_-_high_mag.jpg" alt="Fotomicrografia de Funisite - Neutrófilos na parede de vaso umbilical e geléia de Wharton">
-                       <p class="caption">Exemplo de Funisite (Inflamação do Cordão Umbilical). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                  </div>
-                  <div class="image-placeholder">[Não foi encontrada imagem pública clara e representativa para Vilite com licença permissiva]</div>
-              </div>
-             <h3>5. Gravidez Tubária (Ectópica)</h3>
-             <div class="piece-description">
-                   <h5>Peça: GF-41 - Gravidez Tubária Rota - Exemplo Representativo</h5>
-                   <p><strong>Descrição Macroscópica Esperada:</strong> Segmento de tuba uterina aumentado de calibre...</p>
-                   <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Ectopic_pregnancy%2C_fallopian_tube%2C_gross_pathology_01.jpg/640px-Ectopic_pregnancy%2C_fallopian_tube%2C_gross_pathology_01.jpg" alt="Foto Macroscópica - Tuba distendida, hemorrágica, possivelmente rota">
-                       <p class="caption">Exemplo Macroscópico de Gravidez Tubária. Fonte: Wikimedia Commons (Ed Uthman, CC BY 2.0)</p>
-                   </div>
-                   <p><strong>Descrição Microscópica Confirmatória:</strong> Presença de vilosidades coriônicas...</p>
-                   <div class="image-container">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Chorionic_villi_in_ectopic_pregnancy_-_high_mag.jpg/640px-Chorionic_villi_in_ectopic_pregnancy_-_high_mag.jpg" alt="Fotomicrografia de Gravidez Tubária - Vilosidades coriônicas na parede da tuba com hemorragia">
-                        <p class="caption">Exemplo Microscópico de Vilosidades Coriônicas em Gravidez Tubária. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                   </div>
-              </div>
-             <h3>6. Morfologia da Placenta na Pré-Eclâmpsia e Complicações</h3>
-             <div class="slide-description">
-                  <h5>Lâmina: A.348 - Placenta (Pré-Eclâmpsia) - Exemplos Representativos</h5>
-                  <p><strong>Descrição Histológica Esperada (Achados de Pré-Eclâmpsia/Insuficiência Placentária):</strong> ...</p>
-                   <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Placenta_infarct_-_high_mag.jpg/640px-Placenta_infarct_-_high_mag.jpg" alt="Fotomicrografia de Infarto Placentário">
-                       <p class="caption">Exemplo de Infarto Placentário (Achado associado à insuficiência). Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                   </div>
-                  <div class="image-placeholder">[Não foi encontrada imagem pública clara e representativa para Aumento de Nós Sinciciais com licença permissiva]</div>
-                  <div class="image-placeholder">[Não foi encontrada imagem pública clara e representativa para Aterose Aguda em Artéria Espiralada com licença permissiva]</div>
-               </div>
-             <h3>7. Mola Hidatiforme e Coriocarcinoma</h3>
-             <div class="piece-description">
-                  <h5>Peça: G-17 - Mola Hidatiforme - Exemplo Representativo</h5>
-                   <p><strong>Descrição Macroscópica Esperada (Provavelmente Completa):</strong> Cavidade uterina distendida por múltiplas estruturas vesiculares...</p>
-                   <div class="image-container">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Complete_hydatidiform_mole_-_gross_pathology.jpg/640px-Complete_hydatidiform_mole_-_gross_pathology.jpg" alt="Foto da Peça Macroscópica - Massa de vesículas hidrópicas">
-                        <p class="caption">Exemplo Macroscópico de Mola Hidatiforme Completa. Fonte: Wikimedia Commons (Ed Uthman, CC BY-SA 2.0)</p>
-                   </div>
-               </div>
-               <div class="slide-description">
-                   <h5>Lâmina: A.70 - Mola Hidatiforme (Completa) - Exemplo Representativo</h5>
-                   <p><strong>Descrição Histológica Esperada (Mola Completa):</strong> Observam-se vilosidades coriônicas marcadamente aumentadas...</p>
-                   <div class="image-container">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Complete_hydatidiform_mole_intermed_mag.jpg/640px-Complete_hydatidiform_mole_intermed_mag.jpg" alt="Fotomicrografia de Mola Hidatiforme Completa - Vilosidades hidrópicas, proliferação trofoblástica difusa">
-                        <p class="caption">Exemplo Microscópico de Mola Hidatiforme Completa. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                   </div>
-                   <div class="image-placeholder">[Não foi encontrada imagem pública clara e representativa para Mola Hidatiforme Parcial com licença permissiva]</div>
-               </div>
-               <h4>Coriocarcinoma</h4>
-               <div class="slide-description">
-                   <h5>Lâmina: A.174 - Coriocarcinoma - Exemplo Representativo</h5>
-                   <p><strong>Descrição Histológica Esperada:</strong> Observa-se uma proliferação neoplásica maligna composta por uma mistura íntima...</p>
-                   <div class="image-container">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Choriocarcinoma_-_high_mag.jpg/640px-Choriocarcinoma_-_high_mag.jpg" alt="Fotomicrografia de Coriocarcinoma - Lençóis de cito e sinciciotrofoblasto atípicos, sem vilosidades, com necrose/hemorragia">
-                       <p class="caption">Exemplo Microscópico de Coriocarcinoma. Fonte: Wikimedia Commons (Nephron, CC BY-SA 3.0)</p>
-                   </div>
-               </div>
-              <p class="reference">Informações baseadas em conceitos gerais de patologia placentária e da gravidez.</p>
-        </section>
-
+            <div class="row">
+                <div class="cell">Estroma</div>
+                <div class="cell">Fibromuscular abundante entre glândulas</div>
+                <div class="cell">Desmoplasia frequente, resposta estromal à invasão</div>
+            </div>
+            <div class="row">
+                <div class="cell">Invasão</div>
+                <div class="cell">Ausente - limites nítidos</div>
+                <div class="cell">Presente - infiltração no estroma e estruturas vizinhas</div>
+            </div>
+        </div>
+        
+        <h3>c. Adenocarcinoma de Próstata e Sistema de Gleason</h3>
+        
+        <div class="pathology-features">
+            <h4>Sistema de Gleason (Lâminas P05, A.46/56)</h4>
+            <p>O sistema de Gleason avalia o grau de diferenciação do adenocarcinoma prostático baseado na arquitetura glandular:</p>
+            <ul>
+                <li><strong>Grau 1:</strong> Nódulos bem circunscritos de glândulas uniformes e compactas</li>
+                <li><strong>Grau 2:</strong> Glândulas ainda uniformes mas com maior separação entre elas</li>
+                <li><strong>Grau 3:</strong> Glândulas infiltrativas de tamanho e forma variáveis (mais comum)</li>
+                <li><strong>Grau 4:</strong> Glândulas fusionadas ou padrão cribriforme</li>
+                <li><strong>Grau 5:</strong> Pouca ou nenhuma formação glandular, padrão sólido ou células individuais</li>
+            </ul>
+            <p>O escore de Gleason é a soma dos dois padrões mais prevalentes (ex: 3+4=7). Escores ≥7 são considerados de alto grau.</p>
+        </div>
+        
+        <div class="image-container">
+            <div class="image-card">
+                <img src="https://pathology.jhu.edu/wp-content/uploads/2020/08/prostate-cancer-gleason.jpg" alt="Sistema de Gleason">
+                <div class="image-caption">
+                    <strong>Sistema de Gleason</strong>: Padrões histológicos do grau 1 ao 5 (Fonte: Robbins)
+                </div>
+            </div>
+        </div>
+        
+        <h3>Metástases do Adenocarcinoma Prostático</h3>
+        
+        <div class="pathology-features">
+            <h4>Definição e Mecanismos (Lâmina A.385)</h4>
+            <ul>
+                <li><strong>Definição:</strong> Implantes tumorais à distância do tumor primário, adquirindo capacidade de invasão e angiogênese</li>
+                <li><strong>Mecanismos:</strong>
+                    <ul>
+                        <li>Invasão local → vasos linfáticos e sanguíneos → disseminação</li>
+                        <li>Preferência por ossos (especialmente coluna vertebral) devido ao "soil and seed" - microambiente ósseo favorável</li>
+                        <li>Expressão de proteínas como PSA e PSMA facilitam a adesão ao osso</li>
+                    </ul>
+                </li>
+                <li><strong>Sítios principais:</strong> Ossos (80%, especialmente vértebras lombares), pulmões, fígado</li>
+                <li><strong>Morfologia em ossos:</strong> Lesões osteoblásticas (70%) ou osteolíticas (30%), com formação desorganizada de osso novo</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>2. Hemorragias Uterinas Patológicas</h2>
+        
+        <div class="pathology-features">
+            <h4>Causas por Período Fisiológico</h4>
+            <ul>
+                <li><strong>Pré-puberdade:</strong> Geralmente traumáticas ou por corpos estranhos</li>
+                <li><strong>Idade Reprodutiva:</strong>
+                    <ul>
+                        <li>Complicações da gravidez (aborto, placenta prévia)</li>
+                        <li>Leiomiomas (Lâmina Leiomioma, A.107)</li>
+                        <li>Pólipos endometriais</li>
+                        <li>Hiperplasia endometrial (Lâmina A.173)</li>
+                    </ul>
+                </li>
+                <li><strong>Perimenopausa:</strong> Ciclos anovulatórios, hiperplasia endometrial</li>
+                <li><strong>Pós-menopausa:</strong> Atrofia endometrial, adenocarcinoma (Lâmina A.175)</li>
+            </ul>
+        </div>
+        
+        <h3>Leiomioma vs Leiomiossarcoma</h3>
+        
+        <div class="comparison-table">
+            <div class="row header">
+                <div class="cell">Característica</div>
+                <div class="cell">Leiomioma (Lâmina Leiomioma, A.107)</div>
+                <div class="cell">Leiomiossarcoma (Lâmina Leiomiossarcoma, A.193)</div>
+            </div>
+            <div class="row">
+                <div class="cell">Cellularidade</div>
+                <div class="cell">Baixa, feixes bem organizados</div>
+                <div class="cell">Alta, desorganizada</div>
+            </div>
+            <div class="row">
+                <div class="cell">Atipias</div>
+                <div class="cell">Ausentes ou mínimas</div>
+                <div class="cell">Marcadas, núcleos pleomórficos</div>
+            </div>
+            <div class="row">
+                <div class="cell">Mitoses</div>
+                <div class="cell">&lt; 5/10 HPF</div>
+                <div class="cell">&gt; 10/10 HPF, atípicas</div>
+            </div>
+            <div class="row">
+                <div class="cell">Necrose</div>
+                <div class="cell">Ausente</div>
+                <div class="cell">Presente (tipo "geográfico")</div>
+            </div>
+            <div class="row">
+                <div class="cell">Bordes</div>
+                <div class="cell">Bem delimitados</div>
+                <div class="cell">Infiltrativos</div>
+            </div>
+        </div>
+        
+        <h3>Hiperplasia Endometrial vs Adenocarcinoma</h3>
+        
+        <div class="pathology-features">
+            <h4>Hiperplasia Endometrial (Lâmina A.173)</h4>
+            <ul>
+                <li><strong>Etiologia:</strong> Exposição prolongada a estrógenos não oposicionados</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Hiperplasia simples: Glândulas aumentadas em número mas com arquitetura preservada</li>
+                        <li>Hiperplasia complexa: Glândulas irregulares, ramificadas, pouco estroma entre elas</li>
+                        <li>Com atipia: Núcleos aumentados, estratificados, nucléolos proeminentes</li>
+                    </ul>
+                </li>
+                <li><strong>Risco de malignização:</strong> Simples 1%, Complexa 3%, Com atipia 30%</li>
+            </ul>
+        </div>
+        
+        <div class="pathology-features">
+            <h4>Adenocarcinoma Endometrial (Lâmina A.175)</h4>
+            <ul>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Glândulas back-to-back, pouquíssimo estroma entre elas</li>
+                        <li>Células colunares estratificadas com atipias citológicas</li>
+                        <li>Invasão do miométrio presente nos casos avançados</li>
+                    </ul>
+                </li>
+                <li><strong>Tipos:</strong>
+                    <ul>
+                        <li>Tipo I (endometrioide): Relacionado a hiperestrogenismo</li>
+                        <li>Tipo II (seroso, células claras): Mais agressivo, não relacionado a estrógeno</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>3. Endometriose vs Adenomiose</h2>
+        
+        <div class="comparison-table">
+            <div class="row header">
+                <div class="cell">Característica</div>
+                <div class="cell">Endometriose (Lâmina Endometriose, A.160, A.311)</div>
+                <div class="cell">Adenomiose (Lâmina Adenomiose)</div>
+            </div>
+            <div class="row">
+                <div class="cell">Definição</div>
+                <div class="cell">Presença de tecido endometrial fora da cavidade uterina</div>
+                <div class="cell">Presença de glândulas endometriais no miométrio (&gt;2.5mm da junção endomiometrial)</div>
+            </div>
+            <div class="row">
+                <div class="cell">Localização</div>
+                <div class="cell">Ovários (mais comum), ligamentos uterinos, septo retovaginal, peritônio</div>
+                <div class="cell">Exclusivamente no miométrio</div>
+            </div>
+            <div class="row">
+                <div class="cell">Morfologia</div>
+                <div class="cell">Glândulas endometriais e estroma circundante, com hemorragia e macrófagos hemossideróticos</div>
+                <div class="cell">Ilhas de glândulas endometriais no miométrio, com estroma circundante</div>
+            </div>
+            <div class="row">
+                <div class="cell">Clínica</div>
+                <div class="cell">Dismenorrea, dispareunia, infertilidade</div>
+                <div class="cell">Menorragia, dismenorrea, útero aumentado e doloroso</div>
+            </div>
+            <div class="row">
+                <div class="cell">Patogenia</div>
+                <div class="cell">Teorias: Menstruação retrógrada, metaplasia celômica, disseminação linfática/hematogênica</div>
+                <div class="cell">Invaginação da basal do endométrio no miométrio</div>
+            </div>
+        </div>
+        
+        <div class="image-container">
+            <div class="image-card">
+                <img src="https://pathology.jhu.edu/wp-content/uploads/2020/08/endometriosis-ovary.jpg" alt="Endometriose">
+                <div class="image-caption">
+                    <strong>Endometriose no ovário</strong>: Note o tecido endometrial com hemorragia (área marrom) (Fonte: Robbins)
+                </div>
+            </div>
+            <div class="image-card">
+                <img src="https://pathology.jhu.edu/wp-content/uploads/2020/08/adenomyosis.jpg" alt="Adenomiose">
+                <div class="image-caption">
+                    <strong>Adenomiose</strong>: Glândulas endometriais profundas no miométrio (Fonte: Robbins)
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>4. Patologia Vulvar</h2>
+        
+        <div class="pathology-features">
+            <h4>a. Cisto de Bartholin</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Obstrução do ducto da glândula de Bartholin levando à retenção de secreções</li>
+                <li><strong>Morfologia:</strong> Cisto revestido por epitélio de transição ou escamoso, conteúdo mucoide</li>
+            </ul>
+            
+            <h4>b. Líquen Escleroso</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Doença inflamatória crônica de causa autoimune</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Epiderme atrófica com hiperqueratose</li>
+                        <li>Zona dermal superior hialinizada (homogênea e acelular)</li>
+                        <li>Infiltrado linfocitário abaixo da zona hialina</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h4>c. Hiperplasia Escamosa Vulvar</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Resposta crônica a irritação ou prurido</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Espessamento acentuado do estrato espinhoso (acantose)</li>
+                        <li>Hiperqueratose e paraqueratose</li>
+                        <li>Preservação da maturação celular</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h4>d. Condiloma Acuminado</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Infecção por HPV (tipos 6 e 11 principalmente)</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Papilas fibrovasculares recobertas por epitélio escamoso hiperplásico</li>
+                        <li>Coilocitose (células com halo claro perinuclear e picnose)</li>
+                        <li>Hiperceratose e paraqueratose</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h4>e. Neoplasia Intraepitelial Vulvar (VIN) vs Carcinoma Vulvar</h4>
+            <ul>
+                <li><strong>VIN:</strong>
+                    <ul>
+                        <li>Atipias celulares limitadas ao epitélio</li>
+                        <li>Grau I (1/3 inferior), II (2/3 inferior), III (espessura total)</li>
+                        <li>Relacionado ao HPV (tipos 16,18)</li>
+                    </ul>
+                </li>
+                <li><strong>Carcinoma Vulvar:</strong>
+                    <ul>
+                        <li>Invasão do estroma subjacente</li>
+                        <li>Células atípicas com perda da polaridade</li>
+                        <li>Mitoses atípicas frequentes</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>5. Patologia Mamária</h2>
+        
+        <h3>a. Mama no Período Reprodutivo vs Pós-Menopausa (Lâmina A.33)</h3>
+        
+        <div class="comparison-table">
+            <div class="row header">
+                <div class="cell">Característica</div>
+                <div class="cell">Período Reprodutivo</div>
+                <div class="cell">Pós-Menopausa</div>
+            </div>
+            <div class="row">
+                <div class="cell">Parenquima</div>
+                <div class="cell">Lóbulos glandulares proeminentes</div>
+                <div class="cell">Atrofia lobular, substituição por tecido adiposo</div>
+            </div>
+            <div class="row">
+                <div class="cell">Estroma</div>
+                <div class="cell">Denso, celular</div>
+                <div class="cell">Fibroso, hipocelular</div>
+            </div>
+            <div class="row">
+                <div class="cell">Epitélio</div>
+                <div class="cell">Células colunares altas com atividade secretora</div>
+                <div class="cell">Células cuboides baixas, inativas</div>
+            </div>
+        </div>
+        
+        <h3>b. Alterações Fibrocísticas da Mama (Lâmina A.43)</h3>
+        
+        <div class="pathology-features">
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Desequilíbrio hormonal (excesso de estrógeno relativo)</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li><strong>Cistos:</strong> Dilatações ductais de vários tamanhos</li>
+                        <li><strong>Fibrose:</strong> Estroma denso e hialinizado</li>
+                        <li><strong>Adenose:</strong> Aumento do número de ácinos por lóbulo</li>
+                        <li><strong>Metaplasia apócrina:</strong> Células com citoplasma eosinofílico abundante</li>
+                        <li><strong>Hiperplasia epitelial:</strong> Camadas aumentadas de células epiteliais</li>
+                    </ul>
+                </li>
+                <li><strong>Risco de carcinoma:</strong> Aumentado apenas quando há hiperplasia atípica</li>
+            </ul>
+        </div>
+        
+        <h3>c. Fibroadenoma (Lâminas A.150, P53)</h3>
+        
+        <div class="pathology-features">
+            <ul>
+                <li><strong>Definição:</strong> Tumor benigno composto por componentes epitelial e estromal</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Massa bem circunscrita, móvel ("mouse breast")</li>
+                        <li>Padrão intracanalicular (estroma comprime ductos em fendas) ou pericanalicular (ductos mantêm forma arredondada)</li>
+                        <li>Epitélio ductal bifásico sem atipias</li>
+                        <li>Estroma fibroso celular sem atipias</li>
+                    </ul>
+                </li>
+                <li><strong>Variante:</strong> Fibroadenoma juvenil - crescimento rápido em adolescentes</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>6. Patologia da Gravidez e Placenta</h2>
+        
+        <h3>a. Infecções Placentárias (Lâminas A.348, A.347)</h3>
+        
+        <div class="pathology-features">
+            <ul>
+                <li><strong>Corioamnionite Aguda:</strong>
+                    <ul>
+                        <li>Infiltrado neutrofílico nas membranas fetais e cordão umbilical</li>
+                        <li>Vasite do cordão umbilical</li>
+                        <li>Causa: Ascendente por bactérias do trato genital</li>
+                    </ul>
+                </li>
+                <li><strong>Vilite Crônica:</strong>
+                    <ul>
+                        <li>Infiltrado linfoplasmocitário nas vilosidades</li>
+                        <li>Associada a infecções por CMV, sífilis, toxoplasmose</li>
+                    </ul>
+                </li>
+                <li><strong>Intervilosite Crônica:</strong> Infiltrado de mononucleares no espaço interviloso</li>
+            </ul>
+        </div>
+        
+        <h3>b. Gravidez Tubária (Peça GF-41)</h3>
+        
+        <div class="pathology-features">
+            <ul>
+                <li><strong>Definição:</strong> Implantação do blastocisto na trompa de Falópio (98% ampolar)</li>
+                <li><strong>Evolução:</strong> Pode levar a ruptura tubária com hemorragia intraperitoneal</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Trompa dilatada com sangue e tecido placentário</li>
+                        <li>Presença de vilosidades coriônicas no exame histológico</li>
+                        <li>Reação decidual ausente ou mínima na tuba</li>
+                    </ul>
+                </li>
+                <li><strong>Fatores de risco:</strong> Doença inflamatória pélvica, cirurgia tubária prévia, endometriose</li>
+            </ul>
+        </div>
+        
+        <h3>c. Placenta na Pré-eclâmpsia (Lâmina A.348)</h3>
+        
+        <div class="pathology-features">
+            <ul>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li>Vilosidades hipomaduras com aumento de trofoblasto sincicial</li>
+                        <li>Hialinização do estroma vilositário</li>
+                        <li>Infartos placentários (≥5% da placenta)</li>
+                        <li>Arteriopatia decidual aguda (lesão aguda das artérias espiraladas)</li>
+                    </ul>
+                </li>
+                <li><strong>Complicações:</strong>
+                    <ul>
+                        <li>Restrição de crescimento fetal</li>
+                        <li>Descolamento prematuro de placenta</li>
+                        <li>Síndrome HELLP</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <h3>d. Mola Hidatiforme vs Coriocarcinoma</h3>
+        
+        <div class="comparison-table">
+            <div class="row header">
+                <div class="cell">Característica</div>
+                <div class="cell">Mola Hidatiforme (Lâminas A.70, Peça G-17)</div>
+                <div class="cell">Coriocarcinoma (Lâmina A.174)</div>
+            </div>
+            <div class="row">
+                <div class="cell">Definição</div>
+                <div class="cell">Proliferação trofoblástica benigna com edema vilositário</div>
+                <div class="cell">Neoplasia maligna de trofoblasto sem formação de vilosidades</div>
+            </div>
+            <div class="row">
+                <div class="cell">Morfologia</div>
+                <div class="cell">Vilosidades edemaciadas ("em cacho de uva"), proliferação trofoblástica circunferencial</div>
+                <div class="cell">Massa hemorrágica com células trofoblásticas atípicas, sem vilosidades</div>
+            </div>
+            <div class="row">
+                <div class="cell">Tipo</div>
+                <div class="cell">Completa (46XX, todo paternal) ou Parcial (triploidia 69XXY)</div>
+                <div class="cell">Não tem subclassificação</div>
+            </div>
+            <div class="row">
+                <div class="cell">Comportamento</div>
+                <div class="cell">Benigna, mas 10-15% podem evoluir para neoplasia trofoblástica</div>
+                <div class="cell">Altamente maligno, metastático precocemente</div>
+            </div>
+            <div class="row">
+                <div class="cell">β-hCG</div>
+                <div class="cell">Muito elevado</div>
+                <div class="cell">Extremamente elevado</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="references">
+        <h3>Referências</h3>
+        <ul>
+            <li>Kumar, V., Abbas, A. K., Aster, J. C. <em>Robbins & Cotran Patologia - Bases Patológicas das Doenças.</em> 10ª ed. Elsevier, 2020.</li>
+            <li>Site do AnatPat UNICAMP: <a href="http://anatpat.unicamp.br">http://anatpat.unicamp.br</a></li>
+            <li>Rosai, J. <em>Rosai and Ackerman's Surgical Pathology.</em> 11th ed. Elsevier, 2018.</li>
+            <li>Mills, S. E. <em>Histology for Pathologists.</em> 5th ed. Lippincott Williams & Wilkins, 2019.</li>
+        </ul>
     </div>
 </body>
 </html>
