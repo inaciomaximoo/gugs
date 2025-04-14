@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Estudo de Patologia</title>
+    <style>
+        /* CSS Profissional */
+        :root {
+            --primary-color: #2c3e50; /* Azul Escuro */
+            --secondary-color: #3498db; /* Azul Claro */
+            --accent-color: #e74c3c; /* Vermelho/Laranja */
+            --background-color: #ecf0f1; /* Cinza Claro */
+            --text-color: #34495e; /* Cinza Escuro */
+            --card-bg-color: #ffffff; /* Branco */
+            --border-color: #bdc3c7; /* Cinza Médio */
+            --header-font: 'Georgia', serif;
+            --body-font: 'Arial', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: var(--card-bg-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        header h1 {
+            font-family: var(--header-font);
+            color: var(--primary-color);
+            font-size: 2.8em;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        h2 {
+            font-family: var(--header-font);
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 10px;
+        }
+
+        h3 {
+            font-family: var(--header-font);
+            color: var(--secondary-color);
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-family: var(--header-font);
+            color: var(--primary-color);
+            font-size: 1.4em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: var(--primary-color);
+        }
+
+        .slide-description {
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .slide-description h5 {
+            font-family: var(--header-font);
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .image-placeholder {
+            border: 1px dashed var(--border-color);
+            padding: 20px;
+            text-align: center;
+            margin: 20px auto;
+            background-color: #e9ecef;
+            color: #6c757d;
+            font-style: italic;
+            max-width: 80%;
+            display: block;
+        }
+
+        .reference {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-family: var(--header-font);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .piece-description {
+             background-color: #e8f6f3;
+             border: 1px solid #a3e4d7;
+             border-left: 5px solid #1abc9c; /* Verde Água */
+             padding: 15px;
+             margin: 20px 0;
+             border-radius: 5px;
+         }
+
+         .piece-description h5 {
+             font-family: var(--header-font);
+             color: #16a085; /* Verde mais escuro */
+             margin-bottom: 10px;
+             font-size: 1.2em;
+         }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guia de Estudo Aprofundado em Patologia</h1>
+            <p>Baseado nos Tópicos Solicitados e Referências de Morfologia</p>
+        </header>
+
+        <section id="prostata">
+            <h2>Sessão 1: Patologia Prostática</h2>
+
+            <h3>a. Inflamações Prostáticas e Hiperplasia Prostática Benigna (HPB)</h3>
+
+            <h4>Etiologia e Patogenia das Prostatites</h4>
+            <p>As prostatites representam um espectro de condições inflamatórias da próstata. A etiologia varia conforme a classificação:</p>
+            <ul>
+                <li><strong>Prostatite Bacteriana Aguda:</strong> Geralmente causada por uropatógenos comuns (ex: <em>E. coli</em>, <em>Proteus</em>, <em>Klebsiella</em>, <em>Enterococcus</em>) que ascendem pela uretra ou refluxo de urina infectada para os ductos prostáticos. Fatores de risco incluem manipulação uretral, obstrução infravesical e imunossupressão. A patogenia envolve a invasão bacteriana e resposta inflamatória aguda neutrofílica.</li>
+                <li><strong>Prostatite Bacteriana Crônica:</strong> Pode ser sequela de uma prostatite aguda mal tratada ou infecções recorrentes pelos mesmos agentes. Focos bacterianos podem persistir dentro da próstata, levando a sintomas mais insidiosos e inflamação crônica (linfócitos, plasmócitos, macrófagos).</li>
+                <li><strong>Prostatite Crônica / Síndrome da Dor Pélvica Crônica:</strong> É a forma mais comum. Pode ser inflamatória (leucócitos no sêmen/secreção prostática) ou não inflamatória. A etiologia é frequentemente desconhecida (idiopática), mas fatores como disfunção neuromuscular pélvica, autoimunidade ou infecções não detectadas por métodos convencionais são postulados.</li>
+                <li><strong>Prostatite Inflamatória Assintomática:</strong> Achado incidental de inflamação em biópsias ou peças cirúrgicas, sem sintomas clínicos.</li>
+            </ul>
+
+            <h4>Aspectos Morfológicos das Prostatites</h4>
+            <p><strong>Macroscopia:</strong> Na prostatite aguda, a próstata pode estar aumentada, edemaciada e congesta. Podem ocorrer múltiplos microabscessos amarelados. Na forma crônica, as alterações macroscópicas são menos evidentes, podendo haver fibrose focal.</p>
+            <p><strong>Microscopia:</strong></p>
+            <ul>
+                <li><strong>Aguda:</strong> Infiltrado inflamatório predominantemente neutrofílico no estroma e dentro dos ácinos prostáticos. Edema, congestão vascular e necrose tecidual com formação de abscessos (coleções de neutrófilos e debris celulares) são característicos.</li>
+                <li><strong>Crônica:</strong> Infiltrado inflamatório composto principalmente por linfócitos, plasmócitos e macrófagos no estroma. Fibrose intersticial pode estar presente. Granulomas podem ser vistos em casos específicos (ex: prostatite granulomatosa, frequentemente associada à terapia intravesical com BCG ou infecções fúngicas/tuberculosas).</li>
+            </ul>
+
+            <div class="slide-description">
+                <h5>Lâmina: Prostatite purulenta (laminário)</h5>
+                <p><strong>Descrição Histológica Esperada:</strong> Observa-se o parênquima prostático com preservação de algumas estruturas acinares, mas extensamente infiltrado por neutrófilos. Muitos ácinos estão distendidos e preenchidos por exsudato purulento (neutrófilos íntegros e degenerados, debris celulares). O estroma adjacente exibe edema, vasos sanguíneos congestos e infiltrado neutrofílico difuso. Podem ser identificadas áreas de necrose tecidual e formação de microabscessos.</p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia representativa da Prostatite Purulenta - Infiltrado neutrofílico denso intra-acinar e estromal]</div>
+            </div>
+
+            <div class="slide-description">
+                <h5>Lâmina: Prostatite crônica (laminário)</h5>
+                <p><strong>Descrição Histológica Esperada:</strong> O estroma prostático apresenta um infiltrado inflamatório mononuclear, composto predominantemente por linfócitos e plasmócitos, frequentemente formando agregados. Macrófagos também podem estar presentes. Os ácinos podem mostrar alguma atrofia ou alterações epiteliais reativas. Fibrose estromal variável pode ser observada. Ausência do intenso infiltrado neutrofílico e de abscessos vistos na forma aguda.</p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia representativa da Prostatite Crônica - Agregados linfoplasmocitários no estroma]</div>
+            </div>
+
+            <h4>Etiologia e Patogenia da Hiperplasia Prostática Benigna (HPB)</h4>
+            <p>A HPB é uma proliferação não maligna dos componentes estromais e epiteliais da próstata, primariamente na zona de transição. A etiologia é multifatorial, mas fortemente ligada ao envelhecimento e à estimulação androgênica.</p>
+            <ul>
+                <li><strong>Papel dos Androgênios:</strong> A testosterona é convertida em di-hidrotestosterona (DHT) pela enzima 5α-redutase tipo 2 nas células estromais prostáticas. O DHT é um androgênio muito mais potente e liga-se a receptores androgênicos nucleares nas células estromais e epiteliais, estimulando a produção de fatores de crescimento (como FGF e TGF-β) que promovem a proliferação celular (principalmente estromal) e inibem a apoptose (principalmente epitelial).</li>
+                <li><strong>Envelhecimento:</strong> A incidência aumenta significativamente com a idade, sugerindo uma sensibilidade aumentada aos androgênios ou alterações intrínsecas relacionadas à idade nas vias de sinalização celular.</li>
+            </ul>
+            <p>A proliferação nodular na zona de transição comprime a uretra prostática, levando aos sintomas obstrutivos e irritativos do trato urinário inferior (LUTS).</p>
+
+            <h4>Aspectos Morfológicos da HPB</h4>
+            <p><strong>Macroscopia:</strong> A próstata está aumentada em tamanho e peso, frequentemente excedendo 60-100 gramas (normal ≈ 20g). A superfície de corte revela múltiplos nódulos bem definidos, de consistência firme-elástica, que abaúlam a superfície. Os nódulos podem ser amarelados e macios (predomínio epitelial) ou pálidos e firmes (predomínio estromal). A uretra prostática geralmente está comprimida em fenda. A zona periférica fica comprimida formando uma pseudocápsula cirúrgica.</p>
+            <div class="image-placeholder">[IMAGEM: Figura de Robbins ou peça macroscópica de HPB - Próstata aumentada com múltiplos nódulos na zona de transição]</div>
+            <p><strong>Microscopia:</strong> Observa-se uma proliferação nodular composta por proporções variáveis de glândulas prostáticas (revestidas por duas camadas celulares: epitélio colunar secretor interno e camada basal de células cuboidais/achatadas externa) e estroma fibromuscular (células musculares lisas e fibroblastos). As glândulas podem ser pequenas, grandes ou cisticamente dilatadas, frequentemente com projeções papilares intraluminais e corposamiláceos (corpora amylacea). O estroma também é hiperplásico. Não há atipia celular significativa nem invasão.</p>
+            <div class="image-placeholder">[IMAGEM: Fotomicrografia de HPB - Nódulos com glândulas e estroma proliferados, camada basal preservada]</div>
+
+
+            <h3>b. Diferença entre Hiperplasia e Neoplasia Maligna (HPB vs. Adenocarcinoma)</h3>
+            <p>A distinção fundamental reside na natureza do crescimento celular e no potencial de invasão e metástase.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Hiperplasia Prostática Benigna (HPB)</th>
+                        <th>Adenocarcinoma de Próstata</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Natureza</strong></td>
+                        <td>Proliferação benigna (não cancerosa) de células epiteliais e estromais.</td>
+                        <td>Proliferação maligna (cancerosa) de células epiteliais glandulares.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Localização Predominante</strong></td>
+                        <td>Zona de Transição</td>
+                        <td>Zona Periférica (≈70-80%)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Arquitetura Glandular</strong></td>
+                        <td>Nódulos bem definidos; glândulas de tamanho variável, frequentemente grandes ou císticas; camada de células basais presente.</td>
+                        <td>Glândulas pequenas, apinhadas, infiltrativas; padrão de crescimento desorganizado; perda da camada de células basais (marcador crucial).</td>
+                    </tr>
+                     <tr>
+                        <td><strong>Citologia</strong></td>
+                        <td>Células epiteliais uniformes, núcleos pequenos e regulares, nucléolos inconspícuos.</td>
+                        <td>Atipia nuclear variável (aumento do tamanho, irregularidade da membrana, hipercromasia); nucléolos frequentemente proeminentes e visíveis mesmo em baixo aumento.</td>
+                    </tr>
+                     <tr>
+                        <td><strong>Invasão</strong></td>
+                        <td>Ausente. Crescimento expansivo, comprime tecidos adjacentes.</td>
+                        <td>Presente. Invasão do estroma, invasão perineural (altamente característica), invasão de vesículas seminais, extensão extraprostática.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Potencial Metastático</strong></td>
+                        <td>Nenhum.</td>
+                        <td>Presente. Metástases linfonodais (pélvicos) e hematogênicas (principalmente ossos).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Descrição Microscópica Comparativa (Foco nas Lâminas)</h4>
+
+             <div class="slide-description">
+                <h5>Lâmina: P05 (pannoramic viewer) / A.164 / A.46/56 - Adenocarcinoma de Próstata</h5>
+                <p><strong>Descrição Histológica Esperada (Adenocarcinoma):</strong> Comparada à HPB, a característica mais marcante é a arquitetura alterada. Observam-se glândulas neoplásicas que são tipicamente menores que as glândulas benignas adjacentes, com distribuição irregular e infiltrativa entre as glândulas normais ou no estroma. As glândulas malignas são revestidas por uma única camada de células epiteliais (perda da camada basal, que pode ser confirmada por imuno-histoquímica para marcadores basais como p63 ou citoqueratinas de alto peso molecular). As células neoplásicas exibem graus variáveis de atipia nuclear, incluindo núcleos aumentados, hipercromáticos ou vesiculosos, e nucléolos proeminentes (especialmente em graus mais altos de Gleason). Invasão perineural (glândulas malignas envolvendo feixes nervosos) é um achado comum e diagnóstico. O padrão arquitetural varia conforme o grau de Gleason (ver abaixo).</p>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia representativa do Adenocarcinoma de Próstata - Glândulas pequenas, infiltrativas, perda da camada basal, atipia nuclear, nucléolos proeminentes]</div>
+                 <div class="image-placeholder">[IMAGEM: Detalhe de Invasão Perineural no Adenocarcinoma de Próstata]</div>
+            </div>
+
+            <p><strong>Descrição Histológica Esperada (HPB - para comparação):</strong> Glândulas maiores, bem formadas, muitas vezes císticas ou com projeções papilares. Presença clara da dupla camada celular (secretora e basal). Núcleos uniformes e pequenos, nucléolos inconspícuos. Estroma fibromuscular hiperplásico entre as glândulas. Arquitetura nodular, não infiltrativa.</p>
+
+
+            <h3>c. Adenocarcinoma de Próstata</h3>
+
+            <h4>Grau de Diferenciação Tumoral - Sistema de Gleason</h4>
+            <p>O Sistema de Gleason é o método padrão para graduar o adenocarcinoma de próstata com base na sua arquitetura microscópica (padrão de crescimento glandular). Ele é um dos fatores prognósticos mais importantes.</p>
+            <ul>
+                <li><strong>Base do Sistema:</strong> Avalia-se o padrão arquitetural predominante (primário) e o segundo padrão mais comum (secundário) em baixo aumento. São atribuídos escores de 1 a 5 para cada padrão, com 1 sendo o mais bem diferenciado (glândulas pequenas, uniformes, bem formadas) e 5 o menos diferenciado (ausência de formação glandular, células infiltrativas isoladas, cordões ou lençóis sólidos, necrose tipo comedo). **Nota:** Na prática atual, Gleason 1 e 2 raramente são diagnosticados em biópsias, sendo o padrão 3 o mais baixo comumente encontrado.</li>
+                <li><strong>Escore de Gleason:</strong> É a soma dos escores dos padrões primário e secundário (Ex: Gleason 3 + 4 = 7). Se apenas um padrão estiver presente, ele é duplicado (Ex: Gleason 4 + 4 = 8).</li>
+                <li><strong>Grupos de Grau (ISUP/OMS 2014):</strong> Para simplificar e melhorar a correlação prognóstica, os escores de Gleason são agrupados:
+                    <ul>
+                        <li><strong>Grupo de Grau 1:</strong> Gleason ≤ 6 (3+3) - Apenas glândulas individuais bem formadas.</li>
+                        <li><strong>Grupo de Grau 2:</strong> Gleason 7 (3+4) - Predominantemente glândulas bem formadas com componente menor de glândulas malformadas/fusionadas/cribriformes.</li>
+                        <li><strong>Grupo de Grau 3:</strong> Gleason 7 (4+3) - Predominantemente glândulas malformadas/fusionadas/cribriformes com componente menor de glândulas bem formadas.</li>
+                        <li><strong>Grupo de Grau 4:</strong> Gleason 8 (4+4, 3+5, 5+3) - Apenas glândulas malformadas ou predominantemente malformadas com componente menor sem diferenciação glandular ou com padrão 5.</li>
+                        <li><strong>Grupo de Grau 5:</strong> Gleason 9-10 (4+5, 5+4, 5+5) - Ausência de diferenciação glandular ou padrão cribriforme com necrose (comedocarcinoma) na maior parte do tumor.</li>
+                    </ul>
+                </li>
+                <li><strong>Importância Clínica:</strong> Quanto maior o escore de Gleason/Grupo de Grau, maior a agressividade do tumor, maior a probabilidade de extensão extraprostática e metástases, e pior o prognóstico.</li>
+            </ul>
+
+             <div class="slide-description">
+                <h5>Lâmina: P05 (pannoramic viewer) / A.46/56 - Adenocarcinoma de Próstata (Avaliação de Gleason)</h5>
+                 <p><strong>Instrução para Análise:</strong> Ao observar estas lâminas, procure identificar os diferentes padrões arquiteturais do adenocarcinoma. Tente identificar o padrão predominante e o secundário.</p>
+                 <ul>
+                     <li><strong>Padrão 3:</strong> Glândulas individuais, bem definidas, separadas, infiltrando o estroma. Variabilidade no tamanho e forma, mas ainda reconhecíveis como glândulas.</li>
+                     <li><strong>Padrão 4:</strong> Glândulas fusionadas (sem estroma interposto), malformadas; padrão cribriforme (lençóis de células com múltiplas fenestrações/lumens secundários); glândulas glomerulares (estruturas complexas semelhantes a glomérulos).</li>
+                     <li><strong>Padrão 5:</strong> Lençóis sólidos de células tumorais, cordões ou células infiltrativas isoladas sem formação de lúmens; presença de necrose central tipo comedo dentro de massas de células tumorais.</li>
+                 </ul>
+                 <p>Determine os padrões primário e secundário para calcular o escore de Gleason e, subsequentemente, o Grupo de Grau.</p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia mostrando Padrão Gleason 3]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia mostrando Padrão Gleason 4 (cribriforme/fusionado)]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia mostrando Padrão Gleason 5 (lençóis/comedonecrose)]</div>
+            </div>
+
+            <h4>Metástases do Adenocarcinoma de Próstata</h4>
+            <ul>
+                <li><strong>Definição:</strong> Disseminação de células cancerosas do tumor primário (próstata) para locais distantes no corpo, formando novos tumores secundários.</li>
+                <li><strong>Mecanismo:</strong> Ocorre principalmente por duas vias:
+                    <ol>
+                        <li><strong>Via Linfática:</strong> Células tumorais invadem os vasos linfáticos intraprostáticos e periprostáticos, viajam para os linfonodos regionais (obturadores, ilíacos internos/externos, pré-sacrais) e, posteriormente, para linfonodos mais distantes.</li>
+                        <li><strong>Via Hematogênica:</strong> Células tumorais invadem pequenos vasos sanguíneos (vênulas) dentro ou ao redor da próstata. Acredita-se que o plexo venoso prostático (plexo de Batson), que se comunica com as veias vertebrais, facilite a disseminação para a coluna vertebral e pelve, mesmo sem passar pela circulação pulmonar inicialmente. A disseminação sistêmica via veias maiores também ocorre.</li>
+                    </ol>
+                </li>
+                 <li><strong>Principais Sítios de Metástases:</strong>
+                    <ul>
+                        <li><strong>Ossos (mais comum):</strong> Esqueleto axial (vértebras lombares, pelve, fêmur proximal, costelas, esterno, crânio).</li>
+                        <li><strong>Linfonodos:</strong> Regionais (pélvicos) e à distância (paraaórticos, mediastinais, supraclaviculares).</li>
+                        <li><strong>Pulmões</strong></li>
+                        <li><strong>Fígado</strong></li>
+                        <li><strong>Cérebro</strong> (menos comum)</li>
+                        <li><strong>Glândulas Adrenais</strong></li>
+                    </ul>
+                </li>
+                <li><strong>Características Morfológicas nos Ossos:</strong> As metástases ósseas do câncer de próstata são tipicamente <strong>osteoblásticas</strong> (formadoras de osso). As células tumorais secretam fatores (como endotelina-1, Wnt, BMPs) que estimulam a atividade dos osteoblastos, levando à deposição de osso novo, denso e esclerótico no local da metástase. Macroscopicamente, as áreas afetadas podem parecer mais densas ou esbranquiçadas. Microscopicamente, observam-se ninhos ou glândulas de adenocarcinoma infiltrando os espaços medulares, circundados por osso trabecular espessado e neoformado pelos osteoblastos reativos. Metástases osteolíticas (destruidoras de osso) ou mistas podem ocorrer, mas são menos comuns que as puramente osteoblásticas.</li>
+            </ul>
+
+            <div class="slide-description">
+                <h5>Lâmina: A.385 - Metástase Óssea de Adenocarcinoma</h5>
+                <p><strong>Descrição Histológica Esperada:</strong> O tecido ósseo (trabéculas ósseas) apresenta espaços medulares infiltrados por células neoplásicas malignas. Estas células podem formar estruturas glandulares (similares ao tumor primário na próstata) ou se apresentar como ninhos, cordões ou células isoladas. Atipia nuclear e nucléolos proeminentes podem ser evidentes. Caracteristicamente, observa-se uma reação osteoblástica proeminente: as trabéculas ósseas adjacentes às células tumorais estão espessadas, com linhas de aposição de osso novo e osteoblastos proeminentes revestindo a superfície óssea. O tecido hematopoiético normal da medula óssea está deslocado ou substituído pelo tumor e pela fibrose/osso reacional.</p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia de Metástase Óssea Osteoblástica de Câncer de Próstata - Ninhos tumorais com reação óssea densa]</div>
+            </div>
+
+            <p class="reference">Informações baseadas em conceitos gerais de patologia, como os encontrados em Robbins & Cotran.</p>
+        </section>
+
+        <section id="utero">
+            <h2>Sessão 2: Patologia Uterina</h2>
+
+             <h3>3. Causas Morfológicas de Hemorragias Uterinas Patológicas (HUP)</h3>
+             <p>A Hemorragia Uterina Patológica (ou Sangramento Uterino Anormal - SUA) pode ocorrer em diferentes fases da vida da mulher. As causas estruturais (PALM-COEIN - FIGO) são frequentemente identificadas morfologicamente:</p>
+
+            <h4>Pré-Puberdade:</h4>
+             <ul>
+                 <li>Puberdade precoce (causas hormonais centrais ou periféricas).</li>
+                 <li>Lesões locais (raras): Trauma, corpo estranho, tumores (ex: rabdomiossarcoma embrionário).</li>
+             </ul>
+
+            <h4>Adolescência:</h4>
+             <ul>
+                 <li><strong>Ciclos anovulatórios:</strong> Causa mais comum nesta fase devido à imaturidade do eixo hipotálamo-hipófise-ovário. A estimulação estrogênica persistente sem oposição da progesterona leva à proliferação endometrial excessiva e instável, resultando em sangramento irregular e intenso. Morfologicamente: endométrio proliferativo desordenado.</li>
+                 <li>Coagulopatias (ex: Doença de von Willebrand).</li>
+                 <li>Causas estruturais (menos comuns): Pólipos, infecções.</li>
+             </ul>
+
+             <h4>Idade Reprodutiva:</h4>
+             <ul>
+                 <li><strong>Complicações da gravidez:</strong> Abortamento, gravidez ectópica, doença trofoblástica gestacional.</li>
+                 <li><strong>Disfunção ovulatória:</strong> Ciclos anovulatórios (SOP, estresse, obesidade, etc.), fase lútea inadequada.</li>
+                 <li><strong>Leiomioma (Fibroma):</strong> Tumor benigno do músculo liso miometrial. Causa comum de HUP, especialmente os submucosos (distorcem a cavidade endometrial) ou intramurais que alteram a contratilidade uterina.
+                     <ul>
+                         <li><strong>Morfologia Macroscópica:</strong> Nódulos firmes, branco-acinzentados, bem delimitados, de tamanhos variados, com superfície de corte fasciculada. Podem ser submucosos, intramurais ou subserosos.</li>
+                         <li><strong>Morfologia Microscópica:</strong> Feixes entrelaçados de células musculares lisas fusiformes, uniformes, com núcleos alongados ("em charuto"), citoplasma eosinofílico. Baixa atividade mitótica, ausência de necrose significativa (exceto por infarto isquêmico - degeneração rubra) e atipia.</li>
+                     </ul>
+                      <div class="slide-description">
+                          <h5>Lâmina: Leiomioma (laminário) / A.107</h5>
+                          <p><strong>Descrição Histológica Esperada:</strong> Observam-se feixes de células fusiformes alongadas, com citoplasma eosinofílico e núcleos uniformes, ovóides a alongados (aspecto de "charuto"), com cromatina fina. As células estão dispostas em feixes que se entrelaçam em várias direções. O estroma é escasso. Figuras de mitose são raras ou ausentes. Não há necrose coagulativa tumoral nem atipia celular significativa.</p>
+                          <div class="image-placeholder">[IMAGEM: Fotomicrografia de Leiomioma Uterino - Feixes de células musculares lisas uniformes]</div>
+                     </div>
+                 </li>
+                 <li><strong>Pólipo Endometrial:</strong> Projeção focal da mucosa endometrial para a cavidade uterina. Pode causar sangramento intermenstrual ou pós-menopausa.
+                     <ul>
+                         <li><strong>Morfologia Macroscópica:</strong> Lesão polipóide, séssil ou pediculada, lisa, de tamanho variável, geralmente mole.</li>
+                         <li><strong>Morfologia Microscópica:</strong> Centro de estroma fibromuscular revestido por epitélio endometrial (pode ser funcional ou, mais comum, atrófico/hiperplásico). Glândulas endometriais frequentemente cisticamente dilatadas. Presença de vasos sanguíneos de paredes espessas no estroma central é característica.</li>
+                     </ul>
+                     <div class="image-placeholder">[IMAGEM: Fotomicrografia de Pólipo Endometrial - Estroma fibroso, glândulas císticas, vasos espessos]</div>
+                 </li>
+                <li><strong>Adenomise:</strong> Presença de tecido endometrial (glândulas e estroma) dentro do miométrio. Causa dismenorreia e HUP. (Ver item 4).</li>
+                <li><strong>Hiperplasia Endometrial:</strong> Proliferação excessiva das glândulas endometriais em relação ao estroma, resultante de estimulação estrogênica prolongada sem oposição da progesterona. Precursora do adenocarcinoma endometrioide.
+                    <ul>
+                        <li><strong>Classificação (OMS):</strong> Hiperplasia sem atipia e Hiperplasia Atípica (Neoplasia Intraepitelial Endometrial - EIN).</li>
+                        <li><strong>Morfologia Macroscópica:</strong> Endométrio espessado, polipóide ou difusamente exuberante.</li>
+                        <li><strong>Morfologia Microscópica:</strong> Aumento da relação glândula/estroma.
+                            <ul>
+                                <li><em>Sem Atipia:</em> Glândulas aumentadas em número e tamanho, podem ser dilatadas ou tortuosas, mas as células epiteliais mantêm a polaridade e características citológicas benignas.</li>
+                                <li><em>Com Atipia (EIN):</em> Além do aumento da relação glândula/estroma, as glândulas são mais complexas arquiteturalmente (apinhamento, brotamentos) e as células epiteliais exibem atipia nuclear significativa (núcleos aumentados, arredondados, vesiculosos, perda de polaridade, nucléolos evidentes).</li>
+                            </ul>
+                    </ul>
+                     <div class="slide-description">
+                         <h5>Lâmina: A.173 / Link anatpat.unicamp.br/lamgin10.html - Hiperplasia Endometrial</h5>
+                         <p><strong>Descrição Histológica Esperada (pode variar entre sem/com atipia):</strong> Observa-se um aumento acentuado no número de glândulas endometriais em comparação com a quantidade de estroma. As glândulas podem apresentar formas irregulares, dilatação cística ou complexidade arquitetural com ramificações. <strong>Na ausência de atipia</strong>, as células que revestem as glândulas são colunares, pseudoestratificadas, mas sem atipia nuclear significativa. <strong>Na presença de atipia (EIN)</strong>, as células glandulares são maiores, com núcleos arredondados, cromatina vesicular, nucléolos proeminentes e perda da polaridade normal. O apinhamento celular é mais pronunciado.</p>
+                         <div class="image-placeholder">[IMAGEM: Fotomicrografia de Hiperplasia Endometrial Sem Atipia - Aumento glândula/estroma, sem atipia citológica]</div>
+                         <div class="image-placeholder">[IMAGEM: Fotomicrografia de Hiperplasia Endometrial Com Atipia (EIN) - Complexidade glandular e atipia nuclear]</div>
+                     </div>
+                 </li>
+                 <li><strong>Malignidade (Adenocarcinoma, Leiomiossarcoma):</strong> Embora menos comuns nesta faixa etária, devem ser considerados.
+                     <ul>
+                         <li><strong>Adenocarcinoma do Endométrio:</strong> Neoplasia maligna das glândulas endometriais. Associado à hiperplasia atípica/EIN (Tipo I, endometrioide, relacionado ao estrogênio) ou surge em endométrio atrófico (Tipo II, seroso, p53 mutado, mais agressivo).
+                             <ul>
+                                 <li><strong>Morfologia Macroscópica:</strong> Lesão polipóide ou infiltrativa que preenche a cavidade endometrial, pode invadir o miométrio.</li>
+                                 <li><strong>Morfologia Microscópica (Tipo Endometrioide):</strong> Proliferação glandular maligna com padrões variados (glandular, cribriforme, vilosoglandular, sólido). As glândulas são apinhadas, back-to-back, com pouquíssimo estroma interposto. Atipia nuclear é evidente. Invasão do estroma endometrial e/ou miométrio.</li>
+                             </ul>
+                              <div class="slide-description">
+                                 <h5>Lâmina: A.175 - Adenocarcinoma do Endométrio</h5>
+                                 <p><strong>Descrição Histológica Esperada (Tipo Endometrioide):</strong> Proliferação neoplásica de glândulas endometriais com arquitetura complexa e confluente (back-to-back). As células tumorais exibem atipia nuclear (núcleos aumentados, irregulares, hipercromáticos ou vesiculosos, nucléolos evidentes). Figuras de mitose são geralmente frequentes. É crucial procurar por invasão do estroma endometrial adjacente ou, mais importante para o estadiamento, invasão do miométrio.</p>
+                                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Adenocarcinoma Endometrioide - Glândulas malignas confluentes invadindo o estroma]</div>
+                             </div>
+                         </li>
+                         <li><strong>Leiomiossarcoma:</strong> Tumor maligno raro derivado do músculo liso miometrial. Surge 'de novo', não da malignização de leiomiomas. Suspeitar em massas uterinas de crescimento rápido, especialmente na pós-menopausa.
+                             <ul>
+                                 <li><strong>Morfologia Macroscópica:</strong> Geralmente massa única, grande, carnosa, amarelada ou acinzentada, com áreas de necrose e hemorragia. Bordas infiltrativas, não encapsulada como o leiomioma.</li>
+                                 <li><strong>Morfologia Microscópica:</strong> Critérios diagnósticos incluem a combinação de: <strong>(1) Atipia citológica difusa e significativa</strong> (células pleomórficas, núcleos bizarros, hipercromáticos), <strong>(2) Necrose tumoral coagulativa</strong> (não isquêmica), e <strong>(3) Alta contagem mitótica</strong> (geralmente >10 mitoses por 10 campos de grande aumento).</li>
+                             </ul>
+                              <div class="slide-description">
+                                 <h5>Lâmina: Leiomiossarcoma (laminário) / A.193</h5>
+                                 <p><strong>Descrição Histológica Esperada:</strong> Proliferação de células fusiformes que lembram músculo liso, mas com acentuada atipia nuclear (pleomorfismo, hipercromasia, núcleos bizarros). Observam-se áreas de necrose tumoral coagulativa (células fantasmas eosinofílicas). Figuras de mitose, incluindo formas atípicas, são frequentes e devem ser quantificadas. A celularidade é geralmente alta e o padrão de crescimento é infiltrativo.</p>
+                                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Leiomiossarcoma - Atipia nuclear acentuada, mitoses frequentes, necrose tumoral]</div>
+                             </div>
+                         </li>
+                     </ul>
+                 </li>
+             </ul>
+
+             <h4>Pós-Menopausa:</h4>
+             <ul>
+                 <li><strong>Atrofia Endometrial:</strong> Causa mais comum de sangramento nesta fase. Endométrio fino e frágil, propenso a sangramento mínimo. Morfologia: endométrio fino, glândulas pequenas e esparsas em estroma denso, ou glândulas cisticamente dilatadas ("atrofia cística").</li>
+                 <li><strong>Pólipo Endometrial</strong></li>
+                 <li><strong>Hiperplasia Endometrial (especialmente Atípica/EIN)</strong></li>
+                 <li><strong>Adenocarcinoma do Endométrio:</strong> Incidência aumenta significativamente após a menopausa. Qualquer sangramento pós-menopausa deve ser investigado para excluir malignidade.</li>
+                 <li><strong>Leiomiossarcoma</strong> (raro)</li>
+                 <li>Terapia de Reposição Hormonal (pode causar sangramento por efeito proliferativo).</li>
+             </ul>
+
+             <h3>4. Diferenciar Endometriose / Adenomiose</h3>
+             <p>Ambas as condições envolvem a presença de tecido endometrial (glândulas e estroma) fora da sua localização normal (cavidade uterina), mas diferem no local ectópico.</p>
+
+             <table class="comparison-table">
+                 <thead>
+                     <tr>
+                         <th>Característica</th>
+                         <th>Endometriose</th>
+                         <th>Adenomiose</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         <td><strong>Definição</strong></td>
+                         <td>Presença de glândulas e estroma endometriais <strong>fora</strong> do útero.</td>
+                         <td>Presença de glândulas e estroma endometriais <strong>dentro</strong> do miométrio (músculo uterino).</td>
+                     </tr>
+                     <tr>
+                         <td><strong>Localização Comum</strong></td>
+                         <td>Ovários (formando endometriomas - "cistos de chocolate"), ligamentos uterossacros, fundo de saco de Douglas, peritônio pélvico, septo retovaginal, bexiga, intestino, cicatrizes cirúrgicas, locais distantes (raro).</td>
+                         <td>Dispersa ou focalmente dentro da parede muscular do útero (miométrio).</td>
+                     </tr>
+                      <tr>
+                         <td><strong>Patogenia (Teorias)</strong></td>
+                         <td>Menstruação retrógrada (implantação de células endometriais viáveis refluídas pelas trompas), metaplasia celômica, disseminação linfática/hematogênica, fatores imunológicos/genéticos.</td>
+                         <td>Invaginação da camada basal do endométrio para o miométrio, metaplasia de restos embrionários müllerianos, invasão linfática intramiometrial. Acredita-se que ocorra uma ruptura da interface endométrio-miométrio.</td>
+                     </tr>
+                     <tr>
+                         <td><strong>Morfologia Macroscópica</strong></td>
+                         <td>Implantes pequenos (avermelhados, azulados, "pólvora queimada"), cistos ovarianos com conteúdo achocolatado (endometriomas), aderências fibrosas extensas.</td>
+                         <td>Útero difusamente aumentado, globoso, consistência firme. Parede miometrial espessada. Na superfície de corte, miométrio com aspecto trabeculado, podem-se ver pequenos focos císticos ou hemorrágicos correspondentes aos ninhos de adenomiose. Não há cápsula definida.</td>
+                     </tr>
+                      <tr>
+                         <td><strong>Morfologia Microscópica</strong></td>
+                         <td>Presença de <strong>glândulas endometriais E estroma endometrial</strong> no tecido examinado (ex: parede do cisto ovariano, peritônio). Frequentemente associado a hemorragia antiga (hemossiderina) e fibrose/inflamação crônica reacional.</td>
+                         <td>Presença de <strong>glândulas endometriais E estroma endometrial</strong> localizados profundamente no miométrio (critério diagnóstico: > 2,5 mm abaixo da junção endométrio-miométrio, ou um campo de baixo aumento). Os focos ectópicos estão entremeados aos feixes musculares lisos hipertrofiados e hiperplásicos do miométrio.</td>
+                     </tr>
+                     <tr>
+                         <td><strong>Sintomas Principais</strong></td>
+                         <td>Dismenorreia, dor pélvica crônica, dispareunia profunda, infertilidade, sintomas relacionados ao local (disquezia, disúria).</td>
+                         <td>Dismenorreia, menorragia (HUP), dor pélvica, útero aumentado. Pode coexistir com leiomiomas.</td>
+                     </tr>
+                 </tbody>
+             </table>
+
+              <div class="slide-description">
+                  <h5>Lâmina: Endometriose (laminário) / A.160 / A.311 (Depende do sítio)</h5>
+                  <p><strong>Descrição Histológica Esperada (Ex: Endometriose Ovariana):</strong> Em meio a tecido ovariano ou estroma fibroso denso, identificam-se estruturas glandulares revestidas por epitélio do tipo endometrial (colunar simples, pode mostrar alterações cíclicas ou estar atrófico/metaplásico). Crucialmente, circundando essas glândulas, deve haver estroma endometrial (células fusiformes pequenas e compactas). Frequentemente, há evidência de hemorragia antiga (macrófagos carregados de hemossiderina) e reação inflamatória crônica e fibrótica ao redor dos focos.</p>
+                  <div class="image-placeholder">[IMAGEM: Fotomicrografia de Endometriose - Glândula e estroma endometriais em localização ectópica, com hemossiderina]</div>
+             </div>
+
+             <div class="slide-description">
+                 <h5>Lâmina: Adenomiose (laminário)</h5>
+                 <p><strong>Descrição Histológica Esperada:</strong> Observam-se feixes de músculo liso miometrial (células fusiformes eosinofílicas). Entremeados a esses feixes musculares, encontram-se ninhos compostos por glândulas endometriais (revestidas por epitélio colunar) e estroma endometrial circundante. Estes ninhos estão localizados profundamente na espessura da parede muscular, longe da interface com o endométrio da cavidade. O miométrio adjacente frequentemente mostra hipertrofia das fibras musculares.</p>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Adenomiose - Ninho de glândula e estroma endometriais dentro do miométrio]</div>
+             </div>
+
+             <p class="reference">Informações baseadas em conceitos gerais de patologia ginecológica.</p>
+        </section>
+
+        <section id="vulva">
+            <h2>Sessão 3: Patologia Vulvar</h2>
+
+            <h3>3. Principais Lesões Vulvares: Morfologia e Etiopatogenia</h3>
+
+            <h4>a) Cisto de Bartholin</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Resulta da obstrução do ducto da glândula de Bartholin (localizada bilateralmente no vestíbulo vulvar, responsável pela lubrificação). A obstrução pode ser causada por inflamação (Bartholinite - frequentemente polimicrobiana ou por gonococo/clamídia), trauma ou espessamento do muco. O acúmulo da secreção mucoide leva à dilatação do ducto e formação do cisto. Se o conteúdo se infectar, forma-se um abscesso de Bartholin.</li>
+                <li><strong>Morfologia Macroscópica:</strong> Lesão cística uni ou bilateral, localizada na porção posterior dos grandes lábios, geralmente indolor (cisto) ou extremamente dolorosa (abscesso), flutuante, de tamanho variável.</li>
+                <li><strong>Morfologia Microscópica:</strong> Cavidade cística revestida por epitélio ductal (transicional ou escamoso metaplásico). Se houver inflamação adjacente (Bartholinite), observa-se infiltrado inflamatório agudo (abscesso) ou crônico (cisto crônico) no tecido conjuntivo periglandular. As glândulas mucinosas de Bartholin podem ser vistas adjacentes ao cisto.</li>
+            </ul>
+            <div class="image-placeholder">[IMAGEM: Fotomicrografia de Cisto de Bartholin - Cavidade cística revestida por epitélio transicional/escamoso]</div>
+
+            <h4>b) Líquen Escleroso</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Doença inflamatória crônica de causa desconhecida, com provável componente autoimune. Afeta predominantemente mulheres pós-menopáusicas, mas pode ocorrer em qualquer idade. Caracteriza-se por afinamento da epiderme, fibrose/esclerose dérmica e inflamação crônica. Há um risco aumentado (embora baixo, ~1-5%) de desenvolvimento de carcinoma espinocelular vulvar associado ao líquen escleroso de longa data.</li>
+                <li><strong>Morfologia Macroscópica:</strong> Placas ou pápulas brancas, atróficas ("papel de cigarro"), lisas ou enrugadas. Pode haver fissuras, equimoses e perda das estruturas normais (fusão dos pequenos lábios, introito estenosado). Prurido intenso é comum.</li>
+                <li><strong>Morfologia Microscópica:</strong> Tríade clássica: <strong>(1) Hiperqueratose</strong> (espessamento da camada córnea), <strong>(2) Afinamento da epiderme</strong> (perda das cristas epidérmicas), <strong>(3) Esclerose/hialinização da derme papilar</strong> (zona de colágeno denso, acelular, rosa pálido logo abaixo da epiderme). Abaixo da zona esclerótica, geralmente há um infiltrado inflamatório linfocitário em banda na derme reticular. Pode haver degeneração hidrópica da camada basal.</li>
+            </ul>
+            <div class="image-placeholder">[IMAGEM: Fotomicrografia de Líquen Escleroso - Epiderme atrófica, hiperqueratose, esclerose dérmica, infiltrado linfocitário]</div>
+
+            <h4>c) Hiperplasia Escamosa Vulvar (anteriormente Líquen Simples Crônico ou Neurodermatite)</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Resposta da pele vulvar ao atrito ou coçadura crônica, geralmente secundária a uma condição pruriginosa subjacente (dermatite de contato, infecção fúngica, etc.) ou idiopática. Não é considerada uma lesão pré-maligna por si só.</li>
+                <li><strong>Morfologia Macroscópica:</strong> Placas espessadas, liquenificadas (acentuação das linhas da pele), esbranquiçadas ou acinzentadas, frequentemente com escoriações. Prurido é o sintoma principal.</li>
+                <li><strong>Morfologia Microscópica:</strong> Caracteriza-se por <strong>(1) Acantose</strong> (espessamento da epiderme, principalmente do estrato espinhoso), <strong>(2) Hiperqueratose</strong>, e frequentemente <strong>(3) Alongamento e espessamento das cristas epidérmicas</strong>. Pode haver algum infiltrado inflamatório crônico na derme superficial e fibrose dérmica leve a moderada. <strong>Não há atipia celular significativa.</strong></li>
+            </ul>
+             <div class="image-placeholder">[IMAGEM: Fotomicrografia de Hiperplasia Escamosa Vulvar - Acantose, hiperqueratose, alongamento das cristas epidérmicas]</div>
+
+            <h4>d) Condiloma Acuminado</h4>
+            <ul>
+                <li><strong>Etiopatogenia:</strong> Infecção sexualmente transmissível causada pelo Papilomavírus Humano (HPV), principalmente os tipos de baixo risco oncogênico (HPV 6 e 11).</li>
+                <li><strong>Morfologia Macroscópica:</strong> Lesões papilares ou verrucosas, únicas ou múltiplas, de cor rósea ou acinzentada, macias, com superfície irregular ("aspecto de couve-flor"). Podem ocorrer na vulva, períneo, vagina e colo do útero.</li>
+                <li><strong>Morfologia Microscópica:</strong> Arquitetura papilomatosa (projeções digitiformes de estroma fibrovascular revestidas por epitélio escamoso acantótico). Presença de <strong>coilocitose</strong>: células escamosas superficiais ou intermediárias com núcleo aumentado, irregular, hipercromático, rodeado por um halo claro perinuclear e citoplasma denso na periferia. Hiperqueratose e paraqueratose (núcleos retidos na camada córnea) também são comuns. Geralmente não há atipia significativa além da coilocitose.</li>
+            </ul>
+             <div class="image-placeholder">[IMAGEM: Fotomicrografia de Condiloma Acuminado - Papilomatose, acantose, coilocitose]</div>
+
+            <h4>e) Neoplasia Intraepitelial Vulvar (NIV) vs. Carcinoma Vulvar Invasivo</h4>
+            <p>A NIV é uma lesão precursora do carcinoma espinocelular (CEC) invasivo da vulva. Representa a proliferação de células escamosas atípicas confinadas ao epitélio, sem invasão da membrana basal.</p>
+            <ul>
+                <li><strong>Etiopatogenia da NIV/CEC Vulvar:</strong> Existem duas vias principais:
+                    <ol>
+                        <li><strong>Relacionada ao HPV (mais comum em mulheres jovens):</strong> Causada por tipos de HPV de alto risco oncogênico (principalmente HPV 16). A NIV associada ao HPV (geralmente do tipo usual ou uNIV, anteriormente NIV III) tende a ser multifocal e associada a lesões similares na vagina/colo. Morfologicamente, apresenta atipia de espessura total ou quase total do epitélio, com figuras de mitose em níveis superiores e perda de maturação.</li>
+                        <li><strong>Não relacionada ao HPV (mais comum em mulheres idosas):</strong> Frequentemente associada a dermatoses inflamatórias crônicas, como o líquen escleroso ou hiperplasia escamosa de longa data. A NIV associada (geralmente do tipo diferenciado ou dNIV) caracteriza-se por atipia confinada às camadas basais e parabasais, com maturação escamosa mais preservada nas camadas superiores, mas com atipia nuclear e queratinização anormal na base. Mutações no gene TP53 são comuns nesta via.</li>
+                    </ol>
+                </li>
+                 <li><strong>Morfologia Macroscópica (NIV):</strong> Lesões variadas: pápulas ou placas brancas (leucoplasia), pigmentadas (acastanhadas/avermelhadas) ou eritematosas. Podem ser únicas ou múltiplas.</li>
+                 <li><strong>Morfologia Microscópica (NIV):</strong>
+                     <ul>
+                         <li><strong>NIV Usual (uNIV, relacionada ao HPV):</strong> Desorganização arquitetural do epitélio escamoso com perda da maturação normal. Células basaloides ou imaturas com núcleos aumentados, hipercromáticos, pleomórficos e figuras de mitose (incluindo atípicas) ocupam grande parte ou toda a espessura do epitélio. Coilocitose pode estar presente.</li>
+                         <li><strong>NIV Diferenciada (dNIV, não relacionada ao HPV):</strong> Atipia nuclear proeminente (núcleos grandes, vesiculosos, nucléolos evidentes) e queratinização anormal (disqueratose, pérolas córneas intraepiteliais) restritas às camadas basais e parabasais. As camadas superiores mostram maturação escamosa mais preservada, embora possa haver alguma atipia residual.</li>
+                     </ul>
+                 </li>
+                 <li><strong>Carcinoma Espinocelular (CEC) Invasivo:</strong> Ocorre quando as células neoplásicas da NIV rompem a membrana basal e invadem a derme subjacente.
+                     <ul>
+                         <li><strong>Morfologia Macroscópica:</strong> Lesão endurecida, nodular, ulcerada ou exofítica (semelhante a couve-flor), geralmente na região dos grandes lábios ou clitóris.</li>
+                         <li><strong>Morfologia Microscópica:</strong> Ninhos, cordões ou lençóis de células escamosas atípicas infiltrando o estroma dérmico. As células tumorais exibem graus variáveis de atipia nuclear, pleomorfismo e atividade mitótica. Pode haver formação de queratina (pérolas córneas) nos tipos bem diferenciados, ou ausência de queratinização nos pouco diferenciados. A profundidade da invasão é um fator prognóstico crucial.</li>
+                     </ul>
+                 </li>
+            </ul>
+             <div class="image-placeholder">[IMAGEM: Fotomicrografia de NIV Usual (uNIV) - Atipia de espessura total, mitoses suprabasais]</div>
+             <div class="image-placeholder">[IMAGEM: Fotomicrografia de NIV Diferenciada (dNIV) - Atipia basal/parabasal, maturação superficial]</div>
+             <div class="image-placeholder">[IMAGEM: Fotomicrografia de Carcinoma Espinocelular Invasivo Vulvar - Ninhos de células escamosas atípicas invadindo a derme]</div>
+
+            <p class="reference">Informações baseadas em conceitos gerais de patologia vulvar.</p>
+        </section>
+
+         <section id="mama">
+             <h2>Sessão 4: Patologia Mamária</h2>
+
+             <h3>2. Comparação Histológica: Mama Reprodutiva vs. Pós-Menopausa</h3>
+             <p>A estrutura histológica da mama varia significativamente sob influência hormonal ao longo da vida da mulher.</p>
+             <table class="comparison-table">
+                 <thead>
+                     <tr>
+                         <th>Característica</th>
+                         <th>Mama no Período Reprodutivo (Influência Estrogênio/Progesterona)</th>
+                         <th>Mama na Pós-Menopausa (Baixos níveis hormonais)</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         <td><strong>Unidade Ducto-Lobular Terminal (TDLU)</strong></td>
+                         <td>Bem desenvolvida, numerosa. Composta por ácinos (estruturas glandulares secretoras) agrupados e ducto terminal.</td>
+                         <td>Atrofia progressiva. Redução no número e tamanho dos lóbulos e ácinos. As TDLUs tornam-se menos proeminentes.</td>
+                     </tr>
+                     <tr>
+                         <td><strong>Epitélio Glandular (Ácinos/Ductos)</strong></td>
+                         <td>Epitélio cuboidal a colunar baixo, com dupla camada (luminal/secretora e mioepitelial basal) evidente. Pode mostrar variações cíclicas (proliferação na fase lútea).</td>
+                         <td>Epitélio atrófico, achatado, menos ativo secretoriamente. A dupla camada pode ser menos óbvia.</td>
+                     </tr>
+                      <tr>
+                         <td><strong>Estroma Intralobular</strong></td>
+                         <td>Relativamente celular, frouxo, edematoso, com poucos adipócitos. Contém linfócitos e plasmócitos esparsos. Responde a hormônios.</td>
+                         <td>Torna-se menos celular, mais denso e fibrótico (colagenizado). Pode parecer relativamente mais proeminente devido à atrofia epitelial.</td>
+                     </tr>
+                     <tr>
+                         <td><strong>Estroma Interlobular</strong></td>
+                         <td>Tecido conjuntivo fibroso denso misturado com tecido adiposo.</td>
+                         <td>Aumento relativo do tecido adiposo e da fibrose no estroma interlobular. A densidade geral do tecido conjuntivo denso pode diminuir.</td>
+                     </tr>
+                     <tr>
+                         <td><strong>Aspecto Geral</strong></td>
+                         <td>Predomínio do componente fibroglandular sobre o adiposo (mama mais densa).</td>
+                         <td>Substituição gordurosa progressiva do parênquima fibroglandular (mama menos densa). Atrofia do componente epitelial.</td>
+                     </tr>
+                 </tbody>
+             </table>
+
+              <div class="slide-description">
+                  <h5>Lâmina: A.33 (Pode representar diferentes fases, verificar a descrição específica da lâmina)</h5>
+                  <p><strong>Instrução para Análise:</strong> Observar a proporção entre o tecido glandular (lóbulos e ductos) e o estroma (intralobular e interlobular/adiposo). Avaliar o desenvolvimento dos lóbulos e ácinos. No estroma intralobular, verificar a celularidade. Comparar estas características com as descritas para os períodos reprodutivo e pós-menopausa para determinar a fase representada.</p>
+                  <div class="image-placeholder">[IMAGEM: Fotomicrografia de Mama no Período Reprodutivo - Lóbulos bem desenvolvidos, estroma intralobular celular]</div>
+                  <div class="image-placeholder">[IMAGEM: Fotomicrografia de Mama na Pós-Menopausa - Atrofia lobular, estroma intralobular fibrótico, substituição gordurosa]</div>
+             </div>
+
+            <h3>3. Alterações Fibrocísticas da Mama</h3>
+             <ul>
+                 <li><strong>Definição e Etiopatogenia:</strong> Grupo heterogêneo de alterações mamárias benignas, extremamente comuns, que se acredita resultarem de uma resposta exagerada ou desregulada do parênquima mamário (epitélio e estroma) às flutuações hormonais cíclicas (estrogênio/progesterona) durante a idade reprodutiva. Não é considerada uma "doença" única, mas um espectro de achados morfológicos. A maioria das alterações fibrocísticas não confere risco aumentado significativo para câncer de mama, exceto aquelas com hiperplasia epitelial atípica.</li>
+                 <li><strong>Aspectos Morfológicos Principais (podem coexistir):</strong>
+                     <ul>
+                         <li><strong>Formação de Cistos:</strong> Dilatação de ductos e lóbulos (TDSLUs), formando cistos de tamanhos variados (microcistos a macrocistos palpáveis). Podem conter fluido claro, turvo ou seroso. Frequentemente revestidos por epitélio achatado ou atrófico, ou por células com <strong>metaplasia apócrina</strong> (células grandes, colunares, com citoplasma granular eosinofílico abundante e núcleos arredondados - característica benigna).</li>
+                         <li><strong>Fibrose Estromal:</strong> Aumento da quantidade de tecido conjuntivo fibroso denso no estroma interlobular e, às vezes, intralobular, contribuindo para a consistência firme ou endurecida da mama.</li>
+                         <li><strong>Adenose:</strong> Aumento no número de ácinos por lóbulo (adenose simples). Se associada a fibrose estromal proeminente que comprime e distorce os ácinos, é chamada de <strong>adenose esclerosante</strong> (pode mimetizar carcinoma invasivo radiológica e microscopicamente, mas a preservação da camada mioepitelial a diferencia).</li>
+                         <li><strong>Hiperplasia Epitelial (sem atipia):</strong> Aumento no número de camadas de células epiteliais (>2) revestindo ductos ou lóbulos. As células preenchem parcialmente o lúmen, mas não exibem atipia nuclear significativa. Os espaços formados são irregulares (fenestrações). Confere um risco levemente aumentado para câncer.</li>
+                         <li><strong>Hiperplasia Epitelial Atípica (Ductal ou Lobular):</strong> Proliferação epitelial que apresenta algumas das características citológicas e arquiteturais das neoplasias intraepiteliais (CDIS ou CLIS de baixo grau), mas não preenche todos os critérios diagnósticos. Confere um risco moderadamente aumentado para câncer de mama subsequente (em ambas as mamas).</li>
+                     </ul>
+                 </li>
+                 <li><strong>Morfologia Macroscópica:</strong> Pode variar desde áreas mal definidas de endurecimento e nodularidade difusa até cistos bem delimitados, azulados ou acastanhados ("blue dome cysts") quando não rotos.</li>
+             </ul>
+
+            <div class="slide-description">
+                <h5>Lâminas: A.43 / Link anatpat.unicamp.br/lamgin23.html - Alterações Fibrocísticas</h5>
+                <p><strong>Descrição Histológica Esperada:</strong> A lâmina provavelmente exibirá uma combinação das alterações descritas acima. Procure por:
+                    <ul>
+                        <li><strong>Cistos:</strong> Espaços dilatados revestidos por epitélio achatado ou com metaplasia apócrina (células grandes, rosas, com "snouts" apicais).</li>
+                        <li><strong>Fibrose:</strong> Aumento do tecido conjuntivo colagenizado no estroma.</li>
+                        <li><strong>Adenose:</strong> Lóbulos com número aumentado de ácinos, que podem estar comprimidos (adenose esclerosante).</li>
+                        <li><strong>Hiperplasia Epitelial:</strong> Ductos ou lóbulos com mais de duas camadas celulares, preenchendo parcialmente o lúmen, sem atipia significativa (para hiperplasia usual) ou com alguma atipia (para hiperplasia atípica - requer avaliação cuidadosa).</li>
+                        <li>Presença da dupla camada epitelial (luminal e mioepitelial) nas estruturas benignas (cistos, adenose, hiperplasia usual) é um sinal importante de benignidade (pode ser destacada com imuno-histoquímica para marcadores mioepiteliais como p63, CK5/6, calponina, SMA).</li>
+                    </ul>
+                </p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia mostrando Cisto com Metaplasia Apócrina]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia mostrando Fibrose Estromal e Adenose]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia mostrando Hiperplasia Epitelial Usual (Ductal)]</div>
+            </div>
+
+
+             <h3>4. Caracterização Histológica do Fibroadenoma</h3>
+             <ul>
+                 <li><strong>Definição e Etiopatogenia:</strong> Tumor benigno mais comum da mama feminina, especialmente em mulheres jovens (pico entre 20-30 anos). É uma neoplasia bifásica, composta pela proliferação de componentes epiteliais (glandulares) e estromais (fibroblásticos) de uma unidade ducto-lobular terminal. Acredita-se que seja hormônio-dependente (pode aumentar durante a gravidez/lactação ou com terapia estrogênica e regredir após a menopausa).</li>
+                 <li><strong>Morfologia Macroscópica:</strong> Nódulo bem delimitado, encapsulado (pseudo-cápsula de tecido mamário comprimido), firme, elástico, móvel, geralmente esférico ou ovalado. A superfície de corte é branco-acinzentada, com aspecto homogêneo ou levemente fasciculado, podendo apresentar fendas.</li>
+                 <li><strong>Morfologia Microscópica:</strong> Proliferação bifásica:
+                     <ul>
+                         <li><strong>Componente Estromal:</strong> Proliferação do estroma intralobular, que varia de frouxo e celular (especialmente em jovens) a denso, colagenizado e hipocelular (em mulheres mais velhas ou fibroadenomas antigos). As células estromais são fusiformes, uniformes, sem atipia ou mitoses significativas.</li>
+                         <li><strong>Componente Epitelial:</strong> Estruturas ductais/glandulares revestidas por dupla camada de células (epitelial luminal e mioepitelial basal). Essas estruturas são distorcidas pelo estroma proliferado.</li>
+                         <li><strong>Padrões Arquiteturais:</strong>
+                             <ul>
+                                 <li><em>Padrão Intracanalicular:</em> O estroma prolifera e comprime as estruturas ductais, que se tornam fendas alongadas e ramificadas. Predomina a compressão ductal pelo estroma.</li>
+                                 <li><em>Padrão Pericanalicular:</em> O estroma prolifera ao redor dos ductos, que permanecem arredondados ou ovais, sem compressão significativa. Predomina a proliferação estromal circundando ductos abertos.</li>
+                                 <li>Frequentemente, ambos os padrões coexistem no mesmo tumor.</li>
+                             </ul>
+                         </li>
+                         <li><strong>Características Chave:</strong> Nódulo bem circunscrito, proliferação bifásica epitelial-estromal, estroma intralobular característico, ductos com dupla camada preservada, ausência de atipia significativa ou invasão.</li>
+                     </ul>
+                 </li>
+             </ul>
+
+             <div class="slide-description">
+                 <h5>Lâminas: A.150 / P53 (pannoramic viewer) - Fibroadenoma</h5>
+                 <p><strong>Descrição Histológica Esperada:</strong> Observa-se um nódulo bem delimitado do tecido mamário adjacente. Dentro do nódulo, há uma proliferação de estroma fusocelular (variando de celular a colagenizado) e estruturas ductais/glandulares benignas. Avaliar o padrão: se os ductos estão comprimidos em fendas pelo estroma (intracanalicular) ou se o estroma circunda ductos mais abertos e arredondados (pericanalicular), ou uma mistura. As estruturas epiteliais devem exibir a dupla camada celular (luminal e mioepitelial). O estroma é tipicamente paucicelular a moderadamente celular, sem atipia ou mitoses proeminentes.</p>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Fibroadenoma - Padrão Intracanalicular (ductos comprimidos em fendas)]</div>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Fibroadenoma - Padrão Pericanalicular (estroma envolvendo ductos abertos)]</div>
+                 <div class="image-placeholder">[IMAGEM: Detalhe mostrando dupla camada epitelial em ducto de Fibroadenoma]</div>
+             </div>
+
+             <p class="reference">Informações baseadas em conceitos gerais de patologia mamária.</p>
+         </section>
+
+         <section id="placenta">
+            <h2>Sessão 5: Patologia da Placenta e Gravidez</h2>
+
+            <h3>4. Tipos Morfológicos de Infecções Placentárias (Corioamnionite)</h3>
+            <p>A infecção intra-amniótica (IIA), histologicamente conhecida como corioamnionite, é uma causa importante de parto prematuro e morbimortalidade neonatal e materna. A via ascendente (da vagina/cérvix) é a mais comum.</p>
+            <ul>
+                <li><strong>Via de Infecção:</strong> Ascendente (mais comum), hematogênica (transplacentária, ex: Listeria, CMV, Zika), retrógrada da cavidade peritoneal (rara), iatrogênica (procedimentos invasivos).</li>
+                <li><strong>Estágios da Inflamação Ascendente (Progressão Histológica):</strong>
+                    <ol>
+                        <li><strong>Corite/Corionite:</strong> Infiltrado inflamatório agudo (neutrófilos maternos) confinado ao córion subamniótico ou à placa coriônica.</li>
+                        <li><strong>Amnionite:</strong> Extensão do infiltrado neutrofílico para a membrana amniótica.</li>
+                        <li><strong>Vasculite Coriônica:</strong> Neutrófilos maternos migrando para a parede dos vasos sanguíneos da placa coriônica.</li>
+                        <li><strong>Funisite:</strong> Inflamação do cordão umbilical. Inicialmente arterite e/ou flebite umbilical (neutrófilos fetais na parede dos vasos), podendo progredir para inflamação do tecido conjuntivo do cordão (geléia de Wharton). Funisite necrotizante é um estágio avançado com necrose da parede vascular e estroma.</li>
+                    </ol>
+                </li>
+                <li><strong>Morfologia Macroscópica:</strong> As membranas (âmnio e córion) podem parecer opacas, espessadas, amareladas ou esverdeadas, e friáveis. Pode haver odor fétido. O cordão umbilical pode estar edemaciado ou com estrias esbranquiçadas ao longo dos vasos.</li>
+                <li><strong>Morfologia Microscópica:</strong> A característica definidora é o <strong>infiltrado de neutrófilos</strong>. A localização e intensidade do infiltrado definem o estágio e a gravidade.
+                    <ul>
+                        <li><strong>Resposta Inflamatória Materna:</strong> Neutrófilos maternos no córion, âmnio e decídua basal.</li>
+                        <li><strong>Resposta Inflamatória Fetal:</strong> Neutrófilos fetais migrando para fora dos vasos coriônicos e umbilicais para a placa coriônica, membranas e cordão.</li>
+                    </ul>
+                </li>
+                 <li><strong>Infecções Hematogênicas (Vilites):</strong> A inflamação se concentra nas vilosidades coriônicas (vilite). Pode haver infiltrado mononuclear (linfócitos, plasmócitos, histiócitos - ex: CMV, toxoplasmose) ou neutrofílico (ex: Listeria, com microabscessos). A vilite crônica de etiologia desconhecida (VUE) também ocorre.</li>
+            </ul>
+
+            <div class="slide-description">
+                <h5>Lâminas: A.348 / A.347 - Infecção Placentária / Corioamnionite / Funisite</h5>
+                <p><strong>Descrição Histológica Esperada (Corioamnionite Aguda Ascendente):</strong>
+                    <ul>
+                        <li><strong>Membranas (Âmnio e Córion):</strong> Procurar por infiltrado de neutrófilos migrando da decídua (materna) através do córion e para o âmnio. Avaliar a intensidade (leve, moderada, acentuada). Necrose epitelial amniótica pode estar presente.</li>
+                        <li><strong>Placa Coriônica:</strong> Infiltrado neutrofílico no tecido conjuntivo subamniótico e na parede dos vasos coriônicos (vasculite).</li>
+                        <li><strong>Cordão Umbilical (Funisite):</strong> Procurar por neutrófilos (fetais) na parede das veias e/ou artérias umbilicais e na geléia de Wharton. Funisite necrotizante mostra anéis concêntricos de neutrófilos e necrose ao redor dos vasos.</li>
+                        <li><strong>Vilosidades:</strong> Geralmente normais na infecção ascendente, a menos que haja septicemia fetal secundária. Em caso de suspeita de infecção hematogênica, procurar por vilite (inflamação nas vilosidades).</li>
+                    </ul>
+                </p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia de Corioamnionite - Neutrófilos infiltrando o córion e o âmnio]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia de Funisite - Neutrófilos na parede de vaso umbilical e geléia de Wharton]</div>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Vilite - Inflamação dentro das vilosidades coriônicas]</div>
+            </div>
+
+            <h3>5. Gravidez Tubária (Ectópica)</h3>
+            <ul>
+                <li><strong>O que é?</strong> Implantação do blastocisto fora da cavidade uterina. A localização mais comum (90%) é a tuba uterina (geralmente na ampola). Outros locais incluem ovário, cavidade abdominal e colo do útero.</li>
+                <li><strong>Evolução:</strong> A tuba uterina não é adequada para suportar o crescimento fetal e placentário. A evolução mais comum é a <strong>ruptura tubária</strong> (geralmente entre 6-12 semanas), causando hemorragia intraperitoneal maciça (hemoperitôneo), dor abdominal aguda e choque hipovolêmico – uma emergência médica. Outras possibilidades incluem abortamento tubário (extrusão do produto conceptual pela fímbria para a cavidade abdominal) ou, raramente, regressão espontânea.</li>
+                <li><strong>Morfologia:</strong>
+                    <ul>
+                        <li><strong>Macroscopia (Peça Cirúrgica - Salpingectomia):</strong> A tuba uterina está distendida, edemaciada, com coloração violácea ou vermelho-escura devido à hemorragia intramural e intraluminal. Pode haver um ponto de ruptura evidente com coágulos sanguíneos aderidos ou livres na cavidade pélvica/abdominal. O embrião/feto raramente é identificado macroscopicamente. O corpo lúteo gravídico estará presente no ovário ipsilateral ou contralateral.</li>
+                        <li><strong>Microscopia:</strong> Identificação de <strong>vilosidades coriônicas</strong> (estruturas ramificadas revestidas por trofoblasto – sincício e citotrofoblasto) e/ou tecido trofoblástico intermediário infiltrando a parede da tuba uterina (mucosa, muscular, serosa). Há extensa hemorragia, necrose tecidual e infiltrado inflamatório na parede tubária. O lúmen pode conter coágulos e restos deciduais (decidualização do estroma tubário pela progesterona).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="piece-description">
+                 <h5>Peça: GF-41 - Gravidez Tubária Rota</h5>
+                 <p><strong>Descrição Macroscópica Esperada:</strong> Segmento de tuba uterina aumentado de calibre, de coloração vermelho-escura a violácea. A superfície externa pode mostrar um ponto de ruptura com coágulos sanguíneos aderidos. Ao corte, a parede está espessada por hemorragia e edema, e o lúmen pode estar preenchido por coágulos e/ou tecido acinzentado friável (restos ovulares). As fímbrias podem estar edemaciadas e hemorrágicas.</p>
+                 <div class="image-placeholder">[IMAGEM: Foto da Peça Macroscópica GF-41 - Tuba distendida, hemorrágica, possivelmente rota]</div>
+                 <p><strong>Descrição Microscópica Confirmatória:</strong> Presença de vilosidades coriônicas e/ou trofoblasto infiltrando a parede muscular da tuba, associada a hemorragia extensa e necrose.</p>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Gravidez Tubária - Vilosidades coriônicas na parede da tuba com hemorragia]</div>
+            </div>
+
+            <h3>6. Morfologia da Placenta na Pré-Eclâmpsia e Complicações</h3>
+            <p>A pré-eclâmpsia é uma síndrome multissistêmica caracterizada por hipertensão e proteinúria (ou disfunção de órgãos-alvo) após 20 semanas de gestação. Acredita-se que a causa primária seja uma placentação anormal com perfusão inadequada.</p>
+            <ul>
+                 <li><strong>Patogenia (Placentária):</strong> Falha na remodelação fisiológica das artérias espiraladas uterinas pelo trofoblasto extravilositário invasivo. Normalmente, essas artérias perdem sua camada muscular e reatividade vascular, tornando-se vasos de baixa resistência e alto fluxo. Na pré-eclâmpsia, essa remodelação é incompleta ou ausente. As artérias permanecem estreitas e responsivas a vasoconstritores, levando à hipoperfusão placentária, hipóxia e isquemia intermitentes. Isso causa estresse oxidativo e liberação de fatores antiangiogênicos (como sFlt-1 e endoglina solúvel) e pró-inflamatórios da placenta para a circulação materna, causando disfunção endotelial sistêmica e os sinais/sintomas da doença.</li>
+                 <li><strong>Morfologia Macroscópica da Placenta:</strong> A placenta pode ser menor que o esperado para a idade gestacional. Frequentemente observam-se <strong>infartos placentários</strong> (áreas firmes, pálidas ou amareladas, bem delimitadas, de tamanhos variados), hematomas retroplacentários (coágulos entre a placenta e a parede uterina, associados ao descolamento prematuro) e aumento da frequência de calcificações.</li>
+                 <li><strong>Morfologia Microscópica da Placenta:</strong>
+                     <ul>
+                         <li><strong>Lesões Vasculares Maternas (Decídua Basal/Arteríolas Espiraladas):</strong> <strong>Aterose aguda</strong> (lesão característica): necrose fibrinoide da parede vascular, infiltração por macrófagos espumosos (lipófagos) e infiltrado linfocitário perivascular. Ausência da remodelação fisiológica (vasos com paredes musculares espessadas). Trombose vascular.</li>
+                         <li><strong>Lesões Vilositárias (Indicativas de Isquemia/Hipóxia):</strong> Aumento de <strong>nós sinciciais</strong> (agregados de núcleos do sinciciotrofoblasto), espessamento da membrana basal trofoblástica, edema do estroma vilositário, proliferação de células de Hofbauer (macrófagos vilositários), infartos vilositários (necrose isquêmica das vilosidades), e ocasionalmente, <strong>corangiose</strong> (aumento da vascularização capilar vilositária como resposta à hipóxia crônica).</li>
+                         <li><strong>Aumento da deposição de fibrina perivilositária.</strong></li>
+                     </ul>
+                 </li>
+                 <li><strong>Complicações Materno-Fetais Decorrentes:</strong>
+                     <ul>
+                         <li><strong>Maternas:</strong> Eclâmpsia (convulsões), síndrome HELLP (hemólise, enzimas hepáticas elevadas, plaquetopenia), edema pulmonar, insuficiência renal aguda, acidente vascular cerebral, coagulação intravascular disseminada (CIVD), descolamento prematuro de placenta, morte materna.</li>
+                         <li><strong>Fetais/Neontais:</strong> Restrição de crescimento intrauterino (RCIU), prematuridade (frequentemente por indicação médica de interrupção), oligodrâmnio, hipóxia fetal crônica, sofrimento fetal agudo, morte fetal intrauterina, complicações da prematuridade no período neonatal.</li>
+                     </ul>
+                 </li>
+            </ul>
+
+            <div class="slide-description">
+                <h5>Lâmina: A.348 - Placenta (Pode mostrar achados de Pré-Eclâmpsia ou Infecção, verificar contexto)</h5>
+                <p><strong>Descrição Histológica Esperada (Achados de Pré-Eclâmpsia/Insuficiência Placentária):</strong>
+                    <ul>
+                        <li>Procurar por aumento do número de nós sinciciais nas vilosidades terminais.</li>
+                        <li>Avaliar a presença de infartos vilositários (áreas de "vilosidades fantasmas" eosinofílicas, sem núcleos).</li>
+                        <li>Observar espessamento da membrana basal sob o trofoblasto (pode requerer colorações especiais como PAS).</li>
+                        <li>Na decídua basal (se presente na amostra), procurar por arteríolas espiraladas não remodeladas ou com aterose aguda (necrose fibrinoide, macrófagos espumosos).</li>
+                        <li>Aumento da fibrina perivilositária.</li>
+                    </ul>
+                </p>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia de Placenta com Aumento de Nós Sinciciais]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia de Infarto Placentário]</div>
+                <div class="image-placeholder">[IMAGEM: Fotomicrografia de Arteríola Espiralada com Aterose Aguda]</div>
+             </div>
+
+            <h3>7. Mola Hidatiforme e Coriocarcinoma</h3>
+            <p>São formas de Doença Trofoblástica Gestacional (DTG), um espectro de tumores e lesões relacionadas à proliferação do tecido trofoblástico placentário.</p>
+
+            <h4>Mola Hidatiforme (Completa e Parcial)</h4>
+            <ul>
+                <li><strong>Definição:</strong> Gravidez anormal caracterizada por edema acentuado das vilosidades coriônicas (aspecto de "cacho de uva") e proliferação variável do trofoblasto.</li>
+                <li><strong>Etiopatogenia e Genética:</strong>
+                    <ul>
+                        <li><strong>Mola Completa (MC):</strong> Resulta da fertilização de um óvulo "vazio" (sem material genético feminino) por um espermatozoide haploide que duplica seu material (90% dos casos, cariótipo 46,XX, todo paterno) ou por dois espermatozoides (10%, cariótipo 46,XY ou 46,XX, todo paterno). <strong>Não há tecido fetal.</strong> Maior risco de progressão para DTG persistente/coriocarcinoma.</li>
+                        <li><strong>Mola Parcial (MP):</strong> Resulta da fertilização de um óvulo normal por dois espermatozoides ou por um espermatozoide diploide. O cariótipo é triploide (ex: 69,XXY; 69,XXX; 69,XYY). <strong>Há tecido fetal presente</strong> (geralmente não viável) junto com as vilosidades hidrópicas. Menor risco de progressão maligna.</li>
+                    </ul>
+                </li>
+                 <li><strong>Morfologia Macroscópica:</strong>
+                     <ul>
+                         <li><strong>MC:</strong> Útero aumentado, preenchido por massa de vesículas translúcidas ("cachos de uva"), frágeis, que representam as vilosidades edemaciadas. Ausência de feto ou saco amniótico. Hemorragia abundante é comum.</li>
+                         <li><strong>MP:</strong> Mistura de vilosidades hidrópicas e vilosidades de aparência normal. Presença de partes fetais ou saco amniótico. O útero pode estar aumentado, mas geralmente menos que na MC.</li>
+                     </ul>
+                      <div class="piece-description">
+                          <h5>Peça: G-17 - Mola Hidatiforme</h5>
+                          <p><strong>Descrição Macroscópica Esperada (Provavelmente Completa):</strong> Cavidade uterina distendida por múltiplas estruturas vesiculares, translúcidas, de tamanhos variados, semelhantes a um cacho de uva, preenchendo a cavidade. Pode haver coágulos sanguíneos entremeados. Ausência de estruturas fetais identificáveis.</p>
+                         <div class="image-placeholder">[IMAGEM: Foto da Peça Macroscópica G-17 - Massa de vesículas hidrópicas]</div>
+                      </div>
+                 </li>
+                 <li><strong>Morfologia Microscópica:</strong>
+                     <ul>
+                         <li><strong>MC (Lâmina A.70):</strong> <strong>(1) Edema acentuado (hidropisia) da maioria das vilosidades coriônicas</strong>, com formação de cisternas centrais avasculares ou hipovasculares. <strong>(2) Proliferação circunferencial e difusa do cito e sinciciotrofoblasto</strong> ao redor das vilosidades hidrópicas, frequentemente com atipia. <strong>(3) Ausência de tecido embrionário/fetal.</strong></li>
+                         <li><strong>MP:</strong> <strong>(1) População mista de vilosidades:</strong> algumas grandes e hidrópicas (com cisternas), outras pequenas e fibróticas de contorno irregular ("fiordes"). <strong>(2) Proliferação trofoblástica focal e menos acentuada</strong> que na MC, geralmente mais proeminente no sinciciotrofoblasto. <strong>(3) Presença de tecido embrionário/fetal</strong> (eritrócitos fetais nucleados nos capilares vilositários, partes fetais). Inclusões trofoblásticas no estroma vilositário são características.</li>
+                     </ul>
+                      <div class="slide-description">
+                          <h5>Lâmina: A.70 - Mola Hidatiforme (Provavelmente Completa)</h5>
+                          <p><strong>Descrição Histológica Esperada (Mola Completa):</strong> Observam-se vilosidades coriônicas marcadamente aumentadas de tamanho devido ao edema do estroma, muitas com cavitação central (cisternas). Os capilares vilositários são escassos ou ausentes. Há uma proliferação exuberante e circunferencial tanto do citotrofoblasto (células poligonais com citoplasma claro) quanto do sinciciotrofoblasto (massas multinucleadas citoplasmáticas eosinofílicas) revestindo as vilosidades. Pode haver atipia trofoblástica. Não se identifica tecido fetal.</p>
+                         <div class="image-placeholder">[IMAGEM: Fotomicrografia de Mola Hidatiforme Completa - Vilosidades hidrópicas, proliferação trofoblástica difusa]</div>
+                         <div class="image-placeholder">[IMAGEM: Fotomicrografia de Mola Hidatiforme Parcial - Vilosidades mistas, proliferação focal, tecido fetal/capilares com cél. fetais]</div>
+                      </div>
+                 </li>
+            </ul>
+
+            <h4>Coriocarcinoma</h4>
+            <ul>
+                <li><strong>Definição:</strong> Neoplasia maligna altamente agressiva do trofoblasto (cito e sinciciotrofoblasto), sem formação de vilosidades coriônicas.</li>
+                <li><strong>Etiopatogenia:</strong> Pode surgir após:
+                    <ul>
+                        <li>Mola hidatiforme (50% dos casos, maior risco após MC)</li>
+                        <li>Abortamento espontâneo (25%)</li>
+                        <li>Gravidez ectópica (raro)</li>
+                        <li>Gravidez a termo normal (25%)</li>
+                        <li>Raramente, de células germinativas em ovários ou testículos (coriocarcinoma não gestacional).</li>
+                    </ul>
+                 </li>
+                 <li><strong>Morfologia Macroscópica:</strong> Massa tumoral carnosa, frequentemente grande, amarelada ou acinzentada, com extensas áreas de <strong>necrose e hemorragia</strong>. É altamente invasivo, infiltrando o miométrio e vasos sanguíneos.</li>
+                 <li><strong>Morfologia Microscópica (Lâmina A.174):</strong> Proliferação maligna bifásica de <strong>cito e sinciciotrofoblasto</strong> anaplásicos, dispostos em lençóis e plexos, sem formar estruturas vilositárias. As células exibem acentuado pleomorfismo nuclear, hipercromasia e atividade mitótica elevada (incluindo formas atípicas). Caracteristicamente, há <strong>invasão vascular maciça</strong>, necrose extensa e hemorragia. A ausência de vilosidades é crucial para o diagnóstico.</li>
+                 <li><strong>Comportamento Clínico:</strong> Tende a metastatizar precocemente por via hematogênica, principalmente para <strong>pulmões</strong> e <strong>vagina</strong>, mas também cérebro, fígado, rins. Apesar da agressividade, é altamente sensível à quimioterapia, mesmo com metástases disseminadas. O marcador tumoral β-hCG é fundamental para diagnóstico, monitoramento e avaliação de resposta ao tratamento.</li>
+            </ul>
+
+            <div class="slide-description">
+                 <h5>Lâmina: A.174 - Coriocarcinoma</h5>
+                 <p><strong>Descrição Histológica Esperada:</strong> Observa-se uma proliferação neoplásica maligna composta por uma mistura íntima de células do citotrofoblasto (mononucleadas, poligonais) e sinciciotrofoblasto (multinucleadas, eosinofílicas), ambas exibindo marcada atipia nuclear e pleomorfismo. Estas células estão dispostas em lençóis e massas infiltrativas, com ausência completa de formação de vilosidades coriônicas. São proeminentes a necrose tumoral extensa, hemorragia abundante e invasão de vasos sanguíneos pelo tumor.</p>
+                 <div class="image-placeholder">[IMAGEM: Fotomicrografia de Coriocarcinoma - Lençóis de cito e sinciciotrofoblasto atípicos, sem vilosidades, com necrose/hemorragia]</div>
+            </div>
+
+            <p class="reference">Informações baseadas em conceitos gerais de patologia placentária e da gravidez.</p>
+        </section>
+
+    </div>
+</body>
+</html>
