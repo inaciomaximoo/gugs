@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Simulador de Provas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --primary-light: #4cc9f0;
+            --secondary: #3f37c9;
+            --correct: #2ecc71;
+            --correct-light: rgba(46, 204, 113, 0.1);
+            --incorrect: #e74c3c;
+            --incorrect-light: rgba(231, 76, 60, 0.1);
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #adb5bd;
+            --gray-light: #e9ecef;
+            --white: #ffffff;
+            --font-main: 'Poppins', sans-serif;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #4895ef;
+            --primary-light: #4361ee;
+            --secondary: #4cc9f0;
+            --correct: #27ae60;
+            --correct-light: rgba(39, 174, 96, 0.1);
+            --incorrect: #c0392b;
+            --incorrect-light: rgba(192, 57, 43, 0.1);
+            --light: #1a1a1a;
+            --dark: #f8f9fa;
+            --gray: #495057;
+            --gray-light: #2d2d2d;
+            --white: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
+            transition: var(--transition);
+            padding: 12px;
+            -webkit-font-smoothing: antialiased;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 18px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 12px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .dark-mode-toggle {
+            background: var(--light);
+            border: 2px solid var(--gray);
+            border-radius: 25px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            border: 2px solid var(--gray);
+            border-radius: 12px;
+            background: var(--light);
+            color: var(--dark);
+            cursor: pointer;
+            width: 100%;
+            max-width: 100%;
+            font-family: var(--font-main);
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        input[type="file"]:hover {
+            border-color: var(--primary);
+        }
+
+        .question-container {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid var(--gray);
+            transition: var(--transition);
+        }
+
+        .question-container.correct {
+            border-left: 6px solid var(--correct);
+            background-color: var(--correct-light);
+        }
+
+        .question-container.incorrect {
+            border-left: 6px solid var(--incorrect);
+            background-color: var(--incorrect-light);
+        }
+
+        .question-number {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .question-text {
+            margin-bottom: 18px;
+            white-space: pre-line;
+            line-height: 1.5;
+            font-size: 1.1rem;
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: block;
+            box-shadow: var(--shadow);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 2px solid var(--gray);
+            border-radius: 10px;
+            background: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            min-width: 18px;
+            min-height: 18px;
+            margin-top: 4px;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .correct-answer {
+            color: var(--correct);
+            font-weight: 600;
+            margin-top: 15px;
+            display: none;
+            padding: 12px;
+            background-color: var(--correct-light);
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: var(--gray-light);
+            border-radius: 10px;
+            display: none;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .nav-button {
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: var(--gray);
+        }
+
+        .instant-feedback {
+            padding: 14px;
+            margin: 15px 0;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            font-size: 1.1rem;
+        }
+
+        .instant-feedback.correct {
+            background-color: var(--correct-light);
+            color: var(--correct);
+            border-left: 6px solid var(--correct);
+        }
+
+        .instant-feedback.incorrect {
+            background-color: var(--incorrect-light);
+            color: var(--incorrect);
+            border-left: 6px solid var(--incorrect);
+        }
+
+        #quizPage {
+            display: block;
+        }
+
+        #resultsPage {
+            display: none;
+        }
+
+        .results-container {
+            margin-top: 20px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .final-percentage {
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--gray);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .questions-review {
+            margin-top: 20px;
+        }
+
+        .question-result {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            border-left: 6px solid var(--gray);
+            border: 2px solid var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .question-result.correct {
+            border-left-color: var(--correct);
+            background-color: var(--correct-light);
+        }
+
+        .question-result.incorrect {
+            border-left-color: var(--incorrect);
+            background-color: var(--incorrect-light);
+        }
+
+        .question-result-options {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .question-result-option {
+            padding: 12px;
+            border-radius: 10px;
+            background: var(--white);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .question-result-option.correct {
+            background: var(--correct-light);
+            border-left: 4px solid var(--correct);
+        }
+
+        .question-result-option.selected {
+            background: var(--incorrect-light);
+            border-left: 4px solid var(--incorrect);
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            font-family: var(--font-main);
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+        }
+
+        .action-button:hover {
+            background: var(--primary-light);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--light);
+            border-radius: 12px;
+            margin: 18px 0;
+            height: 15px;
+            border: 2px solid var(--gray);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 12px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .additional-stats {
+            margin-top: 20px;
+        }
+
+        .additional-charts {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .time-stat {
+            margin-top: 20px;
+        }
+
+        /* Estilos para o popup de feedback */
+        .feedback-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 15px;
+        }
+
+        .feedback-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .feedback-content {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .feedback-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            padding: 5px;
+            z-index: 1;
+        }
+
+        .feedback-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .feedback-stats {
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .feedback-correct {
+            color: var(--correct);
+            font-weight: 600;
+        }
+
+        .feedback-incorrect {
+            color: var(--incorrect);
+            font-weight: 600;
+        }
+
+        .feedback-percentage {
+            font-size: 1.3rem;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .feedback-continue {
+            margin-top: 18px;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .feedback-continue:hover {
+            background-color: var(--primary-light);
+        }
+
+        .feedback-mistakes {
+            margin-top: 18px;
+            max-height: 50vh;
+            overflow-y: auto;
+            border-top: 2px solid var(--gray-light);
+            padding-top: 15px;
+        }
+
+        .feedback-mistake-item {
+            margin-bottom: 15px;
+            padding: 14px;
+            background-color: var(--incorrect-light);
+            border-radius: 12px;
+            border-left: 6px solid var(--incorrect);
+            text-align: left;
+        }
+
+        .feedback-mistake-question {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .feedback-mistake-option {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .feedback-mistake-correct {
+            background-color: var(--correct-light);
+            border-left: 4px solid var(--correct);
+        }
+
+        .feedback-mistake-selected {
+            background-color: var(--incorrect-light);
+            border-left: 4px solid var(--incorrect);
+        }
+
+        /* Media Queries para telas maiores */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .additional-charts {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .navigation {
+                flex-direction: row;
+            }
+            
+            .feedback-content {
+                padding: 25px;
+                max-width: 700px;
+            }
+        }
+
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 350px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            .question-container, .question-result {
+                padding: 12px;
+            }
+            
+            .option, .question-result-option {
+                padding: 10px;
+                font-size: 1rem;
+            }
+            
+            .nav-button, .action-button {
+                padding: 12px;
+                font-size: 1rem;
+            }
+            
+            .feedback-content {
+                padding: 15px;
+            }
+            
+            .feedback-title {
+                font-size: 1.2rem;
+            }
+            
+            .feedback-stats {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Página do Quiz -->
+        <div id="quizPage">
+            <div class="header">
+                <h1>Simulador de Provas</h1>
+                <button class="dark-mode-toggle" id="darkModeToggle">
+                    <span id="darkModeIcon">🌙</span>
+                    <span>Modo Escuro</span>
+                </button>
+            </div>
+
+            <input type="file" id="jsonInput" accept=".json">
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div id="currentQuestion"></div>
+
+            <div class="instant-feedback" id="instantFeedback"></div>
+
+            <div class="navigation">
+                <button onclick="previousQuestion()" id="prevBtn" class="nav-button" disabled>Anterior</button>
+                <button onclick="nextQuestion()" id="nextBtn" class="nav-button">Próxima</button>
+                <button onclick="finishTest()" id="finishBtn" class="nav-button" style="display: none;">Finalizar Prova</button>
+            </div>
+        </div>
+
+        <!-- Página de Resultados -->
+        <div id="resultsPage">
+            <div class="header">
+                <h1>Resultados da Prova</h1>
+                <button class="dark-mode-toggle" id="darkModeToggleResults">
+                    <span id="darkModeIconResults">🌙</span>
+                    <span>Modo Escuro</span>
+                </button>
+            </div>
+
+            <div class="results-container">
+                <div class="results-header">
+                    <div class="final-score" id="finalScoreText"></div>
+                    <div class="final-percentage" id="finalPercentageText"></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Desempenho Geral</h3>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Progresso nas Tentativas</h3>
+                        <div class="chart-container">
+                            <canvas id="progressChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Acertos por Área</h3>
+                        <div class="chart-container">
+                            <canvas id="areasChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Questões com Erros</h3>
+                        <div class="chart-container">
+                            <canvas id="mistakesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="additional-stats">
+                    <h3>Estatísticas Adicionais</h3>
+                    
+                    <div class="additional-charts">
+                        <div class="stat-card">
+                            <h4>Distribuição de Dificuldade</h4>
+                            <div class="chart-container">
+                                <canvas id="difficultyChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <h4>Tempo por Questão</h4>
+                            <div class="chart-container">
+                                <canvas id="timePerQuestionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-stat">
+                        <div class="stat-card">
+                            <h4>Evolução do Desempenho</h4>
+                            <div class="chart-container">
+                                <canvas id="performanceEvolutionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="questions-review">
+                    <h3>Análise Detalhada por Questão</h3>
+                    <div id="questionsAnalysis"></div>
+                </div>
+
+                <div class="actions">
+                    <button onclick="startNewAttempt()" class="action-button">Nova Tentativa (40 questões)</button>
+                    <button onclick="loadNewFile()" class="action-button">Carregar Novo Arquivo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup de Feedback -->
+    <div class="feedback-popup" id="feedbackPopup">
+        <div class="feedback-content">
+            <button class="feedback-close" id="closeFeedback">×</button>
+            <h3 class="feedback-title">Seu desempenho no bloco</h3>
+            <div class="feedback-stats">
+                Você respondeu <span id="feedbackTotal">5</span> questões neste bloco.
+            </div>
+            <div class="feedback-stats">
+                <span class="feedback-correct">Acertos: <span id="feedbackCorrect">0</span></span> | 
+                <span class="feedback-incorrect">Erros: <span id="feedbackIncorrect">0</span></span>
+            </div>
+            <div class="feedback-percentage">
+                Taxa de acertos: <span id="feedbackPercentage">0</span>%
+            </div>
+            
+            <div class="feedback-mistakes" id="feedbackMistakes">
+                <!-- As questões erradas serão inseridas aqui pelo JavaScript -->
+            </div>
+            
+            <button class="feedback-continue" id="continueButton">Continuar</button>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let allQuestions = [];
+        let currentTestQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let testStatistics = {
+            correct: [],
+            incorrect: [],
+            attemptsHistory: [],
+            performanceByArea: {},
+            questionMistakes: {} // Rastrear erros por questão
+        };
+        let answeredQuestions = 0;
+        let answeredInBlock = 0;
+        let correctInBlock = 0;
+        let showFeedbackOnNext = false;
+        let currentAttempt = 0; // Contador de tentativas
+        let charts = {
+            performance: null,
+            progress: null,
+            areas: null,
+            mistakes: null,
+            difficulty: null,
+            timePerQuestion: null,
+            performanceEvolution: null
+        };
+
+        // Elementos DOM
+        const quizPage = document.getElementById('quizPage');
+        const resultsPage = document.getElementById('resultsPage');
+        const currentQuestionDiv = document.getElementById('currentQuestion');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const finishBtn = document.getElementById('finishBtn');
+        const jsonInput = document.getElementById('jsonInput');
+        const finalScoreText = document.getElementById('finalScoreText');
+        const finalPercentageText = document.getElementById('finalPercentageText');
+        const questionsAnalysis = document.getElementById('questionsAnalysis');
+        const progressBar = document.getElementById('progressBar');
+        const instantFeedback = document.getElementById('instantFeedback');
+        const feedbackPopup = document.getElementById('feedbackPopup');
+        const closeFeedback = document.getElementById('closeFeedback');
+        const continueButton = document.getElementById('continueButton');
+        const feedbackTotal = document.getElementById('feedbackTotal');
+        const feedbackCorrect = document.getElementById('feedbackCorrect');
+        const feedbackIncorrect = document.getElementById('feedbackIncorrect');
+        const feedbackPercentage = document.getElementById('feedbackPercentage');
+        const feedbackMistakes = document.getElementById('feedbackMistakes');
+
+        // Modo Noturno
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const darkModeToggleResults = document.getElementById('darkModeToggleResults');
+        const darkModeIconResults = document.getElementById('darkModeIconResults');
+
+        // Alternar modo escuro/claro
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+            darkModeIconResults.textContent = isDark ? '☀️' : '🌙';
+            
+            if (resultsPage.style.display === 'block') {
+                updateCharts();
+            }
+        }
+
+        // Verificar modo escuro no carregamento
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.textContent = '☀️';
+            darkModeIconResults.textContent = '☀️';
+        }
+
+        // Event listeners para os botões de modo escuro
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        darkModeToggleResults.addEventListener('click', toggleDarkMode);
+
+        // Fechar popup de feedback
+        closeFeedback.addEventListener('click', () => {
+            feedbackPopup.classList.remove('active');
+        });
+
+        continueButton.addEventListener('click', () => {
+            feedbackPopup.classList.remove('active');
+            if (currentQuestionIndex < currentTestQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayCurrentQuestion();
+                instantFeedback.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        // Carregar arquivo JSON com as questões
+        jsonInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    
+                    // Verificar se é um array ou um objeto com propriedade questions
+                    if (Array.isArray(data)) {
+                        allQuestions = data;
+                    } else if (data.questions && Array.isArray(data.questions)) {
+                        allQuestions = data.questions;
+                    } else {
+                        throw new Error('Formato de arquivo inválido. Deve ser um array de questões ou um objeto com propriedade "questions".');
+                    }
+                    
+                    if (allQuestions.length === 0) {
+                        throw new Error('O arquivo JSON não contém questões válidas.');
+                    }
+                    
+                    // Adicionar IDs às questões se não existirem
+                    allQuestions.forEach((q, index) => {
+                        if (!q.id) {
+                            q.id = `q-${index}`;
+                        }
+                    });
+                    
+                    // Inicializar contagem de erros para cada questão
+                    allQuestions.forEach((q, index) => {
+                        testStatistics.questionMistakes[index] = testStatistics.questionMistakes[index] || 0;
+                    });
+                    
+                    // Carregar histórico se existir
+                    const savedHistory = localStorage.getItem('testHistory');
+                    if (savedHistory) {
+                        const history = JSON.parse(savedHistory);
+                        testStatistics.attemptsHistory = history.attempts || [];
+                        testStatistics.questionMistakes = history.mistakes || {};
+                        currentAttempt = history.attemptCount || 0;
+                    }
+                    
+                    initializeTest();
+                } catch (error) {
+                    alert('Erro ao carregar o arquivo: ' + error.message);
+                    console.error(error);
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('Erro ao ler o arquivo. Tente novamente.');
+            };
+            
+            reader.readAsText(file);
+        });
+
+        // Iniciar novo teste
+        function initializeTest() {
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            answeredQuestions = 0;
+            answeredInBlock = 0;
+            correctInBlock = 0;
+            showFeedbackOnNext = false;
+            testStatistics.correct = [];
+            testStatistics.incorrect = [];
+            testStatistics.performanceByArea = {};
+            
+            // Incrementar contador de tentativas
+            currentAttempt++;
+            
+            // Selecionar questões conforme o ciclo
+            if (currentAttempt % 6 === 0) {
+                // 6ª prova (questões mais erradas)
+                currentTestQuestions = getMostMistakenQuestions(allQuestions, 40);
+            } else {
+                // Provas 1-5 (questões aleatórias sem repetição)
+                currentTestQuestions = getRandomQuestions(allQuestions, 40);
+            }
+            
+            // Mostrar página do quiz
+            quizPage.style.display = 'block';
+            resultsPage.style.display = 'none';
+            
+            displayCurrentQuestion();
+            updateProgressBar();
+        }
+
+        // Obter questões aleatórias sem repetição na mesma prova
+        function getRandomQuestions(questions, count) {
+            // Filtrar questões não usadas ainda nesta prova
+            const availableQuestions = questions.filter((q, index) => 
+                !currentTestQuestions.some(qt => qt.id === q.id)
+            );
+            
+            // Se não houver questões suficientes, reiniciar o pool
+            if (availableQuestions.length < count) {
+                const shuffled = [...questions].sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, count);
+            }
+            
+            const shuffled = [...availableQuestions].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Obter questões mais erradas pelo usuário
+        function getMostMistakenQuestions(questions, count) {
+            // Criar array de questões com contagem de erros
+            const questionsWithMistakes = questions.map((q, index) => ({
+                ...q,
+                index,
+                mistakes: testStatistics.questionMistakes[index] || 0
+            }));
+            
+            // Ordenar por número de erros (decrescente)
+            questionsWithMistakes.sort((a, b) => b.mistakes - a.mistakes);
+            
+            // Pegar as 'count' mais erradas
+            const mostMistaken = questionsWithMistakes.slice(0, count);
+            
+            // Ordenar aleatoriamente as que tem o mesmo número de erros
+            return mostMistaken.sort((a, b) => {
+                if (a.mistakes === b.mistakes) {
+                    return 0.5 - Math.random();
+                }
+                return 0;
+            });
+        }
+
+        // Exibir questão atual
+        function displayCurrentQuestion() {
+            const question = currentTestQuestions[currentQuestionIndex];
+            
+            let imageHtml = '';
+            if (question.imagem && question.imagem !== 'null') {
+                imageHtml = `<img src="${question.imagem}" alt="Imagem da questão" class="question-image">`;
+            }
+            
+            currentQuestionDiv.innerHTML = `
+                <div class="question-container" id="questionContainer">
+                    <div class="question-number">Questão ${currentQuestionIndex + 1} de ${currentTestQuestions.length}</div>
+                    <div class="question-text">${question.enunciado}</div>
+                    ${imageHtml}
+                    <div class="options" id="optionsContainer"></div>
+                    <div class="correct-answer" id="correctAnswer">Resposta correta: ${question.correta.toUpperCase()}</div>
+                    ${question.explicacao ? `<div class="explanation" id="explanation">Explicação: ${question.explicacao}</div>` : ''}
+                </div>
+            `;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            const correctAnswerDiv = document.getElementById('correctAnswer');
+            const explanationDiv = document.getElementById('explanation');
+            const questionContainer = document.getElementById('questionContainer');
+            
+            // Adicionar opções de resposta
+            Object.entries(question.alternativas).forEach(([letter, text]) => {
+                const optionId = `option-${currentQuestionIndex}-${letter}`;
+                const isChecked = userAnswers[currentQuestionIndex] === letter ? 'checked' : '';
+                
+                optionsContainer.innerHTML += `
+                    <label class="option" for="${optionId}">
+                        <input type="radio" id="${optionId}" name="question-${currentQuestionIndex}" value="${letter}" ${isChecked}>
+                        <span class="option-text">${letter.toUpperCase()}) ${text}</span>
+                    </label>
+                `;
+            });
+            
+            // Mostrar resposta correta e explicação se a questão foi respondida
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                correctAnswerDiv.style.display = 'block';
+                if (explanationDiv) explanationDiv.style.display = 'block';
+                
+                if (userAnswers[currentQuestionIndex] === question.correta) {
+                    questionContainer.classList.add('correct');
+                } else {
+                    questionContainer.classList.add('incorrect');
+                }
+            }
+            
+            // Adicionar event listeners para as opções
+            optionsContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    userAnswers[currentQuestionIndex] = this.value;
+                    
+                    // Verificar se é uma nova resposta
+                    if (this.checked && !radio.hasAttribute('data-answered')) {
+                        answeredQuestions++;
+                        answeredInBlock++;
+                        
+                        // Verificar se acertou
+                        if (this.value === currentTestQuestions[currentQuestionIndex].correta) {
+                            correctInBlock++;
+                        }
+                        
+                        updateProgressBar();
+                        radio.setAttribute('data-answered', 'true');
+                        
+                        // Marcar para mostrar feedback após clicar em "Próxima"
+                        if (answeredInBlock === 5) {
+                            showFeedbackOnNext = true;
+                        }
+                    }
+                    
+                    updateNavigationButtons();
+                });
+            });
+            
+            updateNavigationButtons();
+        }
+
+        // Mostrar feedback do bloco de 5 questões
+        function showBlockFeedback() {
+            const totalInBlock = 5;
+            const incorrectInBlock = totalInBlock - correctInBlock;
+            const percentage = Math.round((correctInBlock / totalInBlock) * 100);
+            
+            feedbackTotal.textContent = totalInBlock;
+            feedbackCorrect.textContent = correctInBlock;
+            feedbackIncorrect.textContent = incorrectInBlock;
+            feedbackPercentage.textContent = percentage;
+            
+            // Mostrar apenas as questões erradas
+            feedbackMistakes.innerHTML = '';
+            
+            // Encontrar as últimas 5 questões respondidas
+            const lastFiveQuestions = [];
+            let count = 0;
+            for (let i = currentQuestionIndex; i >= 0 && count < 5; i--) {
+                if (userAnswers[i] !== undefined) {
+                    lastFiveQuestions.unshift(i);
+                    count++;
+                }
+            }
+            
+            // Filtrar apenas as erradas
+            const wrongQuestions = lastFiveQuestions.filter(index => 
+                userAnswers[index] !== currentTestQuestions[index].correta
+            );
+            
+            if (wrongQuestions.length > 0) {
+                const mistakesTitle = document.createElement('div');
+                mistakesTitle.textContent = 'Questões erradas:';
+                mistakesTitle.style.fontWeight = '600';
+                mistakesTitle.style.marginBottom = '15px';
+                mistakesTitle.style.fontSize = '1.1rem';
+                feedbackMistakes.appendChild(mistakesTitle);
+                
+                wrongQuestions.forEach(index => {
+                    const question = currentTestQuestions[index];
+                    const userAnswer = userAnswers[index];
+                    
+                    const mistakeItem = document.createElement('div');
+                    mistakeItem.className = 'feedback-mistake-item';
+                    
+                    const questionText = document.createElement('div');
+                    questionText.className = 'feedback-mistake-question';
+                    questionText.textContent = `Questão ${index + 1}: ${question.enunciado.substring(0, 50)}${question.enunciado.length > 50 ? '...' : ''}`;
+                    mistakeItem.appendChild(questionText);
+                    
+                    // Mostrar imagem se existir
+                    if (question.imagem && question.imagem !== 'null') {
+                        const img = document.createElement('img');
+                        img.src = question.imagem;
+                        img.style.maxWidth = '100%';
+                        img.style.height = 'auto';
+                        img.style.borderRadius = '8px';
+                        img.style.margin = '10px 0';
+                        mistakeItem.appendChild(img);
+                    }
+                    
+                    // Mostrar a alternativa correta
+                    const correctOption = document.createElement('div');
+                    correctOption.className = 'feedback-mistake-option feedback-mistake-correct';
+                    correctOption.textContent = `✅ Correta: ${question.correta.toUpperCase()}) ${question.alternativas[question.correta]}`;
+                    mistakeItem.appendChild(correctOption);
+                    
+                    // Mostrar a alternativa selecionada
+                    const selectedOption = document.createElement('div');
+                    selectedOption.className = 'feedback-mistake-option feedback-mistake-selected';
+                    selectedOption.textContent = `❌ Sua resposta: ${userAnswer.toUpperCase()}) ${question.alternativas[userAnswer]}`;
+                    mistakeItem.appendChild(selectedOption);
+                    
+                    // Mostrar explicação se existir
+                    if (question.explicacao) {
+                        const explanation = document.createElement('div');
+                        explanation.className = 'feedback-mistake-option';
+                        explanation.textContent = `💡 Explicação: ${question.explicacao.substring(0, 100)}${question.explicacao.length > 100 ? '...' : ''}`;
+                        explanation.style.fontStyle = 'italic';
+                        mistakeItem.appendChild(explanation);
+                    }
+                    
+                    feedbackMistakes.appendChild(mistakeItem);
+                });
+            } else {
+                const noMistakes = document.createElement('div');
+                noMistakes.textContent = 'Nenhuma questão errada neste bloco!';
+                noMistakes.style.textAlign = 'center';
+                noMistakes.style.fontStyle = 'italic';
+                noMistakes.style.fontSize = '1.1rem';
+                feedbackMistakes.appendChild(noMistakes);
+            }
+            
+            feedbackPopup.classList.add('active');
+            answeredInBlock = 0; // Resetar o contador
+            correctInBlock = 0;   // Resetar o contador de acertos
+            showFeedbackOnNext = false;
+        }
+
+        // Mostrar feedback instantâneo
+        function showInstantFeedback() {
+            const question = currentTestQuestions[currentQuestionIndex];
+            const userAnswer = userAnswers[currentQuestionIndex];
+            
+            if (userAnswer === undefined) {
+                instantFeedback.style.display = 'none';
+                return;
+            }
+            
+            const isCorrect = userAnswer === question.correta;
+            
+            instantFeedback.textContent = isCorrect 
+                ? `✅ Resposta correta! (${question.correta.toUpperCase()})` 
+                : `❌ Resposta incorreta! A correta é ${question.correta.toUpperCase()}`;
+            
+            instantFeedback.className = isCorrect ? 'instant-feedback correct' : 'instant-feedback incorrect';
+            instantFeedback.style.display = 'block';
+            
+            // Rolagem suave para o feedback
+            setTimeout(() => {
+                instantFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        // Atualizar barra de progresso
+        function updateProgressBar() {
+            const progress = (answeredQuestions / currentTestQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Atualizar botões de navegação
+        function updateNavigationButtons() {
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            // Mostrar botão de finalizar na última questão
+            if (currentQuestionIndex === currentTestQuestions.length - 1) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                finishBtn.style.display = 'none';
+            }
+        }
+
+        // Navegar para próxima questão
+        function nextQuestion() {
+            // Mostrar feedback instantâneo antes de avançar
+            showInstantFeedback();
+            
+            // Verificar se precisa mostrar o popup de feedback
+            if (showFeedbackOnNext) {
+                showBlockFeedback();
+            } else {
+                // Aguardar um pouco para o usuário ver o feedback
+                setTimeout(() => {
+                    if (currentQuestionIndex < currentTestQuestions.length - 1) {
+                        currentQuestionIndex++;
+                        displayCurrentQuestion();
+                        instantFeedback.style.display = 'none';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }, 800); // 0.8 segundos para ver o feedback
+            }
+        }
+
+        // Voltar para questão anterior
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayCurrentQuestion();
+                instantFeedback.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Finalizar teste e mostrar resultados
+        function finishTest() {
+            // Mostrar feedback da última questão
+            showInstantFeedback();
+            
+            // Aguardar um pouco para o usuário ver o feedback
+            setTimeout(() => {
+                // Calcular acertos e erros
+                currentTestQuestions.forEach((question, index) => {
+                    if (userAnswers[index] === question.correta) {
+                        testStatistics.correct.push(index);
+                        
+                        // Registrar desempenho por área (se existir)
+                        if (question.area) {
+                            testStatistics.performanceByArea[question.area] = 
+                                (testStatistics.performanceByArea[question.area] || 0) + 1;
+                        }
+                    } else {
+                        testStatistics.incorrect.push(index);
+                        
+                        // Incrementar contador de erros para esta questão
+                        const originalIndex = allQuestions.findIndex(q => q.id === question.id);
+                        if (originalIndex !== -1) {
+                            testStatistics.questionMistakes[originalIndex] = 
+                                (testStatistics.questionMistakes[originalIndex] || 0) + 1;
+                        }
+                    }
+                });
+                
+                const correctPercentage = ((testStatistics.correct.length / currentTestQuestions.length) * 100).toFixed(1);
+                const finalScore = ((testStatistics.correct.length / currentTestQuestions.length) * 10).toFixed(1);
+                
+                // Registrar tentativa no histórico
+                testStatistics.attemptsHistory.push({
+                    date: new Date().toLocaleString(),
+                    correct: testStatistics.correct.length,
+                    total: currentTestQuestions.length,
+                    score: finalScore,
+                    incorrect: testStatistics.incorrect,
+                    attemptNumber: currentAttempt,
+                    isMistakesTest: currentAttempt % 6 === 0 // Marcar se foi prova de erros
+                });
+                
+                // Salvar histórico no localStorage
+                localStorage.setItem('testHistory', JSON.stringify({
+                    attempts: testStatistics.attemptsHistory,
+                    mistakes: testStatistics.questionMistakes,
+                    attemptCount: currentAttempt
+                }));
+                
+                // Mostrar página de resultados
+                showResultsPage(finalScore, correctPercentage);
+            }, 800);
+        }
+
+        // Mostrar página de resultados
+        function showResultsPage(score, percentage) {
+            quizPage.style.display = 'none';
+            resultsPage.style.display = 'block';
+            
+            // Atualizar texto dos resultados
+            finalScoreText.textContent = `Nota Final: ${score}/10`;
+            finalPercentageText.textContent = `Você acertou ${testStatistics.correct.length} de ${currentTestQuestions.length} questões (${percentage}%)`;
+            
+            // Gerar gráficos
+            generateCharts();
+            generateAdditionalCharts();
+            
+            // Gerar análise das questões
+            generateQuestionsAnalysis();
+        }
+
+        // Destruir gráficos existentes
+        function destroyCharts() {
+            Object.values(charts).forEach(chart => {
+                if (chart) {
+                    chart.destroy();
+                }
+            });
+        }
+
+        // Atualizar gráficos quando o modo escuro é alterado
+        function updateCharts() {
+            destroyCharts();
+            generateCharts();
+            generateAdditionalCharts();
+        }
+
+        // Gerar gráficos de desempenho
+        function generateCharts() {
+            // Obter cores do CSS
+            const textColor = getComputedStyle(document.body).getPropertyValue('--dark');
+            const borderColor = getComputedStyle(document.body).getPropertyValue('--gray');
+            const correctColor = getComputedStyle(document.body).getPropertyValue('--correct');
+            const incorrectColor = getComputedStyle(document.body).getPropertyValue('--incorrect');
+            const primaryColor = getComputedStyle(document.body).getPropertyValue('--primary');
+            
+            // Gráfico de desempenho geral (pizza)
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            charts.performance = new Chart(performanceCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Acertos', 'Erros'],
+                    datasets: [{
+                        data: [testStatistics.correct.length, testStatistics.incorrect.length],
+                        backgroundColor: [correctColor, incorrectColor],
+                        borderColor: borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: getChartOptions('Desempenho Geral', textColor)
+            });
+            
+            // Gráfico de progresso (linha)
+            const progressCtx = document.getElementById('progressChart').getContext('2d');
+            const attemptLabels = testStatistics.attemptsHistory.map((_, i) => `Tentativa ${i + 1}`);
+            const attemptScores = testStatistics.attemptsHistory.map(a => parseFloat(a.score));
+            
+            charts.progress = new Chart(progressCtx, {
+                type: 'line',
+                data: {
+                    labels: attemptLabels,
+                    datasets: [{
+                        label: 'Nota (0-10)',
+                        data: attemptScores,
+                        backgroundColor: primaryColor,
+                        borderColor: primaryColor,
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: getChartOptions('Progresso nas Tentativas', textColor, {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: { color: textColor, stepSize: 1 },
+                            grid: { color: borderColor }
+                        },
+                        x: {
+                            ticks: { color: textColor },
+                            grid: { color: borderColor }
+                        }
+                    }
+                })
+            });
+            
+            // Gráfico de acertos por área (se disponível)
+            const areasCtx = document.getElementById('areasChart').getContext('2d');
+            if (Object.keys(testStatistics.performanceByArea).length > 0) {
+                const areas = Object.keys(testStatistics.performanceByArea);
+                const areaCounts = Object.values(testStatistics.performanceByArea);
+                
+                charts.areas = new Chart(areasCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: areas,
+                        datasets: [{
+                            label: 'Acertos',
+                            data: areaCounts,
+                            backgroundColor: correctColor,
+                            borderColor: borderColor,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: getChartOptions('Acertos por Área', textColor)
+                });
+            } else {
+                document.querySelector('#areasChart').closest('.stat-card').style.display = 'none';
+            }
+            
+            // Gráfico de erros por questão
+            const mistakesCtx = document.getElementById('mistakesChart').getContext('2d');
+            const mistakesData = countMistakesByQuestion();
+            
+            charts.mistakes = new Chart(mistakesCtx, {
+                type: 'bar',
+                data: {
+                    labels: mistakesData.labels,
+                    datasets: [{
+                        label: 'Vezes errada',
+                        data: mistakesData.values,
+                        backgroundColor: incorrectColor,
+                        borderColor: borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: getChartOptions('Questões com Erros', textColor, {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 20,
+                            ticks: { color: textColor, stepSize: 1 },
+                            grid: { color: borderColor }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const qIndex = mistakesData.questions[context.dataIndex];
+                                    const question = currentTestQuestions[qIndex];
+                                    return `Resposta correta: ${question.correta.toUpperCase()}`;
+                                }
+                            }
+                        }
+                    }
+                })
+            });
+        }
+
+        // Gerar gráficos adicionais
+        function generateAdditionalCharts() {
+            // Obter cores do CSS
+            const textColor = getComputedStyle(document.body).getPropertyValue('--dark');
+            const borderColor = getComputedStyle(document.body).getPropertyValue('--gray');
+            const correctColor = getComputedStyle(document.body).getPropertyValue('--correct');
+            const incorrectColor = getComputedStyle(document.body).getPropertyValue('--incorrect');
+            const primaryColor = getComputedStyle(document.body).getPropertyValue('--primary');
+
+            // Gráfico de distribuição de dificuldade (simulado)
+            const difficultyCtx = document.getElementById('difficultyChart').getContext('2d');
+            charts.difficulty = new Chart(difficultyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fácil', 'Médio', 'Difícil'],
+                    datasets: [{
+                        data: [15, 15, 10], // Valores simulados
+                        backgroundColor: [
+                            '#2ecc71', // Verde
+                            '#f39c12', // Amarelo/laranja
+                            '#e74c3c'  // Vermelho
+                        ],
+                        borderColor: borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: getChartOptions('Distribuição de Dificuldade', textColor)
+            });
+
+            // Gráfico de tempo por questão (simulado)
+            const timeCtx = document.getElementById('timePerQuestionChart').getContext('2d');
+            const timeLabels = Array.from({length: currentTestQuestions.length}, (_, i) => `Q${i+1}`);
+            const timeData = Array.from({length: currentTestQuestions.length}, () => Math.floor(Math.random() * 120) + 30); // Tempos aleatórios entre 30-150s
+            
+            charts.timePerQuestion = new Chart(timeCtx, {
+                type: 'bar',
+                data: {
+                    labels: timeLabels.slice(0, 10), // Mostrar apenas as primeiras 10 para legibilidade
+                    datasets: [{
+                        label: 'Tempo (segundos)',
+                        data: timeData.slice(0, 10),
+                        backgroundColor: primaryColor,
+                        borderColor: borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: getChartOptions('Tempo por Questão', textColor, {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: textColor },
+                            grid: { color: borderColor }
+                        },
+                        x: {
+                            ticks: { color: textColor },
+                            grid: { color: borderColor }
+                        }
+                    }
+                })
+            });
+
+            // Gráfico de evolução do desempenho
+            const evolutionCtx = document.getElementById('performanceEvolutionChart').getContext('2d');
+            const evolutionLabels = Array.from({length: currentTestQuestions.length}, (_, i) => `Q${i+1}`);
+            const evolutionData = [];
+            let correctCount = 0;
+            
+            for (let i = 0; i < currentTestQuestions.length; i++) {
+                if (userAnswers[i] === currentTestQuestions[i].correta) {
+                    correctCount++;
+                }
+                evolutionData.push((correctCount / (i + 1)) * 100);
+            }
+            
+            charts.performanceEvolution = new Chart(evolutionCtx, {
+                type: 'line',
+                data: {
+                    labels: evolutionLabels,
+                    datasets: [{
+                        label: 'Taxa de Acertos (%)',
+                        data: evolutionData,
+                        backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                        borderColor: correctColor,
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions('Evolução do Desempenho', textColor, {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { color: textColor },
+                            grid: { color: borderColor }
+                        },
+                        x: {
+                            ticks: { color: textColor },
+                            grid: { color: borderColor }
+                        }
+                    }
+                })
+            });
+        }
+
+        // Contar erros por questão em todas as tentativas
+        function countMistakesByQuestion() {
+            const mistakesCount = {};
+            const result = {
+                labels: [],
+                values: [],
+                questions: []
+            };
+            
+            testStatistics.attemptsHistory.forEach(attempt => {
+                attempt.incorrect.forEach(qIndex => {
+                    mistakesCount[qIndex] = (mistakesCount[qIndex] || 0) + 1;
+                });
+            });
+            
+            // Ordenar por número da questão
+            const sortedQuestions = Object.keys(mistakesCount).sort((a, b) => a - b);
+            
+            sortedQuestions.forEach(qIndex => {
+                result.labels.push(`Q${parseInt(qIndex) + 1}`);
+                result.values.push(mistakesCount[qIndex]);
+                result.questions.push(qIndex);
+            });
+            
+            return result;
+        }
+
+        // Configurações padrão para os gráficos
+        function getChartOptions(title, textColor, customOptions = {}) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: textColor,
+                            font: {
+                                family: 'Poppins',
+                                size: 12
+                            }
+                        }
+                    },
+                    title: {
+                        display: false
+                    }
+                },
+                ...customOptions
+            };
+        }
+
+        // Gerar análise detalhada das questões
+        function generateQuestionsAnalysis() {
+            questionsAnalysis.innerHTML = '';
+            
+            currentTestQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.correta;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = `question-result ${isCorrect ? 'correct' : 'incorrect'}`;
+                
+                // Adicionar imagem se existir
+                let imageHtml = '';
+                if (question.imagem && question.imagem !== 'null') {
+                    imageHtml = `<img src="${question.imagem}" alt="Imagem da questão" class="question-image">`;
+                }
+                
+                let optionsHtml = '';
+                Object.entries(question.alternativas).forEach(([letter, text]) => {
+                    const isUserAnswer = letter === userAnswer;
+                    const isCorrectAnswer = letter === question.correta;
+                    
+                    let optionClass = '';
+                    if (isCorrectAnswer) {
+                        optionClass = 'correct';
+                    } else if (isUserAnswer) {
+                        optionClass = 'selected';
+                    }
+                    
+                    optionsHtml += `
+                        <div class="question-result-option ${optionClass}">
+                            ${letter.toUpperCase()}) ${text}
+                            ${isCorrectAnswer ? ' (Correta)' : ''}
+                            ${isUserAnswer && !isCorrectAnswer ? ' (Sua resposta)' : ''}
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <h4>Questão ${index + 1} - ${isCorrect ? 'Acertou' : 'Errou'}</h4>
+                    <p><strong>Enunciado:</strong> ${question.enunciado}</p>
+                    ${imageHtml}
+                    <div class="question-result-options">${optionsHtml}</div>
+                    ${question.explicacao ? `<p><strong>Explicação:</strong> ${question.explicacao}</p>` : ''}
+                `;
+                
+                questionsAnalysis.appendChild(questionDiv);
+            });
+        }
+
+        // Iniciar nova tentativa
+        function startNewAttempt() {
+            initializeTest();
+        }
+
+        // Carregar novo arquivo
+        function loadNewFile() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
