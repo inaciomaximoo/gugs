@@ -1103,7 +1103,6 @@ const sampleQuestions = [
         <div class="quiz-card">
           <div class="quiz-header">
               <span class="quiz-title">Questão ${index + 1}</span>
-              <span class="question-counter">${index + 1} / ${totalQuestions}</span>
           </div>
           <p id="question-text">${question.enunciado}</p>
           ${question.imagem ? `<div class="image-container"><img src="${question.imagem}" alt="Imagem da questão" onclick="openImageModal('${question.imagem}')"></div>` : ''}
