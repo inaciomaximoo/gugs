@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Digital de Histopatologia - UNICAMP</title>
+    <style>
+        /* --- Variáveis Globais e Reset Básico --- */
+        :root {
+            --primary: #2c3e50; /* Azul Escuro Principal */
+            --secondary: #3498db; /* Azul Claro Secundário */
+            --accent: #e74c3c; /* Vermelho Acento (Neoplasia) */
+            --light: #ecf0f1; /* Cinza Claro Fundo */
+            --dark: #7f8c8d; /* Cinza Escuro Texto Secundário */
+            --white: #ffffff;
+            --light-gray: #f5f7fa; /* Fundo do Body */
+            --border-color: #e0e0e0; /* Cor da Borda */
+            --shadow-color: rgba(0, 0, 0, 0.1); /* Cor da Sombra */
+            --shadow-hover-color: rgba(0, 0, 0, 0.15); /* Sombra Hover */
+
+            --transition-speed: 0.3s; /* Velocidade padrão de transição */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box; /* Melhora o cálculo de tamanho dos elementos */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7; /* Ligeiro ajuste para leitura */
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: #333;
+            overflow-x: hidden; /* Previne scroll horizontal */
+        }
+
+        /* --- Container Principal --- */
+        .container {
+            max-width: 1500px; /* Aumentado para acomodar imagens maiores */
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        /* --- Cabeçalho --- */
+        header {
+            background: linear-gradient(135deg, var(--primary), #1a252f);
+            color: var(--white);
+            padding: 2.5rem 1.5rem; /* Ajuste no padding */
+            text-align: center;
+            border-radius: 0 0 15px 15px; /* Bordas mais suaves */
+            box-shadow: 0 6px 15px var(--shadow-color);
+            margin-bottom: 40px;
+            position: relative; /* Para possíveis elementos sobrepostos */
+            overflow: hidden; /* Para efeitos de fundo */
+        }
+
+        header h1 {
+            font-size: 2.8rem; /* Tamanho ligeiramente maior */
+            margin-bottom: 0.8rem;
+            font-weight: 600; /* Peso da fonte */
+             color: var(--white); /* Garante cor branca */
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300; /* Fonte mais leve */
+        }
+
+        /* --- Texto Introdutório --- */
+        .intro-text {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            border-left: 5px solid var(--primary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* --- Seções de Patologia --- */
+        .pathology-section {
+            background: var(--white);
+            border-radius: 10px; /* Bordas mais suaves */
+            box-shadow: 0 4px 12px var(--shadow-color);
+            margin-bottom: 50px;
+            overflow: hidden;
+            transition: transform var(--transition-speed) ease-in-out, box-shadow var(--transition-speed) ease-in-out; /* Transição suave */
+            opacity: 0; /* Começa invisível para animação */
+            animation: fadeInSection 0.6s ease-out forwards; /* Animação de entrada */
+            animation-delay: calc(var(--section-index, 0) * 0.1s); /* Delay escalonado */
+        }
+
+        /* Animação de Fade-in para seções */
+        @keyframes fadeInSection {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pathology-section:hover {
+            transform: translateY(-8px) scale(1.01); /* Efeito de levantar e escalar sutilmente */
+            box-shadow: 0 8px 20px var(--shadow-hover-color);
+        }
+
+        .section-header {
+            color: var(--white);
+            padding: 20px 30px; /* Mais padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha divisória sutil */
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 1.8rem; /* Título maior */
+            font-weight: 500;
+        }
+
+        .section-id {
+            background: rgba(255, 255, 255, 0.8); /* Fundo branco semitransparente */
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            /* Cores de texto definidas pelas classes específicas abaixo */
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        /* --- Descrição Histopatológica --- */
+        .histology-description {
+            background: #f8f9fa;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0; /* Bordas mais suaves */
+            /* Border-left definida por classe específica */
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent; /* Reset inicial */
+            transition: background-color var(--transition-speed) ease;
+        }
+        .histology-description:hover {
+             background-color: #f1f3f5; /* Leve mudança no hover */
+        }
+
+
+        .histology-description h3 {
+            margin-top: 0;
+            margin-bottom: 15px; /* Mais espaço abaixo do H3 */
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .histology-description ul {
+            padding-left: 25px; /* Mais indentação */
+            list-style: square; /* Estilo diferente de marcador */
+        }
+
+        .histology-description li {
+            margin-bottom: 12px; /* Mais espaço entre itens */
+        }
+        .histology-description strong {
+            color: var(--primary); /* Destaca termos importantes */
+        }
+
+
+        /* --- Galeria de Imagens --- */
+        .image-gallery {
+            display: grid;
+            /* Aumentar o tamanho mínimo e usar fr para flexibilidade */
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 25px; /* Aumentar o espaço */
+            margin: 30px 0;
+        }
+
+        .image-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px; /* Bordas mais suaves */
+            overflow: hidden;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            cursor: pointer;
+            background: var(--white); /* Garante fundo branco */
+        }
+
+        .image-card:hover {
+            transform: scale(1.04); /* Efeito de escala mais pronunciado */
+            box-shadow: 0 6px 18px var(--shadow-hover-color);
+            z-index: 10; /* Traz a imagem para frente no hover */
+            position: relative;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 280px; /* ** AUMENTAR ALTURA DA IMAGEM ** */
+            object-fit: cover; /* Mantém proporção e corta se necessário */
+            display: block; /* Remove espaço extra abaixo da imagem */
+            border-bottom: 1px solid var(--border-color);
+            transition: opacity var(--transition-speed) ease; /* Transição na imagem */
+        }
+        .image-card:hover img {
+             opacity: 0.95; /* Leve transparência no hover */
+        }
+
+        .image-caption {
+            padding: 18px;
+            background: var(--white);
+        }
+
+        .image-caption h4 {
+            margin: 0 0 8px 0; /* Mais espaço abaixo do H4 */
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .image-caption p {
+            margin: 0;
+            color: var(--dark);
+            font-size: 0.95rem; /* Tamanho ligeiramente maior */
+        }
+
+        /* --- Estilos do Popup --- */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* Fundo mais escuro */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Espaçamento interno */
+            /* Animação de entrada para o popup */
+            animation: fadeInPopupBackground 0.4s ease forwards;
+        }
+        @keyframes fadeInPopupBackground {
+             from { opacity: 0; }
+             to { opacity: 1; }
+        }
+
+        .popup-content {
+            position: relative;
+            max-width: 95%; /* Permitir que seja mais largo */
+            max-height: 95%;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden; /* Esconder partes da imagem/caption se necessário */
+            display: flex; /* Usar flex para organizar imagem e caption */
+            flex-direction: column; /* Imagem acima, caption abaixo */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            /* Animação de entrada para o conteúdo */
+             animation: zoomInPopupContent 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+             transform: scale(0.8); /* Começa menor */
+        }
+        @keyframes zoomInPopupContent {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+
+        .popup-img {
+            display: block;
+            max-width: 100%;
+             /* Altura máxima considerando caption e padding */
+            max-height: calc(95vh - 80px); /* Exemplo: 80px para caption e espaçamento */
+            object-fit: contain; /* Garante que a imagem inteira seja visível */
+            margin: 0 auto; /* Centraliza se for mais estreita que o container */
+            flex-shrink: 0; /* Impede que a imagem encolha */
+        }
+
+        .popup-caption {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            width: 100%; /* Ocupa toda a largura do popup-content */
+            flex-shrink: 0; /* Impede que encolha */
+        }
+
+        .popup-caption h3 {
+             color: var(--white);
+             margin: 0;
+             font-size: 1.2rem; /* Legenda um pouco maior */
+             font-weight: 500;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px; /* Mais perto do topo */
+            right: 15px; /* Mais perto da borda */
+            font-size: 2rem; /* Maior para facilitar o clique */
+            color: var(--white);
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.6);
+            width: 45px; /* Maior */
+            height: 45px; /* Maior */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002; /* Acima do conteúdo */
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+            line-height: 1; /* Ajuste para centralizar o 'x' */
+        }
+        .close-btn:hover {
+            background-color: var(--accent); /* Muda para cor de destaque no hover */
+            transform: rotate(90deg) scale(1.1); /* Gira e aumenta */
+        }
+
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem; /* Botões de navegação maiores */
+            color: rgba(255, 255, 255, 0.8); /* Cor ligeiramente transparente */
+            background: rgba(0, 0, 0, 0.4);
+            border: none;
+            width: 55px; /* Maior */
+            height: 55px; /* Maior */
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Acima da imagem, abaixo do close */
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+        .nav-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--white); /* Cor sólida no hover */
+            transform: translateY(-50%) scale(1.1); /* Aumenta no hover */
+        }
+
+
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+
+        /* --- Códigos de Cor Específicos por Patologia --- */
+
+        /* Neoplasia (Vermelho) */
+        .neoplasia { /* Borda lateral já definida */ }
+        .neoplasia .section-header { background: #c0392b; }
+        .neoplasia .section-id { color: #c0392b; }
+        .neoplasia .histology-description { border-left-color: #e74c3c; }
+        .neoplasia .histology-description strong { color: #c0392b; }
+
+        /* Inflamatório (Laranja) - Exemplo, não usado no HTML original */
+        .inflammatory { /* Borda lateral já definida */ }
+        .inflammatory .section-header { background: #e67e22; }
+        .inflammatory .section-id { color: #e67e22; }
+        .inflammatory .histology-description { border-left-color: #f39c12; }
+        .inflammatory .histology-description strong { color: #e67e22; }
+
+
+        /* Ginecológico (Roxo) */
+        .gynecological { /* Borda lateral já definida */ }
+        .gynecological .section-header { background: #8e44ad; }
+        .gynecological .section-id { color: #8e44ad; }
+        .gynecological .histology-description { border-left-color: #9b59b6; }
+         .gynecological .histology-description strong { color: #8e44ad; }
+
+
+        /* Placentário (Verde-água) */
+        .placental { /* Borda lateral já definida */ }
+        .placental .section-header { background: #16a085; }
+        .placental .section-id { color: #16a085; }
+        .placental .histology-description { border-left-color: #1abc9c; }
+        .placental .histology-description strong { color: #16a085; }
+
+
+        /* --- Ajustes Responsivos --- */
+        @media (max-width: 768px) {
+             header h1 { font-size: 2.2rem; }
+             .subtitle { font-size: 1.1rem; }
+             .section-title { font-size: 1.5rem; }
+             .histology-description h3 { font-size: 1.2rem; }
+
+            .image-gallery {
+                /* Ajuste para mostrar 1 ou 2 colunas em telas menores */
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+             .image-card img { height: 200px; } /* Reduz altura em telas menores */
+
+            .popup-content { max-width: 98%; max-height: 98%; }
+             .popup-img { max-height: calc(98vh - 70px); } /* Ajusta altura máxima da imagem */
+             .popup-caption h3 { font-size: 1rem; }
+             .close-btn { width: 40px; height: 40px; font-size: 1.8rem; }
+             .nav-btn { width: 45px; height: 45px; font-size: 1.5rem; }
+        }
+
+         @media (max-width: 480px) {
+              .container { padding: 15px; }
+              header { padding: 2rem 1rem; border-radius: 0 0 10px 10px; }
+              header h1 { font-size: 1.8rem; }
+              .subtitle { font-size: 1rem; }
+              .intro-text { font-size: 1rem; padding: 20px; }
+              .section-header { padding: 15px 20px; flex-direction: column; text-align: center; }
+              .section-title { font-size: 1.3rem; margin-bottom: 10px; }
+              .section-id { font-size: 0.8rem; }
+              .section-content { padding: 20px; }
+              .histology-description { padding: 20px; }
+               .image-gallery { grid-template-columns: 1fr; } /* Uma coluna em telas muito pequenas */
+               .image-card img { height: 220px; } /* Altura pode ser maior com 1 coluna */
+         }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Atlas Digital de Histopatologia</h1>
+            <p class="subtitle">Universidade Estadual de Campinas (UNICAMP) - Departamento de Anatomia Patológica</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="intro-text">
+            <p>Bem-vindo ao Atlas Digital de Histopatologia da UNICAMP. Este recurso educacional visa auxiliar no estudo e compreensão das diversas alterações teciduais observadas ao microscópio. Explore as diferentes condições patológicas apresentadas, visualize as imagens histológicas em alta resolução e leia as descrições detalhadas para aprofundar seus conhecimentos.</p>
+        </div>
+
+        <section class="pathology-section neoplasia" style="--section-index: 1;">
+             <div class="section-header">
+                <h2 class="section-title">Adenocarcinoma da Próstata</h2>
+                <span class="section-id">Lam. A. 46/56</span>
+            </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Características Histopatológicas Detalhadas</h3>
+                    <p>O <strong>adenocarcinoma da próstata</strong> é o cancro mais frequente originado nas células glandulares da próstata. É crucial para a saúde masculina, especialmente em idades mais avançadas.</p>
+                    <ul>
+                        <li><strong>Padrão Infiltrativo:</strong> As células cancerígenas não ficam confinadas às glândulas originais; elas rompem a membrana basal e invadem o tecido conjuntivo e muscular circundante (o estroma). A imagem <strong>DSCN1913+f.jpg</strong> ilustra especificamente essa invasão da musculatura lisa, que é um sinal definitivo de malignidade e diferencia o cancro de condições benignas como a hiperplasia.</li>
+                        <li><strong>Atipia Celular:</strong> As células tumorais mostram alterações significativas: os núcleos são maiores do que o normal, têm uma coloração mais escura (hipercromáticos) devido ao aumento do DNA, e os nucléolos (estruturas dentro do núcleo) são muito visíveis e proeminentes, indicando alta atividade celular e proliferação.</li>
+                        <li><strong>Perda da Arquitetura Glandular:</strong> A organização normal das glândulas prostáticas é perdida. Em vez de glândulas bem formadas e espaçadas, observa-se um amontoado de estruturas glandulares irregulares, muitas vezes menores, mais apinhadas e sem a camada de células basais que normalmente as reveste. A imagem <strong>46-56lam600+.jpg</strong> mostra este padrão infiltrativo e desorganizado.</li>
+                    </ul>
+                    <p>A invasão do estroma muscular é um critério importante para diagnóstico e estadiamento da malignidade.</p>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/46-56lam600+.jpg', 'Adenocarcinoma da próstata (HE, 600x) - Padrão infiltrativo')">
+                        <img src="https://anatpat.unicamp.br/46-56lam600+.jpg" alt="Adenocarcinoma da Próstata">
+                         <div class="image-caption">
+                            <h4>Adenocarcinoma Prostático</h4>
+                            <p>Padrão infiltrativo característico</p>
+                        </div>
+                     </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1913+f.jpg', 'Adenocarcinoma da próstata - Invasão da musculatura lisa')">
+                        <img src="https://anatpat.unicamp.br/DSCN1913+f.jpg" alt="Adenocarcinoma Infiltrativo">
+                        <div class="image-caption">
+                             <h4>Invasão Muscular</h4>
+                            <p>Critério de malignidade</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <section class="pathology-section neoplasia" style="--section-index: 2;">
+            <div class="section-header">
+                <h2 class="section-title">Metástases Ósseas de Adenocarcinoma da Mama</h2>
+                 <span class="section-id">Lam. A. 385</span>
+            </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>O <strong>adenocarcinoma da mama</strong> é um cancro que se origina nas glândulas mamárias. Tem uma tendência significativa a espalhar-se (metastatizar) para outros órgãos, sendo os ossos um local muito comum, particularmente a coluna, fêmur e crânio. A presença de metástases ósseas indica um estágio avançado da doença.</p>
+                     <ul>
+                        <li><strong>Infiltração e Destruição Óssea:</strong> Células epiteliais malignas provenientes da mama infiltram-se no tecido ósseo esponjoso, destruindo a arquitetura trabecular normal do osso. A imagem <strong>DSCN14522+.JPG</strong> mostra essa destruição arquitetural.</li>
+                        <li><strong>Reação Óssea:</strong> O osso tenta reagir à invasão. Pode ocorrer tanto destruição óssea (lesões líticas) como formação de novo osso reacional (lesões blásticas ou mistas), incluindo a deposição de osteóide (matriz óssea não mineralizada). A imagem <strong>DSCN14515+.JPG</strong> permite ver detalhes desta infiltração.</li>
+                        <li><strong>Implicações Clínicas:</strong> Estas metástases podem causar dor intensa, fraturas patológicas (com trauma mínimo ou ausente) e hipercalcemia (aumento do cálcio no sangue devido à destruição óssea), sendo marcadores de doença avançada e pior prognóstico.</li>
+                    </ul>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN14522+.JPG', 'Metástase óssea de adenocarcinoma da mama - Destruição óssea')">
+                        <img src="https://anatpat.unicamp.br/DSCN14522+.JPG" alt="Metástase Óssea">
+                     <div class="image-caption">
+                            <h4>Metástase Óssea</h4>
+                            <p>Destruição da arquitetura óssea</p>
+                        </div>
+                     </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN14515+.JPG', 'Metástase óssea - Detalhe da invasão tumoral no osso')">
+                        <img src="https://anatpat.unicamp.br/DSCN14515+.JPG" alt="Metástase Óssea">
+                        <div class="image-caption">
+                             <h4>Invasão Tumoral</h4>
+                            <p>Detalhe da infiltração</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <section class="pathology-section gynecological" style="--section-index: 3;">
+            <div class="section-header">
+                <h2 class="section-title">Leiomioma Uterino</h2>
+                 <span class="section-id">Tumor Benigno</span>
+            </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>O <strong>leiomioma uterino</strong>, popularmente conhecido como mioma, é um tumor benigno extremamente comum que se origina das células musculares lisas da parede do útero (miométrio).</p>
+                    <ul>
+                        <li><strong>Padrão Fasciculado:</strong> Microscopicamente, é composto por feixes de células musculares lisas alongadas (fusiformes) que se entrelaçam em várias direções, formando um padrão característico chamado fasciculado ou em espiral. A imagem <strong>107lam600++.jpg</strong> demonstra bem este padrão.</li>
+                        <li><strong>Células Uniformes e Ausência de Atipia:</strong> As células musculares do leiomioma são geralmente uniformes em tamanho e forma, com citoplasma eosinofílico (rosado) e núcleos ovóides ou alongados ("em charuto"). Crucialmente, elas não apresentam atipias nucleares significativas (núcleos regulares, sem hipercromasia acentuada ou nucléolos proeminentes). A atividade mitótica (divisão celular) é muito baixa ou ausente, e não há mitoses atípicas. A imagem <strong>DSCN1388+.jpg</strong> destaca essa ausência de atipias.</li>
+                        <li><strong>Natureza Benigna e Delimitação:</strong> É um tumor bem delimitado, muitas vezes com uma pseudocápsula de tecido miometrial comprimido. Cresce empurrando os tecidos adjacentes, mas não os invade. A ausência de atipia significativa, necrose tumoral e baixa contagem de mitoses o diferencia do seu correspondente maligno, o leiomiossarcoma. A imagem <strong>DSCN1382+.jpg</strong> mostra o miométrio normal para comparação.</li>
+                    </ul>
+                </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1382+.jpg', 'Miométrio normal para comparação')">
+                        <img src="https://anatpat.unicamp.br/DSCN1382+.jpg" alt="Miométrio Normal">
+                        <div class="image-caption">
+                             <h4>Miométrio Normal</h4>
+                            <p>Comparação histológica</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/107lam600++.jpg', 'Leiomioma uterino - Padrão fasciculado')">
+                        <img src="https://anatpat.unicamp.br/107lam600++.jpg" alt="Leiomioma Uterino">
+                        <div class="image-caption">
+                              <h4>Leiomioma</h4>
+                            <p>Padrão fasciculado característico</p>
+                        </div>
+                    </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1388+.jpg', 'Leiomioma - Ausência de atipias nucleares')">
+                        <img src="https://anatpat.unicamp.br/DSCN1388+.jpg" alt="Leiomioma Uterino">
+                        <div class="image-caption">
+                            <h4>Leiomioma</h4>
+                             <p>Ausência de atipias nucleares</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-section neoplasia" style="--section-index: 4;">
+            <div class="section-header">
+                <h2 class="section-title">Leiomiossarcoma do Útero</h2>
+                <span class="section-id">Lam. A. 193</span>
+            </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>O <strong>leiomiossarcoma</strong> é a variante maligna dos tumores de músculo liso uterino. É muito menos comum, porém mais agressivo que o leiomioma. O diagnóstico baseia-se na presença de critérios de malignidade:</p>
+                     <ul>
+                        <li><strong>Pleomorfismo Celular e Atipia Nuclear:</strong> As células tumorais exibem uma variação acentuada no tamanho e forma (pleomorfismo), muitas sendo grandes e bizarras. Os núcleos são irregulares, hipercromáticos (escuros), aumentados e podem ter contornos anormais e nucléolos proeminentes (atipia nuclear). Aberrações nucleares são comuns. Veja as imagens <strong>DSCN1679++.jpg</strong> (pleomorfismo) e <strong>DSCN1688++.jpg</strong> (atipias nucleares).</li>
+                        <li><strong>Alta Atividade Mitótica:</strong> A contagem de figuras de mitose (células em divisão) é significativamente elevada (geralmente >10 mitoses por 10 campos de grande aumento). Mitoses atípicas (formas anormais de divisão) podem estar presentes. A imagem <strong>DSCN1694+.jpg</strong> foca na atividade mitótica.</li>
+                        <li><strong>Necrose Tumoral Coagulativa:</strong> Áreas de morte celular dentro do tumor são frequentes e características, distintas da necrose isquêmica que pode ocorrer em leiomiomas grandes.</li>
+                        <li><strong>Outros Achados Frequentes:</strong> Multinucleação (células com múltiplos núcleos - imagem <strong>DSCN1691+.jpg</strong>) e padrão de crescimento infiltrativo (invasão de tecidos adjacentes) podem ser observados.</li>
+                    </ul>
+                     <p>A combinação destes critérios (atipia, mitoses e necrose) é usada para diagnosticar o leiomiossarcoma e diferenciá-lo do leiomioma benigno.</p>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1679++.jpg', 'Leiomiossarcoma - Pleomorfismo celular acentuado')">
+                        <img src="https://anatpat.unicamp.br/DSCN1679++.jpg" alt="Leiomiossarcoma">
+                          <div class="image-caption">
+                            <h4>Pleomorfismo Celular</h4>
+                            <p>Variação acentuada no tamanho e forma</p>
+                         </div>
+                    </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1688++.jpg', 'Leiomiossarcoma - Aberrações nucleares')">
+                        <img src="https://anatpat.unicamp.br/DSCN1688++.jpg" alt="Leiomiossarcoma">
+                          <div class="image-caption">
+                            <h4>Aberrações Nucleares</h4>
+                            <p>Núcleos irregulares e hipercromáticos</p>
+                        </div>
+                     </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1691+.jpg', 'Leiomiossarcoma - Multinucleação')">
+                        <img src="https://anatpat.unicamp.br/DSCN1691+.jpg" alt="Leiomiossarcoma">
+                        <div class="image-caption">
+                             <h4>Multinucleação</h4>
+                            <p>Células com múltiplos núcleos</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN1694+.jpg', 'Leiomiossarcoma - Atividade mitótica aumentada')">
+                        <img src="https://anatpat.unicamp.br/DSCN1694+.jpg" alt="Leiomiossarcoma">
+                        <div class="image-caption">
+                            <h4>Atividade Mitótica</h4>
+                             <p>Figuras de mitose atípicas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </section>
+
+        <section class="pathology-section gynecological" style="--section-index: 5;">
+            <div class="section-header">
+                <h2 class="section-title">Hiperplasia Glandular Cística do Endométrio</h2>
+                <span class="section-id">Alteração Benigna</span>
+            </div>
+             <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                    <p>A <strong>hiperplasia endometrial</strong> refere-se a uma proliferação da camada interna do útero (endométrio), especificamente das glândulas. A forma glandular cística (anteriormente chamada hiperplasia simples sem atipia) é uma alteração benigna, geralmente causada por estimulação estrogénica prolongada sem a oposição adequada da progesterona.</p>
+                     <ul>
+                        <li><strong>Aumento da Relação Glândula/Estroma:</strong> Há um aumento no número e tamanho das glândulas endometriais em relação ao tecido conjuntivo (estroma) entre elas, mas o estroma ainda é relativamente abundante.</li>
+                        <li><strong>Dilatação Cística das Glândulas:</strong> Muitas glândulas tornam-se marcadamente dilatadas, assumindo um aspecto de quisto. Essa é a característica que dá nome à condição ("cística"). As imagens <strong>DSCN5339+.JPG</strong> (padrão geral) e <strong>Dscn5356++.jpg</strong> (detalhe) ilustram bem esta dilatação.</li>
+                        <li><strong>Ausência de Atipia Celular:</strong> As células que revestem as glândulas proliferadas mantêm a sua aparência normal, sem alterações significativas nos núcleos (tamanho, forma, coloração) que sugeririam malignidade (atipia). Este é um ponto crucial para o diagnóstico e prognóstico.</li>
+                        <li><strong>Risco Baixo de Progressão:</strong> Este tipo de hiperplasia (sem atipia) tem um risco muito baixo de progredir para adenocarcinoma endometrial.</li>
+                    </ul>
+                </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN5339+.JPG', 'Hiperplasia glandular cística - Padrão geral com dilatação')">
+                        <img src="https://anatpat.unicamp.br/DSCN5339+.JPG" alt="Hiperplasia Glandular Cística">
+                        <div class="image-caption">
+                             <h4>Padrão Geral</h4>
+                            <p>Glândulas aumentadas e dilatadas</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5356++.jpg', 'Hiperplasia glandular cística - Detalhe da dilatação')">
+                        <img src="https://anatpat.unicamp.br/Dscn5356++.jpg" alt="Hiperplasia Glandular Cística">
+                        <div class="image-caption">
+                             <h4>Detalhe das Glândulas</h4>
+                            <p>Dilatação cística característica</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section class="pathology-section neoplasia" style="--section-index: 6;">
+            <div class="section-header">
+                <h2 class="section-title">Adenocarcinoma do Endométrio</h2>
+                <span class="section-id">Tumor Maligno</span>
+             </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>O <strong>adenocarcinoma do endométrio</strong> é o cancro mais comum do corpo uterino, originando-se nas glândulas endometriais. Assim como a hiperplasia, está frequentemente associado à exposição prolongada a estrogénios não opostos pela progesterona, mas representa uma transformação maligna.</p>
+                     <ul>
+                        <li><strong>Proliferação Glandular Desorganizada e Confluente:</strong> As glândulas cancerígenas proliferam de forma caótica, perdendo a arquitetura normal. Elas se tornam apinhadas, com pouco ou nenhum estroma entre elas (padrão "glândula-com-glândula" ou "back-to-back"). Podem formar estruturas complexas como papilas ou áreas sólidas. A imagem <strong>DSCN5454+.JPG</strong> mostra essa desorganização arquitetural.</li>
+                        <li><strong>Atipias Nucleares:</strong> As células que revestem as glândulas malignas exibem atipia nuclear. Os núcleos estão aumentados, pleomórficos (formas variadas), hipercromáticos (escuros), com cromatina irregular e nucléolos proeminentes. A imagem <strong>Dscn5456++.jpg</strong> destaca essas atipias.</li>
+                        <li><strong>Invasão Estromal e Miometrial:</strong> O critério definitivo de adenocarcinoma (versus hiperplasia atípica) é a invasão do estroma endometrial. O tumor pode crescer de forma expansiva ou infiltrativa. Em estágios mais avançados, invade a parede muscular do útero (miométrio), o que é um fator prognóstico importante. A imagem <strong>Dscn5467++.jpg</strong> mostra a infiltração do estroma.</li>
+                    </ul>
+                    <p>O grau histológico (bem, moderadamente ou pouco diferenciado) e o estágio (extensão da invasão) são fundamentais para determinar o tratamento e o prognóstico.</p>
+                 </div>
+
+                <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN5454+.JPG', 'Adenocarcinoma endometrial - Padrão glandular desorganizado')">
+                        <img src="https://anatpat.unicamp.br/DSCN5454+.JPG" alt="Adenocarcinoma Endometrial">
+                          <div class="image-caption">
+                            <h4>Padrão Arquitetural</h4>
+                            <p>Glândulas desorganizadas e apinhadas</p>
+                        </div>
+                      </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5456++.jpg', 'Adenocarcinoma endometrial - Atipias nucleares')">
+                        <img src="https://anatpat.unicamp.br/Dscn5456++.jpg" alt="Adenocarcinoma Endometrial">
+                        <div class="image-caption">
+                                <h4>Atipias Nucleares</h4>
+                            <p>Núcleos aumentados e hipercromáticos</p>
+                        </div>
+                     </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5467++.jpg', 'Adenocarcinoma endometrial - Invasão do estroma')">
+                        <img src="https://anatpat.unicamp.br/Dscn5467++.jpg" alt="Adenocarcinoma Endometrial">
+                        <div class="image-caption">
+                             <h4>Invasão</h4>
+                            <p>Infiltração do estroma</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section class="pathology-section gynecological" style="--section-index: 7;">
+            <div class="section-header">
+                <h2 class="section-title">Endometriose Externa</h2>
+                <span class="section-id">Focos Ectópicos</span>
+              </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>A <strong>endometriose externa</strong> é definida pela presença de tecido endometrial funcional (contendo tanto glândulas endometriais quanto estroma endometrial) em locais fora da cavidade uterina. Pode afetar ovários, ligamentos pélvicos, peritônio, intestino, bexiga, parede abdominal (especialmente em cicatrizes cirúrgicas), entre outros.</p>
+                     <ul>
+                        <li><strong>Diagnóstico Histológico Essencial:</strong> O diagnóstico definitivo requer a identificação microscópica de <strong>glândulas endometriais E estroma endometrial</strong> no tecido biopsiado do local suspeito. A imagem <strong>DSCN5473+.JPG</strong> demonstra a presença de ambos os componentes.</li>
+                        <li><strong>Localizações Variadas:</strong> As imagens mostram exemplos em intestino grosso (<strong>Dscn5472++.jpg</strong>) e parede abdominal (<strong>DSCN5476+.JPG</strong>), ilustrando a nature<0xC2><0xAD>za ectópica da condição.</li>
+                        <li><strong>Alterações Secundárias Comuns:</strong> Como o tecido endometrial ectópico responde aos hormônios do ciclo menstrual, pode ocorrer sangramento cíclico dentro das lesões. Isso leva frequentemente à presença de hemorragia recente ou antiga, macrófagos carregados de hemossiderina (pigmento derivado da hemoglobina) e uma reação inflamatória crónica no tecido circundante.</li>
+                        <li><strong>Fibrose Reacional:</strong> A inflamação crónica e o sangramento repetido induzem uma resposta de cicatrização, resultando em fibrose (aumento de tecido conjuntivo denso) ao redor e dentro dos focos de endometriose, o que contribui para a dor e aderências.</li>
+                    </ul>
+                </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5472++.jpg', 'Endometriose em parede de intestino grosso')">
+                        <img src="https://anatpat.unicamp.br/Dscn5472++.jpg" alt="Endometriose Externa">
+                        <div class="image-caption">
+                             <h4>Intestino Grosso</h4>
+                            <p>Implantes endometrióticos na muscular</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN5473+.JPG', 'Endometriose - Presença de glândulas e estroma')">
+                        <img src="https://anatpat.unicamp.br/DSCN5473+.JPG" alt="Endometriose Externa">
+                        <div class="image-caption">
+                            <h4>Glândulas e Estroma</h4>
+                            <p>Tecido endometrial característico fora do útero</p>
+                        </div>
+                    </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN5476+.JPG', 'Endometriose em parede abdominal (cicatriz)')">
+                        <img src="https://anatpat.unicamp.br/DSCN5476+.JPG" alt="Endometriose Externa">
+                        <div class="image-caption">
+                            <h4>Parede Abdominal</h4>
+                            <p>Foco em cicatriz cirúrgica</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-section gynecological" style="--section-index: 8;">
+            <div class="section-header">
+                <h2 class="section-title">Alterações Fibrocísticas da Mama</h2> <span class="section-id">Alteração Benigna Comum</span>
+            </div>
+            <div class="section-content">
+                 <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>As <strong>alterações fibrocísticas</strong> (anteriormente chamadas de doença fibrocística ou displasia mamária) representam um espectro de alterações histológicas benignas muito comuns na mama feminina durante a idade reprodutiva, provavelmente relacionadas a flutuações hormonais cíclicas. Não é uma doença única, mas um conjunto de achados:</p>
+                     <ul>
+                         <li><strong>Fibrose do Estroma (Mazoplasia):</strong> Aumento da quantidade de tecido conjuntivo fibroso no estroma intralobular e interlobular.</li>
+                         <li><strong>Formação de Cistos:</strong> Dilatação de ductos ou unidades ducto-lobulares terminais, formando cavidades preenchidas por líquido (cistos). Podem ser microscópicos ou macroscópicos. A imagem <strong>Dscn5522++.jpg</strong> mostra um padrão geral com fibrose e cistos.</li>
+                         <li><strong>Metaplasia Apócrina:</strong> Alteração benigna onde as células que revestem os cistos ou ductos se tornam grandes, com citoplasma abundante, granular e eosinofílico (rosado), e núcleos arredondados. Assemelham-se a células de glândulas sudoríparas apócrinas. A imagem <strong>Dscn5524++.jpg</strong> mostra esta metaplasia.</li>
+                         <li><strong>Adenose:</strong> Aumento no número de ácinos (glândulas) dentro de um lóbulo mamário. Na <strong>adenose esclerosante</strong> (imagem <strong>DSCN5606+.JPG</strong>), há proliferação de ácinos associada a uma fibrose densa que comprime e distorce as estruturas glandulares, podendo mimetizar um carcinoma invasivo.</li>
+                         <li><strong>Hiperplasia Epitelial Ductal Usual:</strong> Aumento no número de camadas de células epiteliais dentro dos ductos ou lóbulos, sem atipia significativa.</li>
+                    </ul>
+                    <p>A maioria das alterações fibrocísticas não aumenta o risco de cancro da mama. No entanto, a presença de <strong>hiperplasia epitelial atípica</strong> (ductal ou lobular), que pode ocorrer neste contexto, confere um risco aumentado.</p>
+                </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5522++.jpg', 'Alterações fibrocísticas - Padrão com fibrose e cistos')">
+                        <img src="https://anatpat.unicamp.br/Dscn5522++.jpg" alt="Doença Fibrocística">
+                        <div class="image-caption">
+                             <h4>Padrão Geral</h4>
+                            <p>Fibrose e formação cística</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5524++.jpg', 'Alterações fibrocísticas - Metaplasia apócrina em cisto')">
+                        <img src="https://anatpat.unicamp.br/Dscn5524++.jpg" alt="Doença Fibrocística">
+                        <div class="image-caption">
+                            <h4>Metaplasia Apócrina</h4>
+                             <p>Epitélio cístico modificado</p>
+                        </div>
+                    </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN5606+.JPG', 'Alterações fibrocísticas - Adenose esclerosante')">
+                         <img src="https://anatpat.unicamp.br/DSCN5606+.JPG" alt="Doença Fibrocística">
+                        <div class="image-caption">
+                            <h4>Adenose Esclerosante</h4>
+                             <p>Ácinos distorcidos pela fibrose</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <section class="pathology-section placental" style="--section-index: 9;">
+            <div class="section-header">
+                <h2 class="section-title">Vilosite e Infartos Placentários</h2>
+                <span class="section-id">Alterações Placentárias</span>
+            </div>
+            <div class="section-content">
+                 <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p><strong>Vilosite:</strong></p>
+                     <ul>
+                        <li><strong>Definição:</strong> É a inflamação das vilosidades coriónicas, as unidades funcionais da placenta responsáveis pelas trocas materno-fetais. Geralmente resulta de infecções que alcançam a placenta pela corrente sanguínea materna (via hematogénica), como TORCH (Toxoplasmose, Outras, Rubéola, Citomegalovírus, Herpes), ou por causas imunológicas.</li>
+                        <li><strong>Achados Histológicos:</strong> As vilosidades afetadas tornam-se edemaciadas (inchadas) e são infiltradas por células inflamatórias. Na <strong>vilosite crónica</strong> (mais comum), predominam linfócitos, plasmócitos e histiócitos (macrófagos). A imagem <strong>Dscn5651++.jpg</strong> mostra este infiltrado crónico. Em infecções agudas bacterianas, podem ser vistos neutrófilos. A vilosite pode prejudicar a função placentária e levar à restrição de crescimento fetal.</li>
+                     </ul>
+                     <p><strong>Infartos Placentários:</strong></p>
+                     <ul>
+                        <li><strong>Definição:</strong> São áreas de necrose (morte tecidual) do parênquima vilositário devido à interrupção do suprimento sanguíneo materno no espaço interviloso, geralmente por problemas nas artérias espiraladas da decídua (ex: trombose, vasculopatia hipertensiva como na pré-eclâmpsia).</li>
+                        <li><strong>Achados Histológicos:</strong> Microscopicamente, um infarto recente mostra vilosidades aglutinadas com perda dos núcleos celulares (cariólise) e aumento da eosinofilia do citoplasma e do estroma. Com o tempo, a área torna-se mais fibrótica e hialinizada. Infartos pequenos e periféricos são comuns em placentas normais a termo (ocorrendo em até 25%). No entanto, infartos grandes (>3 cm) ou múltiplos/centrais são clinicamente significativos, indicando insuficiência útero-placentária e podendo causar restrição de crescimento fetal ou até morte fetal. A imagem <strong>Dscn5648++.jpg</strong> mostra uma área de infarto.</li>
+                        <li><strong>Outros Sinais:</strong> Sinais de "envelhecimento" ou má perfusão placentária, como aumento de nós sinciciais e calcificações (imagem <strong>Dscn5696++.jpg</strong>), podem estar associados.</li>
+                    </ul>
+                 </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5651++.jpg', 'Vilosite crónica - Infiltrado inflamatório na vilosidade')">
+                        <img src="https://anatpat.unicamp.br/Dscn5651++.jpg" alt="Vilosite">
+                        <div class="image-caption">
+                             <h4>Vilosite</h4>
+                            <p>Infiltrado inflamatório</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5648++.jpg', 'Infarto placentário - Área de necrose isquêmica')">
+                        <img src="https://anatpat.unicamp.br/Dscn5648++.jpg" alt="Infarto Placentário">
+                        <div class="image-caption">
+                            <h4>Infarto Placentário</h4>
+                             <p>Área de necrose isquêmica</p>
+                        </div>
+                    </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5696++.jpg', 'Placenta - Calcificações vilositárias (sinal de maturação/retenção)')">
+                         <img src="https://anatpat.unicamp.br/Dscn5696++.jpg" alt="Retenção Fetal">
+                        <div class="image-caption">
+                            <h4>Sinais de Retenção/Maturação</h4>
+                             <p>Calcificações vilositárias</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-section placental" style="--section-index: 10;">
+            <div class="section-header">
+                <h2 class="section-title">Mola Hidatiforme</h2>
+                <span class="section-id">Lam. A. 70</span>
+            </div>
+            <div class="section-content">
+                <div class="histology-description">
+                    <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>A <strong>mola hidatiforme</strong> é uma forma de doença trofoblástica gestacional, resultante de uma fertilização anormal que leva ao desenvolvimento anómalo da placenta, com proliferação do trofoblasto e edema das vilosidades coriónicas. Existem dois tipos principais: completa e parcial.</p>
+                     <p><strong>Mola Hidatiforme Completa (provável foco das imagens):</strong></p>
+                     <ul>
+                        <li><strong>Edema Acentuado e Difuso das Vilosidades:</strong> A característica mais marcante é o inchaço (edema hidrópico) generalizado e acentuado do estroma das vilosidades coriónicas, que as transforma em estruturas vesiculares, semelhantes a "cachos de uva". Frequentemente, formam-se cisternas centrais. A imagem <strong>Dscn5663++.jpg</strong> evidencia este edema vesicular.</li>
+                        <li><strong>Avascularidade Vilositária:</strong> As vilosidades edemaciadas tipicamente não contêm vasos sanguíneos fetais funcionais. A imagem <strong>Dscn5672++.jpg</strong> foca nesta ausência vascular.</li>
+                        <li><strong>Hiperplasia Trofoblástica Difusa:</strong> Há uma proliferação excessiva e circunferencial das camadas de trofoblasto (cito e sinciciotrofoblasto) que revestem as vilosidades edemaciadas. Pode haver atipia trofoblástica. A imagem <strong>Dscn5659++.jpg</strong> mostra a hiperplasia.</li>
+                        <li><strong>Ausência de Tecido Fetal:</strong> Tipicamente, não há desenvolvimento de embrião, feto ou membranas amnióticas.</li>
+                        <li><strong>Genética:</strong> Geralmente diploide (46,XX ou 46,XY), com ambos os conjuntos de cromossomas de origem paterna.</li>
+                     </ul>
+                     <p><strong>Mola Hidatiforme Parcial (diferenças):</strong></p>
+                     <ul>
+                         <li>Edema vilositário focal e menos acentuado.</li>
+                         <li>Vasos fetais presentes em algumas vilosidades (podem conter hemácias fetais).</li>
+                         <li>Hiperplasia trofoblástica focal e menos exuberante.</li>
+                         <li>Presença de tecido fetal ou saco amniótico.</li>
+                         <li>Genética: Geralmente triploide (ex: 69,XXY), com dois conjuntos paternos e um materno.</li>
+                     </ul>
+                    <p>As molas hidatiformes (especialmente a completa) têm risco de evoluir para doença trofoblástica gestacional persistente/invasora ou, mais raramente (cerca de 2-3% na completa), para <strong>coriocarcinoma</strong>.</p>
+                 </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5663++.jpg', 'Mola hidatiforme - Edema vilositário acentuado (vesículas)')">
+                        <img src="https://anatpat.unicamp.br/Dscn5663++.jpg" alt="Mola Hidatiforme">
+                          <div class="image-caption">
+                            <h4>Edema Vilositário</h4>
+                            <p>Aspecto vesicular característico</p>
+                        </div>
+                      </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5659++.jpg', 'Mola hidatiforme - Hiperplasia trofoblástica')">
+                        <img src="https://anatpat.unicamp.br/Dscn5659++.jpg" alt="Mola Hidatiforme">
+                        <div class="image-caption">
+                             <h4>Hiperplasia Trofoblástica</h4>
+                            <p>Proliferação anormal</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5672++.jpg', 'Mola hidatiforme - Vilosidade avascular com cisterna')">
+                        <img src="https://anatpat.unicamp.br/Dscn5672++.jpg" alt="Mola Hidatiforme">
+                        <div class="image-caption">
+                            <h4>Ausência Vascular / Cisterna</h4>
+                             <p>Falta de vasos fetais, edema central</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section class="pathology-section neoplasia" style="--section-index: 11;">
+            <div class="section-header">
+                <h2 class="section-title">Coriocarcinoma</h2>
+                <span class="section-id">Tumor Trofoblástico Maligno</span>
+            </div>
+             <div class="section-content">
+                <div class="histology-description">
+                     <h3>Descrição Histopatológica Detalhada</h3>
+                     <p>O <strong>coriocarcinoma</strong> é um tumor maligno altamente agressivo derivado das células trofoblásticas (tanto citotrofoblasto quanto sinciciotrofoblasto). Pode surgir no contexto de qualquer tipo de gravidez (molar, a termo, aborto, ectópica), sendo mais comum após mola hidatiforme completa.</p>
+                     <ul>
+                        <li><strong>Proliferação Bifásica sem Vilosidades:</strong> A marca histológica é a proliferação neoplásica de células do citotrofoblasto (mononucleadas, citoplasma claro, núcleos mais regulares) e do sinciciotrofoblasto (multinucleadas, grandes, citoplasma anfofílico/basofílico, núcleos pleomórficos e hipercromáticos), organizadas em lençóis ou plexos. Crucialmente, <strong>não há formação de estruturas vilositárias</strong>, diferenciando-o da mola invasora. As imagens <strong>Dscn5675++.jpg</strong> (citotrofoblasto) e <strong>DSCN5690+.JPG</strong> (sinciciotrofoblasto) mostram os dois componentes celulares malignos.</li>
+                        <li><strong>Invasão Destrutiva e Angioinvasão:</strong> O tumor é caracterizado por uma invasão extensa e destrutiva dos tecidos adjacentes (ex: miométrio, pulmão). A invasão de vasos sanguíneos (angioinvasão) é proeminente e explica a alta tendência a metástases precoces por via hematogénica. A imagem <strong>Dscn5673++.jpg</strong> mostra uma metástase pulmonar com invasão destrutiva.</li>
+                        <li><strong>Hemorragia e Necrose Extensas:</strong> Devido à rápida proliferação e angioinvasão, áreas extensas de hemorragia e necrose tumoral são características típicas do coriocarcinoma.</li>
+                        <li><strong>Metástases Frequentes:</strong> Disseminação hematogénica precoce é a regra, com os pulmões sendo o sítio mais comum de metástases, seguidos por vagina, cérebro, fígado e rins.</li>
+                    </ul>
+                     <p>Apesar de sua agressividade, o coriocarcinoma é geralmente muito sensível à quimioterapia, com altas taxas de cura mesmo na presença de metástases.</p>
+                 </div>
+
+                 <div class="image-gallery">
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5673++.jpg', 'Coriocarcinoma - Metástase pulmonar com hemorragia')">
+                        <img src="https://anatpat.unicamp.br/Dscn5673++.jpg" alt="Coriocarcinoma">
+                        <div class="image-caption">
+                             <h4>Metástase Pulmonar</h4>
+                            <p>Invasão destrutiva e hemorragia</p>
+                        </div>
+                    </div>
+                     <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/Dscn5675++.jpg', 'Coriocarcinoma - Componente de citotrofoblasto neoplásico')">
+                        <img src="https://anatpat.unicamp.br/Dscn5675++.jpg" alt="Coriocarcinoma">
+                        <div class="image-caption">
+                            <h4>Citotrofoblasto Maligno</h4>
+                             <p>Células neoplásicas individualizadas</p>
+                        </div>
+                    </div>
+                    <div class="image-card" onclick="openPopup('https://anatpat.unicamp.br/DSCN5690+.JPG', 'Coriocarcinoma - Componente de sinciciotrofoblasto neoplásico')">
+                         <img src="https://anatpat.unicamp.br/DSCN5690+.JPG" alt="Coriocarcinoma">
+                        <div class="image-caption">
+                            <h4>Sinciciotrofoblasto Maligno</h4>
+                             <p>Células gigantes multinucleadas atípicas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="imagePopup" class="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <button class="nav-btn prev-btn" onclick="navigate(-1)">&#10094;</button>
+        <button class="nav-btn next-btn" onclick="navigate(1)">&#10095;</button>
+        <div class="popup-content">
+            <img id="popupImage" class="popup-img" src="" alt="Imagem ampliada">
+            <div class="popup-caption">
+                <h3 id="popupCaption"></h3>
+             </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Script para Popup (sem alterações na lógica, apenas organização) ---
+        const pathologyImages = {
+            'prostate': [ { src: 'https://anatpat.unicamp.br/46-56lam600+.jpg', caption: 'Adenocarcinoma da próstata (HE, 600x) - Padrão infiltrativo' }, { src: 'https://anatpat.unicamp.br/DSCN1913+f.jpg', caption: 'Adenocarcinoma da próstata - Invasão da musculatura lisa' } ],
+            'breast-met': [ { src: 'https://anatpat.unicamp.br/DSCN14522+.JPG', caption: 'Metástase óssea de adenocarcinoma da mama - Destruição óssea' }, { src: 'https://anatpat.unicamp.br/DSCN14515+.JPG', caption: 'Metástase óssea - Detalhe da invasão tumoral no osso' } ],
+            'leiomyoma': [ { src: 'https://anatpat.unicamp.br/DSCN1382+.jpg', caption: 'Miométrio normal para comparação' }, { src: 'https://anatpat.unicamp.br/107lam600++.jpg', caption: 'Leiomioma uterino - Padrão fasciculado' }, { src: 'https://anatpat.unicamp.br/DSCN1388+.jpg', caption: 'Leiomioma - Ausência de atipias nucleares' } ],
+            'leiomyosarcoma': [ { src: 'https://anatpat.unicamp.br/DSCN1679++.jpg', caption: 'Leiomiossarcoma - Pleomorfismo celular acentuado' }, { src: 'https://anatpat.unicamp.br/DSCN1688++.jpg', caption: 'Leiomiossarcoma - Aberrações nucleares' }, { src: 'https://anatpat.unicamp.br/DSCN1691+.jpg', caption: 'Leiomiossarcoma - Multinucleação' }, { src: 'https://anatpat.unicamp.br/DSCN1694+.jpg', caption: 'Leiomiossarcoma - Atividade mitótica aumentada' } ],
+            'endometrial-hyperplasia': [ { src: 'https://anatpat.unicamp.br/DSCN5339+.JPG', caption: 'Hiperplasia glandular cística - Padrão geral com dilatação' }, { src: 'https://anatpat.unicamp.br/Dscn5356++.jpg', caption: 'Hiperplasia glandular cística - Detalhe da dilatação' } ],
+            'endometrial-ca': [ { src: 'https://anatpat.unicamp.br/DSCN5454+.JPG', caption: 'Adenocarcinoma endometrial - Padrão glandular desorganizado' }, { src: 'https://anatpat.unicamp.br/Dscn5456++.jpg', caption: 'Adenocarcinoma endometrial - Atipias nucleares' }, { src: 'https://anatpat.unicamp.br/Dscn5467++.jpg', caption: 'Adenocarcinoma endometrial - Invasão do estroma' } ],
+            'endometriosis': [ { src: 'https://anatpat.unicamp.br/Dscn5472++.jpg', caption: 'Endometriose em parede de intestino grosso' }, { src: 'https://anatpat.unicamp.br/DSCN5473+.JPG', caption: 'Endometriose - Presença de glândulas e estroma' }, { src: 'https://anatpat.unicamp.br/DSCN5476+.JPG', caption: 'Endometriose em parede abdominal (cicatriz)' } ],
+            'fibrocystic': [ { src: 'https://anatpat.unicamp.br/Dscn5522++.jpg', caption: 'Alterações fibrocísticas - Padrão com fibrose e cistos' }, { src: 'https://anatpat.unicamp.br/Dscn5524++.jpg', caption: 'Alterações fibrocísticas - Metaplasia apócrina em cisto' }, { src: 'https://anatpat.unicamp.br/DSCN5606+.JPG', caption: 'Alterações fibrocísticas - Adenose esclerosante' } ],
+            'placenta': [ { src: 'https://anatpat.unicamp.br/Dscn5651++.jpg', caption: 'Vilosite crónica - Infiltrado inflamatório na vilosidade' }, { src: 'https://anatpat.unicamp.br/Dscn5648++.jpg', caption: 'Infarto placentário - Área de necrose isquêmica' }, { src: 'https://anatpat.unicamp.br/Dscn5696++.jpg', caption: 'Placenta - Calcificações vilositárias (sinal de maturação/retenção)' } ],
+            'mole': [ { src: 'https://anatpat.unicamp.br/Dscn5663++.jpg', caption: 'Mola hidatiforme - Edema vilositário acentuado (vesículas)' }, { src: 'https://anatpat.unicamp.br/Dscn5659++.jpg', caption: 'Mola hidatiforme - Hiperplasia trofoblástica' }, { src: 'https://anatpat.unicamp.br/Dscn5672++.jpg', caption: 'Mola hidatiforme - Vilosidade avascular com cisterna' } ],
+            'choriocarcinoma': [ { src: 'https://anatpat.unicamp.br/Dscn5673++.jpg', caption: 'Coriocarcinoma - Metástase pulmonar com hemorragia' }, { src: 'https://anatpat.unicamp.br/Dscn5675++.jpg', caption: 'Coriocarcinoma - Componente de citotrofoblasto neoplásico' }, { src: 'https://anatpat.unicamp.br/DSCN5690+.JPG', caption: 'Coriocarcinoma - Componente de sinciciotrofoblasto neoplásico' } ]
+        };
+
+        let currentImageSet = [];
+        let currentIndex = 0;
+        const popupElement = document.getElementById('imagePopup');
+        const popupImage = document.getElementById('popupImage');
+        const popupCaption = document.getElementById('popupCaption');
+
+        function openPopup(src, caption) {
+            let foundSet = false;
+            for (const key in pathologyImages) {
+                const imageIndex = pathologyImages[key].findIndex(img => img.src === src);
+                if (imageIndex !== -1) {
+                    currentImageSet = pathologyImages[key];
+                    currentIndex = imageIndex;
+                    foundSet = true;
+                    break;
+                }
+            }
+            if (!foundSet) {
+                 currentImageSet = [{ src: src, caption: caption }];
+                 currentIndex = 0;
+            }
+            updatePopupContent();
+            popupElement.style.display = 'flex';
+        }
+
+        function closePopup() {
+            popupElement.style.animation = 'fadeOutPopupBackground 0.3s ease forwards';
+             const content = popupElement.querySelector('.popup-content');
+             content.style.animation = 'zoomOutPopupContent 0.3s ease forwards';
+
+             // Espera a animação terminar antes de esconder e limpar
+             setTimeout(() => {
+                 popupElement.style.display = 'none';
+                 popupImage.src = "";
+                 // Reseta as animações para a próxima abertura
+                 popupElement.style.animation = '';
+                 content.style.animation = '';
+             }, 300); // Tempo da animação de fadeOut/zoomOut
+        }
+        // Keyframes para fechar o popup
+         const styleSheet = document.styleSheets[0]; // Pega a primeira folha de estilo
+         try { // Adiciona keyframes dinamicamente (melhor seria ter no CSS)
+             styleSheet.insertRule(`@keyframes fadeOutPopupBackground { from { opacity: 1; } to { opacity: 0; } }`, styleSheet.cssRules.length);
+             styleSheet.insertRule(`@keyframes zoomOutPopupContent { from { transform: scale(1); opacity: 1; } to { transform: scale(0.8); opacity: 0; } }`, styleSheet.cssRules.length);
+         } catch (e) {
+             console.warn("Não foi possível adicionar keyframes dinamicamente:", e);
+         }
+
+
+        function navigate(direction) {
+            if (!currentImageSet || currentImageSet.length === 0) return;
+            currentIndex = (currentIndex + direction + currentImageSet.length) % currentImageSet.length; // Navegação circular
+            updatePopupContent();
+        }
+
+         function updatePopupContent() {
+             // Adiciona uma pequena animação de transição na mudança de imagem
+             popupImage.style.opacity = 0;
+             popupCaption.style.opacity = 0;
+             setTimeout(() => {
+                 popupImage.src = currentImageSet[currentIndex].src;
+                 popupCaption.textContent = currentImageSet[currentIndex].caption;
+                 popupImage.style.opacity = 1;
+                 popupCaption.style.opacity = 1;
+             }, 150); // Delay curto para a transição
+         }
+
+
+        // Event Listeners (Fechar ao clicar fora, teclado)
+         popupElement.addEventListener('click', (event) => {
+            if (event.target === popupElement) closePopup();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (popupElement.style.display === 'flex') {
+                if (event.key === 'ArrowLeft') navigate(-1);
+                else if (event.key === 'ArrowRight') navigate(1);
+                else if (event.key === 'Escape') closePopup();
+            }
+        });
+
+    </script>
+</body>
+</html>
