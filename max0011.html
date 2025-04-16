@@ -418,7 +418,8 @@
     let scoreBatch = 0;
     let resultsHistory = [];
     let currentChart = null;
-
+    let usedIframes = [];
+    
     const quizContainer = document.getElementById('quiz-container');
     const resultsContainer = document.getElementById('results-container');
     const imageModal = document.getElementById('imageModal');
@@ -723,21 +724,36 @@
     '<iframe width="110" height="200" src="https://www.myinstants.com/instant/eu-to-maluco-to-doente-to-doidao-14644/embed/" frameborder="0" scrolling="no"></iframe>'
 ];
 
-      const randomIframe = iframes[Math.floor(Math.random() * iframes.length)];
+      // Filtra apenas os iframes não utilizados ainda
+  const availableIframes = allIframes.filter(iframe => !usedIframes.includes(iframe));
 
-      const popup = document.createElement('div');
-      popup.className = 'congrats-popup';
-      popup.innerHTML = `
-        <div class="congrats-content">
-          <p class="congrats-message">Parabéns! Você tirou mais que 7, tome aqui seu botão aleatório</p>
-          <div class="random-iframe">${randomIframe}</div>
-          <button class="button close-popup" onclick="this.closest('.congrats-popup').remove()">Fechar</button>
-        </div>
-      `;
+  // Se todos já foram usados, reinicia o ciclo
+  if (availableIframes.length === 0) {
+    usedIframes = [];
+    availableIframes = [...allIframes];
+  }
 
-      document.body.appendChild(popup);
-    }
+  // Seleciona um iframe aleatório dos disponíveis
+  const randomIndex = Math.floor(Math.random() * availableIframes.length);
+  const randomIframe = availableIframes[randomIndex];
 
+  // Adiciona à lista de usados
+  usedIframes.push(randomIframe);
+
+  // Cria o popup
+  const popup = document.createElement('div');
+  popup.className = 'congrats-popup';
+  popup.innerHTML = `
+    <div class="congrats-content">
+      <p class="congrats-message">Parabéns! Você tirou mais que 7, tome aqui seu botão aleatório</p>
+      <div class="random-iframe">${randomIframe}</div>
+      <button class="button close-popup" onclick="this.closest('.congrats-popup').remove()">Fechar</button>
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+}
+    
     function showFinalResults() {
       quizContainer.style.display = 'none';
       resultsContainer.style.display = 'block';
