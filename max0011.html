@@ -1,1747 +1,753 @@
-
+<!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Simulado Avançado</title>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <style>
-        :root {
-          --bg-gradient-start: #ece9e6;
-          --bg-gradient-end: #ffffff;
-          --primary: #2979ff; /* Azul mais vibrante */
-          --primary-dark: #1c54b2;
-          --accent: #00c853; /* Verde mais vibrante */
-          --accent-light: #e0f7e9;
-          --danger: #f44336; /* Vermelho */
-          --danger-light: #ffebee;
-          --text: #263238; /* Cinza escuro azulado */
-          --text-light: #546e7a;
-          --border: #cfd8dc;
-          --card-bg: #ffffff;
-          --shadow-color: rgba(0, 0, 0, 0.1);
-          --disabled-bg: #e0e0e0;
-          --disabled-text: #9e9e9e;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Sons para acerto e erro -->
+  <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3" preload="auto"></audio>
+  <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
+  
+  <style>
+    :root {
+      --bg-gradient-start: #ece9e6;
+      --bg-gradient-end: #ffffff;
+      --primary: #2979ff;
+      --primary-dark: #1c54b2;
+      --accent: #00c853;
+      --accent-light: #0cd85a;
+      --danger: #f44336;
+      --danger-light: #ffebee;
+      --text: #263238;
+      --text-light: #546e7a;
+      --border: #cfd8dc;
+      --card-bg: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --disabled-bg: #e0e0e0;
+      --disabled-text: #9e9e9e;
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text);
+      padding: 30px 15px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .main-container {
+      max-width: 850px;
+      width: 100%;
+    }
+
+    .quiz-card, .results-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 35px;
+      margin-bottom: 30px;
+      animation: slideUpFadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      opacity: 0;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .question-counter {
+      font-size: 0.9rem;
+      font-weight: 600;
+      background-color: #e3f2fd;
+      color: var(--primary-dark);
+      padding: 5px 12px;
+      border-radius: 15px;
+    }
+
+    #question-text {
+      font-size: 1.15rem;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .image-container {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: zoom-in;
+    }
+
+    .image-container img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+      animation: fadeInModal 0.3s ease;
+    }
     
-          --transition-speed: 0.3s;
-        }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90vh;
+      animation: zoomInModal 0.3s ease;
+    }
     
-        * {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-        }
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
     
-        body {
-          font-family: 'Poppins', sans-serif;
-          background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-          color: var(--text);
-          padding: 30px 15px;
-          min-height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: flex-start; /* Alinha no topo para scroll */
-        }
+    .close-modal:hover, .close-modal:focus {
+      color: #bbb;
+      text-decoration: none;
+    }
+
+    .options {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .options li {
+      margin-bottom: 15px;
+    }
+
+    .option {
+      background-color: #f1f3f5;
+      padding: 15px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .option-letter {
+      font-weight: 700;
+      margin-right: 10px;
+      color: var(--primary);
+    }
+
+    .option:hover {
+      background-color: #e9ecef;
+      border-color: var(--primary);
+      transform: translateX(5px);
+    }
+
+    .option.selected {
+      border-color: var(--primary-dark);
+      background-color: #d1e3ff;
+    }
+
+    .option.correct {
+      border-color: var(--accent) !important;
+      background-color: var(--accent-light) !important;
+      color: #1b5e20;
+      font-weight: 600;
+    }
     
-        .main-container {
-           max-width: 850px;
-           width: 100%;
-        }
+    .option.correct .option-letter {
+      color: var(--accent);
+    }
+
+    .option.incorrect {
+      border-color: var(--danger) !important;
+      background-color: var(--danger-light) !important;
+      color: #c62828;
+      font-weight: 600;
+    }
     
-        .quiz-card, .results-card {
-          background-color: var(--card-bg);
-          border-radius: 16px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-          padding: 35px;
-          margin-bottom: 30px;
-          animation: slideUpFadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-          opacity: 0; /* Start hidden for animation */
-        }
+    .option.incorrect .option-letter {
+      color: var(--danger);
+    }
     
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
+    .options.disabled .option {
+      pointer-events: none;
+      opacity: 0.8;
+    }
     
-        .quiz-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
+    .options.disabled .option:not(.selected):not(.correct) {
+      background-color: #f8f9fa;
+      opacity: 0.7;
+    }
+
+    .button-container {
+      text-align: right;
+      margin-top: 30px;
+    }
+
+    .button {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3);
+    }
+
+    .button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(41, 121, 255, 0.4);
+    }
     
-        .question-counter {
-            font-size: 0.9rem;
-            font-weight: 600;
-            background-color: #e3f2fd;
-            color: var(--primary-dark);
-            padding: 5px 12px;
-            border-radius: 15px;
-        }
+    .button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3);
+    }
+
+    .button:disabled {
+      background-color: var(--disabled-bg);
+      color: var(--disabled-text);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .results-card h2 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
     
-        #question-text {
-          font-size: 1.15rem; /* Tamanho enunciado */
-          margin-bottom: 25px;
-          line-height: 1.6;
-          font-weight: 600;
-        }
+    .results-card p {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      color: var(--text-light);
+    }
     
-        .image-container {
-          margin-bottom: 25px;
-          text-align: center;
-        }
+    .chart-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+    }
+
+    .congrats-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.5s;
+    }
+
+    .congrats-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .congrats-message {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    .close-popup {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    @keyframes slideUpFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     
-        .image-container img {
-          max-width: 100%;
-          max-height: 400px; /* Limita altura máxima */
-          border-radius: 10px;
-          border: 1px solid var(--border);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          cursor: zoom-in;
-        }
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     
-        .image-container img:hover {
-          transform: scale(1.03);
-          box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-        }
+    @keyframes zoomInModal {
+      from { transform: scale(0.7); }
+      to { transform: scale(1); }
+    }
     
-        /* Image Modal Styles */
-        .image-modal {
-          display: none;
-          position: fixed;
-          z-index: 1001;
-          padding-top: 50px;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          overflow: auto;
-          background-color: rgba(0,0,0,0.9);
-          animation: fadeInModal 0.3s ease;
-        }
-        .modal-content {
-          margin: auto;
-          display: block;
-          max-width: 90%;
-          max-height: 90vh;
-          animation: zoomInModal 0.3s ease;
-        }
-        .close-modal {
-          position: absolute;
-          top: 15px;
-          right: 35px;
-          color: #f1f1f1;
-          font-size: 40px;
-          font-weight: bold;
-          transition: 0.3s;
-          cursor: pointer;
-        }
-        .close-modal:hover, .close-modal:focus {
-          color: #bbb;
-          text-decoration: none;
-        }
-    
-    
-        .options {
-          list-style: none;
-          margin-top: 20px;
-        }
-    
-        .options li {
-          margin-bottom: 15px;
-        }
-    
-        .option {
-          background-color: #f1f3f5; /* Fundo mais sutil */
-          padding: 15px 20px;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease-in-out;
-          border: 2px solid transparent;
-          display: flex; /* Para alinhar letra e texto */
-          align-items: baseline;
-        }
-    
-        .option-letter {
-            font-weight: 700;
-            margin-right: 10px;
-            color: var(--primary);
-        }
-    
-        .option:hover {
-          background-color: #e9ecef;
-          border-color: var(--primary);
-          transform: translateX(5px);
-        }
-    
-        .option.selected {
-            border-color: var(--primary-dark);
-            background-color: #d1e3ff; /* Azul claro para selecionado */
-        }
-    
-        .option.correct {
-          border-color: var(--accent) !important;
-          background-color: var(--accent-light) !important;
-          color: #1b5e20; /* Texto verde escuro */
-          font-weight: 600;
-        }
-         .option.correct .option-letter {
-             color: var(--accent);
-         }
-    
-        .option.incorrect {
-          border-color: var(--danger) !important;
-          background-color: var(--danger-light) !important;
-          color: #c62828; /* Texto vermelho escuro */
-           font-weight: 600;
-        }
-         .option.incorrect .option-letter {
-             color: var(--danger);
-         }
-    
-         /* Desabilitar cliques após resposta */
-         .options.disabled .option {
-            pointer-events: none;
-            opacity: 0.8;
-         }
-         .options.disabled .option:not(.selected):not(.correct) {
-             background-color: #f8f9fa; /* Fundo neutro para não selecionadas/incorretas */
-             opacity: 0.7;
-         }
-    
-    
-        .button-container {
-            text-align: right; /* Alinha botão à direita */
-            margin-top: 30px;
-        }
-    
-        .button {
-          background-color: var(--primary);
-          color: white;
-          padding: 12px 30px; /* Botão maior */
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          font-size: 1rem;
-          transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-          box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3);
-        }
-    
-        .button:hover {
-          background-color: var(--primary-dark);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba(41, 121, 255, 0.4);
-        }
-         .button:active {
-             transform: translateY(0);
-             box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3);
-         }
-    
-        .button:disabled {
-            background-color: var(--disabled-bg);
-            color: var(--disabled-text);
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-    
-        /* Estilos do Resultado */
-        .results-card h2 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 1.8rem;
-        }
-         .results-card p {
-             text-align: center;
-             font-size: 1.1rem;
-             margin-bottom: 30px;
-             color: var(--text-light);
-         }
-        .chart-container {
-            width: 100%;
-            max-width: 400px; /* Limita largura do gráfico */
-            margin: 0 auto 30px auto; /* Centraliza e adiciona espaço */
-        }
-    
-        /* Animações */
-        @keyframes slideUpFadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-         @keyframes fadeInModal {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-         @keyframes zoomInModal {
-           from { transform: scale(0.7); }
-           to { transform: scale(1); }
-         }
-    
-        @media (max-width: 600px) {
-            body { padding: 20px 10px; }
-            .quiz-card, .results-card { padding: 20px; }
-            .quiz-title { font-size: 1.4rem; }
-            #question-text { font-size: 1.05rem; }
-            .option { padding: 12px 15px; }
-            .button { padding: 10px 20px; font-size: 0.95rem;}
-            .results-card h2 { font-size: 1.5rem; }
-            .results-card p { font-size: 1rem; }
-        }
-    
-      </style>
-    </head>
-    <body>
-    
-      <div class="main-container">
-          <div id="quiz-container">
-            </div>
-    
-          <div id="results-container" style="display: none;">
-             </div>
-      </div>
-    
-      <div id="imageModal" class="image-modal">
-        <span class="close-modal" id="closeModalBtn">&times;</span>
-        <img class="modal-content" id="modalImageContent">
-      </div>
-    
-    
-      <script>
-       // =============================================
-    // BANCO DE QUESTÕES - EDITÁVEL
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 10px; }
+      .quiz-card, .results-card { padding: 20px; }
+      .quiz-title { font-size: 1.4rem; }
+      #question-text { font-size: 1.05rem; }
+      .option { padding: 12px 15px; }
+      .button { padding: 10px 20px; font-size: 0.95rem;}
+      .results-card h2 { font-size: 1.5rem; }
+      .results-card p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div id="quiz-container"></div>
+    <div id="results-container" style="display: none;"></div>
+  </div>
+
+  <div id="imageModal" class="image-modal">
+    <span class="close-modal" id="closeModalBtn">&times;</span>
+    <img class="modal-content" id="modalImageContent">
+  </div>
+
+  <script>
+    // =============================================
+    // BANCO DE QUESTÕES
     // =============================================
     const sampleQuestions = [
+      {
+        enunciado: 'Podemos dividir o ciclo menstrual em 3 fases distintas: a fase menstrual, a fase proliferativa ou estrogênica e a secretora ou lútea. Sobre as fases do ciclo menstrual na análise de citologia oncótica assinale a alternativa correta.',
+        imagem: null,
+        alternativas: {
+          a: 'A fase proliferativa ou lútea é o período de secreção de progesterona pelo folículo ovariano, que se encontra em maturação, dessa forma encontramos mais células superficiais no esfregaço cérvico-vaginal.',
+          b: 'A fase secretora ou lútea é o período de secreção de estrógeno pelo folículo ovariano, que se encontra em maturação, dessa forma encontramos mais células intermediárias no esfregaço cérvico-vaginal.',
+          c: 'A fase secretora ou lútea é o período de secreção de progesterona pelo corpo lúteo, que se encontra em degeneração, dessa forma encontramos mais células intermediárias no esfregaço cérvico-vaginal.',
+          d: 'A fase proliferativa ou lútea é o período de secreção de FSH pelo folículo ovariano, que se encontra em maturação, dessa forma encontramos mais células intermediárias no esfregaço cérvico-vaginal.'
+        },
+        correta: 'c'
+      },
+      {
+        enunciado: 'Observe a imagem a baixo de citologia oncótica de uma paciente. Assinale a alternativa correta sobre o epitélio e a fase encontrada.',
+        imagem: 'https://i.imgur.com/QLXeKQK.png',
+        alternativas: {
+          a: 'Epitélio cilíndrico da endocervice na fase proliferativa.',
+          b: 'Epitélio escamoso da endocervice na fase proliferativa.',
+          c: 'Epitélio escamoso da ectocérvice na fase secretora.',
+          d: 'Epitélio cilíndrico da ectocérvice na fase secretora.'
+        },
+        correta: 'c'
+      },
+      {
+        enunciado: 'As imagens abaixo representam esfregaços de exames de colpocitologia. Com base nas imagens assinale a alternativa correta.',
+        imagem: 'https://i.imgur.com/MifW45J.png',
+        alternativas: {
+          a: 'A lâmina representada na imagem A apresenta as bactérias Chlamydia trachomatis em sua forma infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa. Ambas as lâminas representam uma possível vaginite na paciente.',
+          b: 'A lâmina representada pela imagem A apresenta a microbiota fisiológica da paciente com a presença das bactérias Lactobacilos em sua forma não infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa, causando uma possível vaginite na paciente.',
+          c: 'A lâmina representada pela imagem A apresenta o protozoário Trichomonas vaginalis em sua forma infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa. Ambas as lâminas representam uma possível vaginite na paciente.',
+          d: 'A lâmina representada na imagem A apresenta a microbiota fisiológica da paciente com a presença do fungo Candida albicans em sua forma não infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa, causando uma possível vaginite na paciente.'
+        },
+        correta: 'd'
+      }
+      // Adicione mais questões conforme necessário
+    ];
 
-{
-  enunciado: 'Podemos dividir o ciclo menstrual em 3 fases distintas: a fase menstrual, a fase proliferativa ou estrogênica e a secretora ou lútea. Sobre as fases do ciclo menstrual na análise de citologia oncótica assinale a alternativa correta.',
-  imagem: null,
-  alternativas: {
-    a: 'A fase proliferativa ou lútea é o período de secreção de progesterona pelo folículo ovariano, que se encontra em maturação, dessa forma encontramos mais células superficiais no esfregaço cérvico-vaginal.',
-    b: 'A fase secretora ou lútea é o período de secreção de estrógeno pelo folículo ovariano, que se encontra em maturação, dessa forma encontramos mais células intermediárias no esfregaço cérvico-vaginal.',
-    c: 'A fase secretora ou lútea é o período de secreção de progesterona pelo corpo lúteo, que se encontra em degeneração, dessa forma encontramos mais células intermediárias no esfregaço cérvico-vaginal.',
-    d: 'A fase proliferativa ou lútea é o período de secreção de FSH pelo folículo ovariano, que se encontra em maturação, dessa forma encontramos mais células intermediárias no esfregaço cérvico-vaginal.'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'Observe a imagem a baixo de citologia oncótica de uma paciente. Assinale a alternativa correta sobre o epitélio e a fase encontrada.',
-  imagem: 'https://i.imgur.com/QLXeKQK.png',
-  alternativas: {
-    a: 'Epitélio cilíndrico da endocervice na fase proliferativa.',
-    b: 'Epitélio escamoso da endocervice na fase proliferativa.',
-    c: 'Epitélio escamoso da ectocérvice na fase secretora.',
-    d: 'Epitélio cilíndrico da ectocérvice na fase secretora.'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'As imagens abaixo representam esfregaços de exames de colpocitologia. Com base nas imagens assinale a alternativa correta.',
-  imagem: 'https://i.imgur.com/MifW45J.png',
-  alternativas: {
-    a: 'A lâmina representada na imagem A apresenta as bactérias Chlamydia trachomatis em sua forma infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa. Ambas as lâminas representam uma possível vaginite na paciente.',
-    b: 'A lâmina representada pela imagem A apresenta a microbiota fisiológica da paciente com a presença das bactérias Lactobacilos em sua forma não infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa, causando uma possível vaginite na paciente.',
-    c: 'A lâmina representada pela imagem A apresenta o protozoário Trichomonas vaginalis em sua forma infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa. Ambas as lâminas representam uma possível vaginite na paciente.',
-    d: 'A lâmina representada na imagem A apresenta a microbiota fisiológica da paciente com a presença do fungo Candida albicans em sua forma não infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa, causando uma possível vaginite na paciente.'
-  },
-  correta: 'd'
-},
-{
-  enunciado: 'A prostatite pode ser dividida em várias categorias: prostatite bacteriana aguda e crónica, prostatite não bacteriana crónica, e prostatite granulomatosa. A cerca de Prostatite Aguda',
-  imagem: null,
-  alternativas: {
-    a: 'A maioria dos casos é causada por diversas cepas de E. coli, outros bastonetes Gram-negativos. Pode aparecer como pequenos abscessos disseminados, como grandes áreas de necrose focal coalescentes, ou como edema difuso, congestão e ecimento supurativo de toda a glândula. Biópsias ou amostras cirúrgicas raramente são obtidas, dado que o diagnóstico é feito com base nos achados clínicos e laboratoriais',
-    b: 'A maioria dos casos é causada por diversas cepas micobactérias. Pode aparecer como pequenos abscessos disseminados, como grandes áreas de necrose focal coalescentes, ou como edema difuso, congestão e ecimento supurativo de toda a glândula. Biópsias ou amostras cirúrgicas raramente são obtidas, dado que o diagnóstico é feito com base nos achados clínicos e laboratoriais',
-    c: 'A maioria dos casos é causada por diversas cepas de E. coli, outros bastonetes Gram-negativos. Pode aparecer como pequenos abscessos disseminados, como grandes áreas de necrose focal coalescentes, ou como edema difuso, congestão e ecimento supurativo de toda a glândula. Biopsias ou amostras cirúrgicas sempre são obtidas, como referência de diagnóstico adicionado a achados clínicos e laboratoriais.',
-    d: 'A maioria dos casos é causada por diversas cepas de micobactérias. Pode aparecer como pequenos abscessos disseminados, como grandes áreas de necrose focal coalescentes, ou como edema difuso, congestão e ecimento supurativo de toda a glândula. Bíópsias ou amostras cirúrgicas sempre são obtidas, como referência de diagnóstico adicionado a achados clínicos e laboratoriais'
-  },
-  correta: 'a'
-},
-{
-  enunciado: 'A biopsia abaixo é um adenocarcinoma metastático (em osso), analise a figura e assinale a alternativa que indique o que se observa em 1 e 2. respectivamente:',
-  imagem: 'https://i.imgur.com/gVIheow.png',
-  alternativas: {
-    a: '1-mitose, 2-reação desmoplásica',
-    b: '1-osteoclasto, 2 - mitose',
-    c: '1-reação desmoplásica, 2 - mitose',
-    d: '1-osteoclasto, 2 reação desmoplásica'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'Paciente gestante, vai ao obstetra no 50 mês com sangramento vaginal. O médico observa aumento excessivo do volume uterino e ausência de batimentos fetais. A paciente apresentou um quadro de Mola hidatiforme com necessidade de curetragem de material. As figuras abaixo demonstram as alterações observadas nesse processo. Assinale a alternativa que caracterize as alteracoes presentes nessas imagens:',
-  imagem: 'https://i.imgur.com/70fdJwJ.png',
-  alternativas: {
-    a: 'Hipoplasia do sinciciotroflobasto e citotrofiobasto, vilosidades edemaciadas e avasculares.',
-    b: 'Hiperplasia do citotroflobasto, vilosidades edemaciadas e vasculares',
-    c: 'Hiperplasia do sinciciotroflobasto, vilosidades edemaciadas e vasculares.',
-    d: 'Hiperplasia do sinciciotrofiobasto e citotroflobasto, vilosidades edemaciadas e avasculares.'
-  },
-  correta: 'd'
-},
-{
-  enunciado: 'As figuras abaixo demonstram 2 situações importantes de comprometimento epiteliais vulvares não neoplásicos: Assinale a alternativa que caracterize a lamina de liquen escleroso, bem como suas caracteristicas histologicas:',
-  imagem: 'https://i.imgur.com/LstZkzT.png',
-  alternativas: {
-    a: 'B-liquen escleroso, espessamento da epiderme e hiperqueratose, algumas vezes está presente uma infiltração linfocitica na derme, o epitélio hiperplásico pode exibir atividade mitótica, mas carece de atipia celular.',
-    b: 'A-liquen escleroso, espessamento da epiderme e hiperqueratose, algumas vezes está presente una infiltração linfocitica na derme, o epitélio hiperplásico pode exibir atividade mítótica, mas carece de atipia celular.',
-    c: 'A-liquen escleroso, adelgaçamento acentuado da epiderme, degeneração das células basais, queratinização excessiva, mudanças escleróticas da derme superficial e por um infiltrado linfocitico em forma de faixa na derme subjacente.',
-    d: 'B-liquen escleroso, adelgaçamento acentuado da epiderme, degeneração das células basais, queratinização excessiva, mudanças escleróticas da derme superficial e por um infiltrado linfocitico em forma de faixa na derme subjacente.'
-  },
-  correta: 'c' // Score 0/0.286 indica resposta selecionada (a) incorreta.
-},
- {
-  enunciado: 'Paciente, 25 anos, vai ao pronto atendimento com dor e desconforto na região da vulva, ao exame o médico observa uma massa cística e realiza a excisão com drenagem do conteúdo. A partir do relato, assinale a alternativa que caracterize a patologia que acometeu essa paciente e a causa desse processo patológico:',
-  imagem: null,
-  alternativas: {
-    a: 'Liquen escleroso, obstrução do ducto por um processo granulomatoso.',
-    b: 'Cisto de Bartholin, obstrução do ducto por um processo granulomatoso.',
-    c: 'Liquen escleroso, obstrução do ducto por um processo inflamatório.',
-    d: 'Cisto de Bartholin, obstrução do ducto por um processo inflamatório.'
-  },
-  correta: 'd'
-},
- {
-  enunciado: 'Assinale a alternativa correta para o diagnóstico laboratorial da Diabetes Mellitus Gestacional.',
-  imagem: null,
-  alternativas: {
-    a: 'Se a dosagem da glicemia em jejum estiver entre 85mg/dL e 110mg/dL, deve-se realizar o teste de tolerância à glicose 75g. Nesse teste é realizada uma primeira coleta de sangue com a paciente em jejum, em seguida a paciente ingere uma bebida açucarada e em seguida, a cada 30 minutos uma nova amostra é coletada, até completar 120 minutos.',
-    b: 'Se a dosagem da glicemia em jejum estiver acima de 110mg/dL, deve-se realizar o teste de tolerância à glicose 75g. Nesse teste é realizada uma primeira coleta de sangue com a paciente em jejum, em seguida a paciente ingere uma bebida açucarada e em seguida, a cada 30 minutos uma nova amostra é coletada, até completar 120 minutos.',
-    c: 'Se a dosagem da glicemia em jejum estiver entre 85mg/dL e 110mg/dL, deve-se realizar o teste de tolerância à glicose 75g. Nesse teste é realizada uma primeira coleta de sangue com a paciente em jejum, em seguida a paciente ingere uma bebida açucarada e após duas horas é realizada a coleta da segunda amostra de sangue.',
-    d: 'Se a dosagem da glicemia em jejum estiver abaixo de 85m g/dL o exame deve ser repetido no terceiro trimestre, juntamente com o teste de tolerância à glicose 75g. Nesse teste é realizada uma primeira coleta de sangue com a paciente em jejum, em seguida a paciente ingere uma bebida açucarada e após duas horas é realizada a coleta da segunda amostra de sangue.'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'O diagnóstico laboratorial do HIV segue procedimentos que estão organizados em fluxogramas. Baseado nessa afirmativa, assinale a alternativa correta:',
-  imagem: null,
-  alternativas: {
-    a: 'Existem diferentes opções de fluxogramas para o diagnóstico do HIV e a escolha de qual a ser utilizada dependerá da disponibilidade dos exames, do contexto epidemiológico e do momento da infecção.',
-    b: 'O teste molecular não é usado no fluxograma de escolha para diagnóstico do HIV, pois é um teste muito sensível com alto risco de resultado falso-positivo.',
-    c: 'A imunocromatografia pode ser utilizada para o diagnóstico laboratorial do HIV sem restrições e esse teste é capaz de detectar tanto antigeno, quanto anticorpo contra o vírus simultaneamente.',
-    d: 'Elisa de 4ª geração faz parte do fluxograma de escolha para o diagnóstico do HIV, sendo capaz de identificar apenas anticorpos IgA, IgM e IgG contra o vírus.'
-  },
-  correta: 'a' // Score 0/0.286 indica resposta selecionada (d) incorreta. Em Prova 5, a correta é 'd', mas aqui o aluno errou.
-},
-{
-  enunciado: 'É preconizada a identificação das gestantes infectadas e gestantes susceptíveis à infecção por toxoplasmose, realizando-se o teste sorológico na primeira consulta de pré-natal. Assinale a alternativa correta do status sorológico (imunoglobulinas) de uma paciente que está imunizada.',
-  imagem: null,
-  alternativas: {
-    a: 'IgM + e IgG-',
-    b: 'IgM e IgG-',
-    c: 'IgM- e IgG+',
-    d: 'IgM e IgG +'
-  },
-  correta: 'c' // Score 0/0.286 indica resposta selecionada (b) incorreta. A correta é IgG+.
-},
-{
-  enunciado: 'Na sorologia para HIV o teste confirmatório é:',
-  imagem: null,
-  alternativas: {
-    a: 'Pouco específico',
-    b: 'Muito especifico',
-    c: 'Pouco sensível',
-    d: 'Sensível'
-  },
-  correta: 'b'
-},
-{
-  enunciado: 'M.A.S.M. apresenta glicemia de jejum de 132 mg/dL na 10ª semana de gestação, enquanto A.L.P.S., sua prima que também está gestante na 12ª semana, apresentou glicemia de jejum de 100 mg/dL. Leia as assertivas abaixo, e assinale a alternativa correta sobre a glicemia destas gestantes.\nI-M.A.S.M. deve realizar o TTOG teste de tolerância oral à glicose e dependendo do resultado a paciente deverá ser encaminhada para gestação de alto risco por conta da Diabetes Gestacional.\nII-A.L.P.S. deve realizar novamente a dosagem da glicemia em jejum para confirmar o resultado e se continuar acima de 85 mg/dl deverá ser encaminhada para gestação de alto risco por conta da Diabetes Gestacional.\nIII - As duas gestantes deverão realizar a dosagem da glicemia em jejum e o teste de tolerância oral à glicose, para então serem encaminhadas para a gestação de alto risco, se necessário.\nAssinale a alternativa correta:',
-  imagem: null,
-  alternativas: {
-    a: 'Somente II está correta.',
-    b: 'Somente III está correta.',
-    c: 'Somente I está correta.',
-    d: 'Todas estão incorretas.'
-  },
-  correta: 'd'
-},
-{
-  enunciado: 'A toxoplasmose geralmente é assintomática e passa desapercebida. No entanto, gestantes que apresentam a doença podem transmiti-la ao feto ocasionando aborto, danos neurológicos, retardamento mental e convulsões no bebê. Assinale a alternativa correta sobre o diagnóstico laboratorial da toxoplasmose.',
-  imagem: null,
-  alternativas: {
-    a: 'O teste de Avidez, avalia a capacidade de ligação dos anticorpos IgG, é diretamente proporcional ao tempo de infecção, assim resultados acima de 60% indicam infecções há mais de 4 meses.',
-    b: 'O teste de Avidez, avalia a capacidade de ligação dos anticorpos IgM, é diretamente proporcional ao tempo de infecção, assim resultados acima de 30% indicam infecções há mais de 4 meses.',
-    c: 'O teste de Avidez, avalia a capacidade de ligação dos anticorpos IgG, é diretamente proporcional ao tempo de infecção, assim resultados acima de 30% indicam infecções há mais de 4 meses.',
-    d: 'O teste de Avidez, avalia a capacidade de ligação dos anticorpos IgM, é diretamente proporcional ao tempo de infecção, assim resultados acima de 60% indicam infecções há mais de 4 meses.'
-  },
-  correta: 'a' // Inferido pela resposta 'a' selecionada em Prova 6 (Questão 3), embora marcada como errada (0 pontos) em Prova 4 (Questão 16). Assumindo que a Prova 6 esteja correta.
-},
-{
-  enunciado: 'As figuras abaixos demonstram a comparação entre endométrio proliferativo normal e Hiperplasia glandular cistica do endométrio (HGCE). Dentre as caracteristicas histologicas observadas na HGCE (figura a direita), têm-se:',
-  imagem: 'https://i.imgur.com/GhWO3Bd.png',
-  alternativas: {
-    a: 'presença de glândulas menores, mais dilatadas, menos próximas entre si, o estroma é mais abundante, as células estromais têm citoplasma maiores e são mais escuras que no endométrio proliferativo normal, núcleos em várias alturas e presença de cílios.',
-    b: 'presença de glândulas maiores, mais dilatadas, mais próximas entre si, o estroma é menos abundante, as células estromais têm menos citoplasma e são mais escuras que no endométrio proliferativo normal, núcleos em várias alturas e presença de cílios.',
-    c: 'presença de glândulas menores, mais dilatadas, mais próximas entre si, o estroma é mais abundante, as células estromais tēm menos citoplasma e são mais escuras que no endométrio proliferativo normal, núcleos em várias alturas e presença de cílios.',
-    d: 'presença de glândulas maiores, mais dilatadas, mais próximas entre si, o estroma é mais abundante, as células estromais têm citoplasma maiores e são mais escuras que no endométrio proliferativo normal, núcleos em várias alturas e presença de cílios.'
-  },
-  correta: 'b' // Score 0/0.286 indica resposta selecionada (d) incorreta.
-},
-{
-  enunciado: 'Paciente pós-menopausada, diabética, hipertensa e obesa, apresenta queixa de hemorragia na consulta com o ginecologista. apos exames solicitados, é realizado biópsia e o dianóstico é adenocarcinoma de endométrio, figura. São características desse tipo de neoplasias:',
-  imagem: 'https://i.imgur.com/kUcTSDL.png',
-  alternativas: {
-    a: 'crescimento para a cavidade do miométrio e pouca infiltração no endométrio; o tumor é bem diferenciado, constituído em parte por áreas papilíferas e em parte por glândulas densamente agrupadas, com o aspecto \'back to back\' (quase sem estroma entre as glândulas).',
-    b: 'crescimento para a cavidade endometrial e pouca infiltração no miométrio; o tumor é bem diferenciado, constituído em parte por áreas papilíferas e em parte por glândulas densamente agrupadas, com o aspecto \'back to back\' (quase sem estroma entre as glândulas).',
-    c: 'crescimento para a cavidade do miométrio e pouca infiltração no endométrio, o tumor é pouco diferenciado, constituído em parte por áreas papiliferas e em parte por glândulas densamente agrupadas, com o aspecto \'back to back\' (com muito estroma entre as glândulas).',
-    d: 'crescimento para a cavidade endometrial e muita infiltração no miométrio; o tumor é pouco diferenciado, constituido em parte por áreas papiliferas e em parte por glândulas densamente agrupadas, com o aspecto \'back to back\' (com muito estroma entre as glândulas).'
-  },
-  correta: 'b' // Inferido pela resposta correta em Prova 3 (Questão 26) e Prova 2 (Questão 20), apesar de marcada como errada (selecionada 'd') em Prova 4 (Questão 18).
-},
-{
-  enunciado: 'Existem vários tipos de anticoagulantes utilizados nos tubos de coleta de sangue. Foi solicitado o estudo dos fatores de coagulação de um paciente. Assinale a alternativa do anticoagulante correto para este tipo de análise.',
-  imagem: null,
-  alternativas: {
-    a: 'EDTA',
-    b: 'Heparina',
-    c: 'Citrato de sódio',
-    d: 'Fluoreto'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'O sangue é um tecido fluido, formado por uma massa heterogênea de células diferenciadas que se encontram suspensas em uma fase liquida. Assinale a alternativa correta do tubo utilizado para avaliação do sangue total e elementos figurados.',
-  imagem: 'https://i.imgur.com/phkSwRM.png',
-  alternativas: {
-    a: 'Tubo tampa amarela (gel separador)',
-    b: 'Tubo tampa roxa (EDTA)',
-    c: 'Tubo tampa azul (Citrato)',
-    d: 'Tubo tampa verde (Heparina)'
-  },
-  correta: 'b' // Inferido pela imagem do tubo roxo sendo selecionada.
-},
-{
-  enunciado: 'Assinale a alternativa correta para o tubo (cor da tampa) utilizado para obtenção de soro.',
-  imagem: 'https://i.imgur.com/phkSwRM.png',
-  alternativas: {
-    a: 'Tampa Azul',
-    b: 'Tampa Roxa',
-    c: 'Tampa Verde',
-    d: 'Tampa Vermelha ou Amarela (com ativador/gel)'
-  },
-  correta: 'd' // Inferido pela imagem do tubo tampa vermelha sendo selecionada.
-},
-{
-  enunciado: 'Para reduzir o risco de efeitos adversos para os pacientes, é necessário que os profissionais de saúde que fazem flebotomia sejam preparados em procedimentos específicos para os tipos de espécime que colhem. Assinale a alternativa que descreve corretamente os constituintes sanguíneos analisados em uma amostra coletada no tubo ou seringa com heparina:',
-  imagem: null,
-  alternativas: {
-    a: 'Análise de glicose.',
-    b: 'Avaliações sorológicas.',
-    c: 'Análise do pH, PCO2 e pO2 na gasometria.',
-    d: 'Análise de fatores de coagulação.'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'Com relação ao sistema Genital Ferninino marque a alternativa correta:',
-  imagem: null,
-  alternativas: {
-    a: 'os óstios encontrados no vestíbulo vaginal são: da uretra feminina, da vagina e das glândulas vestibulares maiores e menores',
-    b: 'a drenagem venosa do ovário esquerdo é realizada diretamente na veia cava inferior',
-    c: 'as camadas do útero são: paramétrio, miométrio e endométrio',
-    d: 'o músculo bulboesponjoso recobre os ramos do clitóris'
-  },
-  correta: 'a'
-},
-{
-  enunciado: 'De proximal para distal do útero, quais são as partes sequenciais da tuba uterina:',
-  imagem: null,
-  alternativas: {
-    a: 'infundibulo, ampola, istmo;',
-    b: 'istmo, ampola, infundibulo;',
-    c: 'istmo, infundibulo, ampola;',
-    d: 'infundibulo, istmo, ampola;'
-  },
-  correta: 'b'
-},
-{
-  enunciado: 'Referente às diferenças entre as pelves ginecoide e androide é correto o que se afirma em:',
-  imagem: null,
-  alternativas: {
-    a: 'Ginecoide (acetábulos mais próximos) - Androide (acetábulos mais distantes)',
-    b: 'Ginecoide (curvatura do sacro mais acentuada) - Androide (curvatura do sacro menos acentuada)',
-    c: 'Ginecoide (pelve menor ampla e rasa) - Androide (pelve menor estreita e profunda)',
-    d: 'Ginecoide (promontório sacral mais saliente) - Androide (promontório sacral menos saliente)'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'Referente ao sistema genital masculino, analise as seguintes afirmações:\nI- São estruturas pertencentes ao funículo espermático: artéria gonadal, veia gonadal e plexo pampiniforme, ducto deferente, ramo genital do nervo genitofemoral, artéria do ducto deferente e artéria cremastérica;\nII- O ducto ejaculatório é formado pela junção do ducto deferente com o ducto da glândula seminal e atravessa a porção posterior da próstata;\nIII- São partes do ducto deferente: escrotal, funicular, inguinal e pélvica. A porção terminal da parte pélvica é denominada ampola do ducto deferente;\nÉ correto o que se afirma em:',
-  imagem: null,
-  alternativas: {
-    a: 'apenas I e II',
-    b: 'I, II e III',
-    c: 'apenas I e III',
-    d: 'apenas II e III'
-  },
-  correta: 'b'
-},
-{
-  enunciado: 'Assinale a afirmativa correta:',
-  imagem: null,
-  alternativas: {
-    a: 'o suprimento arterial do ovário e da tuba uterina é feito tanto pela artéria ovárica (ramo direto da artéria aorta) como por ramos da artéria uterina',
-    b: 'a posição anatômica mais comum do útero é de anteversão e retroflexão',
-    c: 'a escavação vesicouterina está em contato com o Fórnice posterior da vagina, por isso mais utilizada para procedimentos como a punção aspirativa do fundo de saco de Douglas (culdocentese)',
-    d: 'dentre as estruturas de sustentação do útero tem o ligamento largo que é constituido pelo mesovário, mesossalpinge e perimétrio'
-  },
-  correta: 'a' // Inferido pela resposta correta na Prova 5 (Questão 14) e Prova 6 (Questão 30), apesar de selecionada incorretamente em Prova 4 (Questão 27).
-},
-{
-  enunciado: 'Assinale a alternativa correta:',
-  imagem: null,
-  alternativas: {
-    a: 'O ligamento largo do útero ajuda a manter o útero em posição na pelve',
-    b: 'A posição do útero normally é retrovertido e retrofletido.',
-    c: 'O endométrio é a camada muscular média do útero',
-    d: 'Os cornos uterinos estão localizados no colo do útero'
-  },
-  correta: 'a'
-},
-{
-  enunciado: 'Em relação à drenagem venosa dos testículos, sabe-se que a ocorrência de varicocele (varizes testiculares) é maior à esquerda. Isso se justifica em razão de, frequentemente',
-  imagem: null,
-  alternativas: {
-    a: 'a veia gonadal (testicular) esquerda ser tributária da veia renal direita',
-    b: 'a veia gonadal (testicular) direita ser tributária da veia renal direita',
-    c: 'a veia gonadal (testicular) esquerda ser tributária da veia renal esquerda',
-    d: 'a veia gonadal (testicular) esquerda ser tributária da veia cava inferior'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'Assinale a alternativa correta:',
-  imagem: null,
-  alternativas: {
-    a: 'Os lábios maiores formam o prepúcio do clitóris',
-    b: 'O vestibulo vaginal é o espaço circundado pelos lábios maiores do pudendo',
-    c: 'O bulbo do vestibulo é um tecido erétil',
-    d: 'O ligamento redondo se fixa nos lábios menores do pudendo'
-  },
-  correta: 'c' // Inferido pela resposta correta na Prova 6 (Questão 36), apesar de selecionada incorretamente em Prova 4 (Questão 30) e Prova 5 (Questão 11).
-},
-{
-  enunciado: 'A esterilização cirúrgica masculina (vasectomia), e a esterilização feminina (laqueadura) é realizada respectivamente:',
-  imagem: null,
-  alternativas: {
-    a: 'ducto ejaculatório, tuba uterina;',
-    b: 'ducto ejaculatório, ovário;',
-    c: 'ducto deferente, tuba uterina;',
-    d: 'ducto eferente, ovário'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'O conhecimento das camadas do escroto e os envoltórios dos testículos representa pré-requisito fundamental para determinados procedimentos clínicos. Numa situação em que uma agulha é introduzida através da pele do escroto, com o objetivo de alcançar a cavidade da túnica vaginal do testículo, as seguintes estruturas são atravessadas:',
-  imagem: null,
-  alternativas: {
-    a: 'pele do escroto, túnica albugínea, fáscia espermática externa, músculo cremaster, fáscia espermática interna e lâmina parietal da túnica vaginal do testículo',
-    b: 'pele do escroto, túnica dartos, fáscia espermática externa, músculo cremaster, fáscia espermática interna e lâmina visceral da túnica vaginal do testículo',
-    c: 'pele do escroto, túnica albugínea, fáscia espermática interna, músculo cremaster, fáscia espermática externa e lâmina parietal da túnica vaginal do testículo',
-    d: 'pele do escroto, túnica dartos, fáscia espermática externa, músculo cremaster, fáscia espermática interna e lâmina parietal da túnica vaginal do testículo'
-  },
-  correta: 'd'
-},
-{
-  enunciado: 'Assinale a alternativa correta sobre a secreção e ação da inibina no eixo HHG.',
-  imagem: null,
-  alternativas: {
-    a: 'É secretada pelas células de Sertoli e causa feedback negativo sobre a produção de FSH.',
-    b: 'É secretada pelas células de Leydig e causa feedback negativo sobre a produção de FSH e LH.',
-    c: 'É secretada pelas células de Sertoli e causa feedback negativo sobre a produção de LH e FSH.',
-    d: 'É secretada pelas células de Leydig e causa feedback negativo sobre a produção de FSH e GnRH.'
-  },
-  correta: 'a'
-},
-{
-  enunciado: 'A análise macroscópica de uma amostra de sêmen revelou um aspecto “branco/translúcido”. Assinale a alternativa que melhor represente essa observação.',
-  imagem: null,
-  alternativas: {
-    a: 'Trata-se de um caso de leucospermia.',
-    b: 'É uma amostra normal.',
-    c: 'É um caso de oligospermia.',
-    d: 'É um caso de necrozoospermia.'
-  },
-  correta: 'c'
-},
-{
-  enunciado: 'Assinale a alternativa que contenha uma observação que NÃO pode ser feita pelo método de coloração Diff-Quick.',
-  imagem: null,
-  alternativas: {
-    a: 'Avaliar a vitalidade da amostra de sêmen.',
-    b: 'Avaliar a proporção de espermatozoides normais e anormais.',
-    c: 'Avaliar a forma da cabeça do espermatozoide.',
-    d: 'Avaliar a proporção do acrossomo na cabeça do espermatozoide.'
-  },
-  correta: 'a'
-},
-{
-  enunciado: 'Assinale a alternativa correta da proteína que é necessária para o gatilho da espermatogênese.',
-  imagem: null,
-  alternativas: {
-    a: 'Proteína ligante de andrógeno.',
-    b: 'Proteína ligante de testosterona.',
-    c: 'Proteína inibidora de FSH.',
-    d: 'Proteína inibidora de inibina.'
-  },
-  correta: 'a'
-},
-{
-  enunciado: 'Assinale a alternativa INCORRETA com relação ao metabolismo e transporte da testosterona.',
-  imagem: null,
-  alternativas: {
-    a: 'O córtex das adrenais também está envolvido na participação da secreção de pequenas quantidades de andrógenos.',
-    b: 'A testosterona utilizada pelo organismo é derivada da conversão da diidrotestosterona (forma inativa) em testosterona forma ativa.',
-    c: 'Quase a totalidade da testosterona produzida pelo organismo é transportada pelo sangue ligada a proteínas plasmáticas.',
-    d: 'A metabolização da testosterona é hepática com excreção renal e biliar.'
-  },
-  correta: 'b'
-},
-{
-  enunciado: 'As figuras abaixo demonstram a macroscopia e a microscopia de um carcinoma mamario invasivo. Assinale a alternativa que caracterize os achados obseravados nessas imagens:',
-  imagem: 'https://imgur.com/DhflxY7.png',
-  alternativas: {
-    a: 'Macroscopicamente presença de massas irregulares radiodensas e firmes e microscopicamente células neoplásicas isoladas infiltrando tecido fibrogorduroso adjacente.',
-    b: 'Macroscopicamente presença de massas irregulares radiodensas e firmes e microscopicamente uma reação estromática desmoplásica.',
-    c: 'Macroscopicamente presença de massas imperceptíveis radiodensas e frouxas e microscopicamente células neoplásicas isoladas infiltrando tecido fibrogorduroso adjacente.',
-    d: 'Macroscopicamente presença de massas imperceptíveis radiodensas e frouxas e microscopicamente uma reação estromática desmoplásica.'
-  },
-  correta: 'a' // Inferido pela resposta correta na Prova 3 (Questão 1), apesar de marcada como errada em Prova 4 (Questão 38) e Prova 5 (Questão 2).
-},
-{
-  enunciado: 'Ao analisar lâminas de uma paciente com fibroadenoma, um patologista observou as seguintes caracteristicas: Assinale a alternativa que descreva essas caracteristicas microscopicas observadas:',
-  imagem: 'https://imgur.com/keqfGJI.png',
-  alternativas: {
-    a: 'Estroma intralobular denso, no componente epitelial observa-se dupla população celular (células epiteliais e mioepiteliais) pouco diferenciadas',
-    b: 'Estroma intralobular frouxo, no componente epitelial observa-se dupla população celular (células epiteliais e mioepiteliais) bem diferenciadas',
-    c: 'Estroma intralobular denso, no componente epitelial observa-se dupla população celular (células epiteliais e mioepiteliais) bem diferenciadas',
-    d: 'Estroma intralobular frouxo, no componente epitelial observa-se dupla população celular (células epiteliais e mioepiteliais) pouco diferenciadas'
-  },
-  correta: 'c'
-},
-    {
-      enunciado: 'Paciente, 28 naos, ao fazer exame de palpação da mama notou a presença de um nódulo e marcou imediatamente uma consulta com o ginecologista. O médico fez a biópsia, figura abaixo. Após a aspiração do conteudo por agulha fina, a lesão desapareceu. A partir da observção macroscopica e microscopica, assinale a alternativa que caracterize qual o tipo de processo que acometeu a paciente, bem como as caracteristicas mascroscópicas (B) e microscopicas (C) observadas:',
-      imagem: 'https://imgur.com/oVG1NtF.png',
-      alternativas: {
-        a: 'Fibrose, B: revestimento de células apócrinas com núcleo arredondado e citoplasma granular abundante, presença de calcificação luminal, que se forma nos resíduos da secreção . C: fibrose preenchida com líquido turvo e escuro.',
-        b: 'Fibrose, B: fibrose preenchida com líquido turvo e escuro. C: revestimento de células apócrinas com núcleo arredondado e citoplasma granular abundante, presença de calcificação luminal, que se forma nos resíduos da secreção.',
-        c: 'Cistos, B: cistos preenchidos com líquido turvo e escuro. C: revestimento de células apócrinas com núcleo arredondado e citoplasma granular abundante, presença de calcificação luminal, que se forma nos resíduos da secreção.',
-        d: 'Cistos, B: revestimento de células apócrinas com núcleo arredondado e citoplasma granular abundante, presença de calcificação luminal, que se forma nos resíduos da secreção . C: cistos preenchidos com líquido turvo e escuro.'
-      },
-      correta: 'c'
-    },
-    {
-      enunciado: 'Carcinoma Ductal In Situ (CDIS) é uma proliferação clonal de células epiteliais malignas, limitadas aos ductos e lóbulos pela membrana basal, figura abaixo. Assinale a alternativa que caracterize o que pode ser vizualizado em A e B, respectivamente:',
-      imagem: 'https://imgur.com/gIZm3h6.png',
-      alternativas: {
-        a: 'A - CDIS cribriforme, com espaços arredondados regulares contendo secreções e calcificações. B-CDIS micropapilífero, projeções papilíferas sem eixos fibrovasculares.',
-        b: 'A - CDIS micropapilífero, projeções papilíferas sem eixos fibrovasculares. B-CDIS cribriforme, com espaços arredondados regulares contendo secreções e calcificações.',
-        c: 'A- Imagem radiológica revela calcificações lineares e ramificadas dentro do sistema ductal. B- Proliferação de alto grau associada a grandes áreas centrais de necrose e calcificações preenchendo vários ductos.',
-        d: 'A - Proliferação de alto grau associada a grandes áreas centrais de necrose e calcificações preenchendo vários ductos. B- Imagem radiológica revela calcificações lineares e ramificadas dentro do sistema ductal.'
-      },
-      correta: 'c' // Inferido da Prova 3 (Questão 3), apesar da resposta selecionada 'b' em Prova 5 (Questão 1) ter score 0.
-    },
-    {
-      enunciado: 'Paciente, 65 anos, sexo masculino, procurou o Pronto-Socorro com queixa de dificuldade miccional. relatou que há mais ou menos um ano observou diminuição do jato urinário e aumento da frequência urinária, que evoluiu nas últimas semanas com sensação de esvaziamento incompleto da bexiga e necessidade de esforço abdominal às micções (sintomas obstrutivos). Nas últimas 24 horas, percebeu piora acentuada dos sintomas, apresentando micção em gotas e incontinência de urgência - perda involuntária de urina após forte sensação de urgência para urinar (sintomas irritativos) associada à dor intensa e desconforto na região suprapúbica. Realizou uma série de exames e após diagnóstico de Hiperplasia Prostática foi submetido a prostatecmia. As imagens abaixo demosntram a macroscopia e microscopia da próstata desse paciente. Analise as imagens e assinale a alternativa que indique os achados desse processo patológico:',
-      imagem: 'https://imgur.com/oLTKduh.png',
-      alternativas: {
-        a: 'Macroscopia: nódulos bem definidos da hiperplasia prostática benigna, Microscopia: podem ser vistas camadas de células colunares internas, camada de células basais achatadas externas e infiltrado inflamtório.',
-        b: 'Macroscopia: nódulos pouco definidos da hiperplasia prostática benigna, Microscopia: podem ser vistas camadas de células basais achatadas internas, camada de células colunares externas e infiltrado inflamtório.',
-        c: 'Macroscopia: nódulos pouco definidos da hiperplasia prostática benigna, Microscopia: podem ser vistas camadas de células colunares internas, camada de células basais achatadas externas e infiltrado inflamtório.',
-        d: 'Macroscopia: nódulos bem definidos da hiperplasia prostática benigna, Microscopia: podem ser vistas camadas de células basais achatadas internas, camada de células colunares externas e infiltrado inflamtório.'
-      },
-      correta: 'd' // Inferido pela resposta correta na Prova 3 (Questão 40), apesar da resposta selecionada 'a' em Prova 5 (Questão 5) e 'd' em Prova 6 (Questão 1) terem score 0.
-    },
-    {
-      enunciado: 'O exame de colpocitologia oncótica é realizado em mulheres e tem diversos objetivos prognósticos, terapêuticos e de rastreio. Assinale a alternativa que não é uma indicação deste exame.',
-      imagem: null,
-      alternativas: {
-        a: 'Avaliação de simples condição hormonal.',
-        b: 'Detecção de lesões oncológicas.',
-        c: 'Detecção e controle de algumas infeções.',
-        d: 'Confirmação de gravidez.'
-      },
-      correta: 'd'
-    },
-    {
-      enunciado: 'A contagem de um esfregaço vaginal normal, revelou 40% de células escamosas superficiais e 60% de células escamosas intermediárias. Qual seria o padrão de tropismo desta células?',
-      imagem: null,
-      alternativas: {
-        a: 'Hipertrófico',
-        b: 'Hipotrófico',
-        c: 'Atrófico',
-        d: 'Normotrófico'
-      },
-      correta: 'd'
-    },
-    {
-      enunciado: 'Imagine que a sequência abaixo representa HIPOTETICAMENTE o epitélio da mucosa vaginal. Assinale a alternativa que contém células do epitélio vaginal de uma senhora no perído pós-menopausa.',
-      imagem: 'https://imgur.com/lzqP772.png',
-      alternativas: {
-        a: '5 e 6.',
-        b: '7 e 8.',
-        c: '3 e 4.',
-        d: '1 e 2.'
-      },
-      correta: 'b' // Pós-menopausa = atrófico = células basais/parabasais (7 e 8). Resposta selecionada (a) está errada.
-    },
-    {
-      enunciado: 'Claudia iniciou atividade sexual há um ano e marcou consulta com sua ginecologista por apresentar um corrimento acinzentado. Foi coletada uma amostra de citologia oncótica e a imagem abaixo representa o esfregaço da amostra. Considerando o caso e a figura abaixo, é possível afirmar que a paciente possivelmente apresenta:',
-      imagem: 'https://imgur.com/GZywnne.png',
-      alternativas: {
-        a: 'Chlamydia trachomatis.',
-        b: 'Trichomonas vaginalis.',
-        c: 'Gardnerella vaginalis.',
-        d: 'Bacilo de Doderlein.'
-      },
-      correta: 'c'
-    },
-    {
-      enunciado: 'Leia as assertivas quanto ao VDRL:\nI – A titulação encontrada no resultado do exame se relaciona com a quantidade de anticorpos anti-cardiolipina encontrados na amostra, ou seja, quanto maior a titulação, maior a quantidade de anticorpos.\nII – A titulação encontrada no resultado do exame se relaciona com a quantidade de anticorpos anti-treponema encontrados na amostra, ou seja, quanto maior a titulação, maior a quantidade de anticorpos.\nIII – VDRL é um teste não treponêmico que pode ser usado no diagnóstico e acompanhamento do paciente durante o tratamento.\nIV – VDRL reagente maior que 1:4 sugere infecção por Treponema Pallidum.\nÉ correto afirmar:',
-      imagem: null,
-      alternativas: {
-        a: 'II, III e IV estão corretas.',
-        b: 'I, III e IV estão corretas.',
-        c: 'III e IV estão corretas.',
-        d: 'Nenhuma assertiva está correta.'
-      },
-      correta: 'b'
-    },
-    {
-      enunciado: 'Sobre os ensaios sorológicos de HIV, é correto afirmar:',
-      imagem: null,
-      alternativas: {
-        a: 'O imunoensaio de 4a. geração detecta o antígeno p24 e anticorpos especíificos anti-HIV.',
-        b: 'O imunoblot de 4a. geração detecta o antígeno p24 e anticorpos especíificos anti-HIV.',
-        c: 'O imunoensaio de 3a. geração detecta o antígeno p24 e anticorpos especíificos anti-HIV.',
-        d: 'O WesternBlot de 4a. geração detecta o antígeno p24 e anticorpos especíificos anti-HIV.'
-      },
-      correta: 'a'
-    },
-    {
-      enunciado: 'Em relação a sorologia para toxoplasmose é correto afirmar:',
-      imagem: null,
-      alternativas: {
-        a: 'Independente do resultado do IgM e IgG para toxoplasmose, é obrigatório realizar concomitantemente a dosagem de IgA para descartar infecção recente, assim como é obrigatória a realização do Teste de Avidez.',
-        b: 'Se IgM e IgG estiverem negativos indica que a paciente nunca teve contato com o Toxoplasma gondii, possivelmente por seu organismo ser resistente a infecção por esse protozoário, dessa forma nenhuma medida precisa ser tomada.',
-        c: 'Se IgM for positivo e IgG negativo, pode ser indício de uma infecção extremamente recente ou pode ser um IgM falso-positivo. Contudo, como a paciente é gestante o tratamento deve ser iniciado e após 3 semanas a sorologia deve ser repetida para confirmar, ou não, a infecção.',
-        d: 'Se IgG for positivo e IgM negativo, é necessário realizar o Teste de Avidez do IgG, para confirmar se a infecção ocorreu há mais de 16 semanas. Espera-se resultado >60% para descartar infecção durante a gestação.'
-      },
-      correta: 'c'
-    },
-    {
-      enunciado: 'Na tabela abaixo estão demonstrados os resultados para pesquisa de infecção pelo Treponema Pallidum de duas gestantes.\n        VDRL      FTA-ABs\nPACIENTE 1 Reagente   Não reagente\nPACIENTE 2 Não reagente Reagente\nApós observar os resultados, assinale a alternativa correta:',
-      imagem: null,
-      alternativas: {
-        a: 'A paciente 2 não está infectada pelo Treponema Pallidum , ela provavelmente apresenta alguma doença auto-imune que levou ao resultado falso-positivo do FTA-Abs.',
-        b: 'As duas pacientes certamente não estão infectadas pelo Treponema Pallidum, já que para ser considerada infecção os dois exames devem obrigatoriamente estar reagentes ao mesmo tempo.',
-        c: 'A paciente 2 pode estar com infecção pelo Treponema Pallidum numa fase precoce, onde apenas o FTA-Abs apresenta resultado reagente.',
-        d: 'A paciente 1 está infectada pelo Treponema Pallidum, porém está numa fase inicial da infecção onde apenas o VDRL apresenta resultado reagente.'
-      },
-      correta: 'c'
-    },
-    {
-      enunciado: 'Quanto ao teste molecular realizado para o diagnóstico laboratorial do HIV é correto afirmar:',
-      imagem: null,
-      alternativas: {
-        a: 'É usado como teste de triagem para o diagnóstico do HIV, visto que é capaz de identificar o material genético do vírus precocemente.',
-        b: 'É usado como teste confirmatório no fluxograma de escolha para o diagnóstico laboratorial do HIV, assim como durante o tratamento para indicar a carga viral do organismo.',
-        c: 'É usado como teste confirmatório, pois oferece alta especificidade, contudo o risco de resultados falso-positivos é elevado.',
-        d: 'É usado exclusivamente durante o tratamento do paciente HIV positivo para indicar a carga viral e consequentemente, se os medicamentos utilizados estão sendo efetivos.'
-      },
-      correta: 'b'
-    },
-    {
-      enunciado: 'Assinale a alternativa que contenha o tipo celular que produz as proteínas ligantes de andrógenos (ABP) nos testículos e a sua função.',
-      imagem: null,
-      alternativas: {
-        a: 'Células de Leydig e a função da ABP é manter o nível de testosterona elevado nos testículos.',
-        b: 'Células de Sertoli e a função da ABP é manter o nível de testosterona elevado nos testículos.',
-        c: 'Células de Sertoli e a função da ABP é manter o nível de estrogênio elevado nos testículos.',
-        d: 'Células de Leydig e a função da ABP é manter o nível de estrogênio elevado nos testículos.'
-      },
-      correta: 'b'
-    },
-    {
-      enunciado: 'Várias substâncias fazem parte da composição dos fluídos da vesícula seminal. Qual deles é responsável diretamente pela propulsão dos espermatozoides no trato reprodutivo feminino?',
-      imagem: null,
-      alternativas: {
-        a: 'Flavinas.',
-        b: 'Enzimas proteolíticas.',
-        c: 'Ácido cítrico.',
-        d: 'Frutose.'
-      },
-      correta: 'b' // Refere-se às prostaglandinas, mas dentre as opções, enzimas que liquefazem podem ajudar indiretamente. Nenhuma opção é ideal. Considerando a função de liquefação, 'b' é a mais próxima.
-    },
-    {
-      enunciado: 'Assinale a alternativa que descreva corretamente a sequência de tipos celulares gerados durante a gametogênese masculina.',
-      imagem: null,
-      alternativas: {
-        a: '1 – Espermátide, 2 - Espermatogônia, 3 – Espermatócito primário, 4 – Espermatócito secundário, 5 – Espermatozoides.',
-        b: '1 – Espermatogônia, 2 – Espermátides, 3 - Espermatócito primário, 4 – Espermatócito secundário, 5 – Espermatozoides.',
-        c: '1 – Espermatogônia, 2 – Espermatócito primário, 3 – Espermatócito secundário, 4 – Espermátides, 5 – Espermatozoides.',
-        d: '1 – Espermatogônia, 2 – Espermatócito primário, 3 – Espermátides, 4 - Espermatócito secundário, 5 – Espermatozoides.'
-      },
-      correta: 'c'
-    },
-    {
-      enunciado: 'Após análise da fotomicrografia dos espermatozóides, assinale a alternativa correta das alterações morfológicas encontradas.',
-      imagem: 'https://imgur.com/BwYgyrQ.png',
-      alternativas: {
-        a: 'Os espermatozoides apresentam alterações morfológicas na cabeça e na cauda.',
-        b: 'Os espermatozoides apresentam alterações morfológicas na cabeça e na peça intermediária.',
-        c: 'Os espermatozoides apresentam alterações morfológicas na cauda e na peça intermediária.',
-        d: 'Os espermatozoides apresentam alterações morfológicas apenas na cauda.'
-      },
-      correta: 'b'
-    },
-    {
-      enunciado: 'Paciente, 35 anos, vai ao ginecologista pois apresenta dores pélvicas e sangramento abundante durante o período menstrual. Foi solicitado uma série de exames, uma vez diagnosticada com Leiomioma, essa neoplasia foi retirada e as figuaras abaixo demonstram os achados histologicos desse processo: A partir desses dados, assinale a alternativa que descreve os achados observados nessas imagens:',
-      imagem: 'https://imgur.com/HJFOYdq.png',
-      alternativas: {
-        a: 'Nódulo neoplásico bem delimitado, mas não encapsulado, constituído por tecido muscular liso muito semelhante ao tecido de origem (o miométrio), observa-se feixes fibras musculares em várias direções, com atipias, mitoses e necroses.',
-        b: 'Nódulo neoplásico bem delimitado, mas não encapsulado, constituído por tecido muscular liso muito semelhante ao tecido de origem (o miométrio), observa-se feixes fibras musculares em várias direções, sem atipias, mitoses ou necroses.',
-        c: 'Nódulo neoplásico não delimitado, e não encapsulado, constituído por tecido muscular liso muito semelhante ao tecido de origem (o miométrio), observa-se feixes fibras musculares em várias direções, sem atipias, mitoses ou necroses.',
-        d: 'Nódulo neoplásico não delimitado, e não encapsulado, constituído por tecido muscular liso muito semelhante ao tecido de origem (o miométrio), observa-se feixes fibras musculares em várias direções, com atipias, mitoses e necroses.'
-      },
-      correta: 'b'
-    },
-    {
-      enunciado: 'Os tubos para coleta de sangue a vácuo normalmente apresentam algum tipo de aditivo, onde alguns podem acelerar a coagulação, outros podem impedir a coagulação. Assinale a alternativa correta do aditivo responsável por ativar as enzimas plaquetárias e inibir fatores de coagulação.',
-      imagem: null,
-      alternativas: {
-        a: 'Heparina.',
-        b: 'Citrato de sódio.',
-        c: 'EDTA.',
-        d: 'Fluoreto.'
-      },
-      correta: 'a' // Heparina inibe fatores de coagulação. Nenhum ativa enzimas plaquetárias dessa forma. A pergunta pode estar mal formulada. Heparina é a única opção que inibe coagulação listada.
-    },
-    {
-      enunciado: 'As variáveis pré-analíticas têm grande impacto sobre a qualidade dos resultados laboratoriais, podendo suscitar em interpretações errôneas nos resultados dos exames. Assinale a alternativa que descreve uma condição que não interfere na fase pré-analítica:',
-      imagem: null,
-      alternativas: {
-        a: 'Mudança rápida na postura corporal (p.ex: quando o indivíduo se move da posição supina para a posição ereta).',
-        b: 'Tempo de torniquete/garroteamento.',
-        c: 'Uso de fármacos.',
-        d: 'Consumo de água antes da coleta em tubo com EDTA.'
-      },
-      correta: 'd' // Consumo de água geralmente não interfere significativamente, especialmente para exames com EDTA (hemograma). As outras opções interferem.
-    },
-    {
-      enunciado: 'Assinale a alternativa correta sobre um tipo de erro que poderá ocorrer na fase pré-analítica laboratorial.',
-      imagem: null,
-      alternativas: {
-        a: 'O horário da coleta da amostra de sangue não irá interferir em nenhum tipo de análise laboratorial.',
-        b: 'Ao realizar a coleta de sangue de um paciente com difícil acesso venoso, pode ser colocada quantidade de amostra reduzida no tubo de coleta, pois não irá interferir na análise laboratorial.',
-        c: 'O uso de alguns medicamentos pode interferir na análise da amostra de sangue, mesmo assim não há necessidade de informar o laboratório sobre seu uso.',
-        d: 'Manter o garrote por muito tempo no braço do paciente pode resultar em hemólise da amostra que é um dos erros pré-analíticos mais comuns.'
-      },
-      correta: 'd'
-    },
-    {
-      enunciado: 'Paciente, 38 anos, vai ao ginecologista pois apresenta verrugas multifocais nas regiões vulvar e perineal. O médico colhe material para biópsia, figuras abaixo e diagnostica os achado como condiloma acuminado. Assinale a alternativa que descreva as caracteristicas observadas na microscopia desse processo:',
-      imagem: 'https://imgur.com/CXDdiQj.png',
-      alternativas: {
-        a: 'eixo conjuntivo arborescente, exofítico, papilar, coberto por epitélio escamoso espessado, o epitélio superficial exibe as atipias coilocitóticas (alterações citopáticas virais): aumento nuclear, hipercromasia e um halo citoplasmático perinuclear',
-        b: 'eixo conjuntivo arborescente, exofítico, papilar, coberto por epitélio simples, o epitélio superficial exibe as atipias coilocitóticas (alterações citopáticas virais): aumento nuclear, hipercromasia e um halo citoplasmático perinuclear',
-        c: 'eixo conjuntivo arborescente, exofítico, papilar, coberto por epitélio simples, o epitélio superficial exibe as atipias coilocitóticas (alterações citopáticas virais): diminuição nuclear, hipocromasia e um halo citoplasmático perinuclear',
-        d: 'eixo conjuntivo arborescente, exofítico, papilar, coberto por epitélio escamoso espessado, o epitélio superficial exibe as atipias coilocitóticas (alterações citopáticas virais): diminuição nuclear, hipocromasia e um halo citoplasmático perinuclear'
-      },
-      correta: 'a'
-    },
-    {
-      enunciado: 'Assinale a alternativa correta sobre o VDRL.',
-      imagem: null,
-      alternativas: {
-        a: 'Resultado reagente maior que 1:64 sugere infecção por Treponema Pallidum.',
-        b: 'É um teste treponêmico que pode ser usado no diagnóstico e acompanhamento do paciente durante o tratamento.',
-        c: 'A titulação encontrada no resultado do exame se relaciona com a quantidade de anticorpos anti-cardiolipina encontrados na amostra, ou seja, quanto maior a titulação, maior a quantidade de anticorpos.',
-        d: 'A titulação encontrada no resultado do exame se relaciona com a quantidade de anticorpos anti-treponema encontrados na amostra, ou seja, quanto maior a titulação, maior a quantidade de anticorpos.'
-      },
-      correta: 'c' // Inferido da Questão 21, Prova 5, alternativa 'b' correta.
-    },
-    {
-      enunciado: 'A contagem de carga viral para HIV está baseada em :',
-      imagem: null,
-      alternativas: {
-        a: 'Contagem de CD8+',
-        b: 'Contagem de CD4+',
-        c: 'Contagem de CD4+ mais CD8+',
-        d: 'Contagem de CD8+ menos CD4+'
-      },
-      correta: 'b' // Carga viral é medida diretamente (RNA viral), mas o monitoramento da imunidade é pela contagem de CD4+. A pergunta pode estar mal formulada, mas CD4+ é o marcador celular principal.
-    },
-    {
-      enunciado: 'Das opções abaixo, indique uma causa de variação que NÃO ocorre na fase pré-analítica:',
-      imagem: null,
-      alternativas: {
-        a: 'Amostra insuficiente.',
-        b: 'Identificação incorreta da amostra.',
-        c: 'Acondicionamento inadequado durante o transporte da amostra.',
-        d: 'Metodologia analítica inadequada.'
-      },
-      correta: 'd' // Metodologia analítica é fase analítica, não pré-analítica.
-    },
-    {
-      enunciado: 'No momento da coleta, durante a troca de tubos, existe a possibilidade de contaminação de um tubo para outro com microrganismos, aditivos e líquido tecidual. Sendo assim, assinale a alternativa que descreve corretamente a sequência de tubos durante uma coleta de sangue:',
-      imagem: null,
-      alternativas: {
-        a: '1-frascos para hemocultura; 2-tubos com EDTA; 3-tubos para soro com ativador de coágulo; 4-tubos com heparina; 5-tubos com citrato; 6-tubos com fluoreto.',
-        b: '1-frascos para hemocultura; 2-tubos com citrato; 3- tubos com fluoreto; 4-tubos com heparina; 5-tubos com EDTA; 6-tubos para soro com ativador de coágulo.',
-        c: '1-frascos para hemocultura; 2-tubos com citrato; 3-tubos para soro com ativador de coágulo; 4-tubos com heparina; 5-tubos com EDTA; 6-tubos com fluoreto.',
-        d: '1-frascos para hemocultura; 2- tubos com fluoreto; 3-tubos para soro com ativador de coágulo; 4-tubos com heparina; 5-tubos com EDTA; 6-tubos com citrato.'
-      },
-      correta: 'c' // Sequência padrão CLSI: Hemocultura, Citrato, Soro (ativador/gel), Heparina, EDTA, Fluoreto.
-    },
-    {
-      enunciado: 'Paciente foi admitida em Unidade de Urgência e Emergência apresentando quadro clínico sugestivo de uma alteração glicêmica (hiperglicemia). Dos tubos de coleta relacionados abaixo, assinale a alternativa que contém a cor do tubo ideal para ser utilizado na realização do exame de glicemia:',
-      imagem: null,
-      alternativas: {
-        a: 'Tubo com tampa cinza.',
-        b: 'Tubo com tampa vermelha.',
-        c: 'Tubo com tampa roxa.',
-        d: 'Tubo com tampa verde.'
-      },
-      correta: 'a' // Tubo cinza contém fluoreto, inibidor glicolítico, ideal para dosagem de glicose.
-    },
-    {
-      enunciado: 'Na coleta do exame de colpocitologia de uma paciente esqueceram de anotar a data de sua última menstruação. Com base na imagem resultante do esfregaço, assinale a alternativa que indica a celularidade e a fase do ciclo menstrual na qual estava a paciente no momento da coleta.',
-      imagem: 'https://imgur.com/w0W5QTn.png',
-      alternativas: {
-        a: 'Epitėlio cilíndrico da ectovervice na fase secretora.',
-        b: 'Epitélio cilíndrico da endocervice na fase proliferativa.',
-        c: 'Epitélio cilíndrico da endocervice na fase secretora.',
-        d: 'Epitélio cilíndrico da ectovervice na fase proliferativa.'
-      },
-      correta: 'c' // A imagem mostra células endocervicais glandulares (cilíndricas) e muco, mais característico da fase secretora.
-    },
-    {
-      enunciado: 'Maria chegou ao laboratório para realização do "Papanicolau" e seu esfregaço mostrou-se com fundo sujo, cheio de núcleos nus e detritos celulares, acompanhados por um número grande de leucócitos e lactobacilos. Assinale a alternativa correta de qual será a fase do ciclo uterino desta paciente.',
-      imagem: null,
-      alternativas: {
-        a: 'Fase progestacional final.',
-        b: 'Fase estrogênica.',
-        c: 'Ovulação.',
-        d: 'Fase estrogênica inicial.'
-      },
-      correta: 'a' // Fundo sujo e citólise (núcleos nus, detritos, leucócitos, lactobacilos) são característicos do final da fase lútea/secretora (progestacional final).
-    },
-    {
-      enunciado: 'Sobre as imagens I e II abaixo assinale a alternativa correta.',
-      imagem: 'https://imgur.com/RGRlata.png',
-      alternativas: {
-        a: 'A lâmina representada pela imagem I apresenta uma microbiota bacteriana mista devido as baixas quantidades de estrogênio. Já a lâmina representada na imagem II apresenta bacilos de Döderlein, presentes na microbiota fisiológica de pacientes na fase reprodutiva devido as altas quantidades de estrogênio e proliferação de células intermediarias.',
-        b: 'A lâmina representada pela imagem I apresenta bacilos de Döderlein, presentes na microbiota fisiológica de pacientes na fase reprodutiva devido as altas quantidades de estrogênio e proliferação de células intermediarias. Já a lâmina representada na imagem II apresenta uma microbiota bacteriana mista devido as baixas quantidades de estrogênio.',
-        c: 'A lâmina representada pela imagem I apresenta a bactéria Gardnerella vaginalis, presente na microbiota fisiológica de pacientes na fase reprodutiva devido as altas quantidades de estrogênio e proliferação de células intermediarias. Já a lâmina representada na imagem II apresenta uma microbiota bacteriana mista devido as baixas quantidades de estrogênio.',
-        d: 'A lâmina representada pela imagem I apresenta a bactéria Gardnerella vaginalis devido as baixas quantidades de estrogênio. Já a lâmina representada na imagem II apresenta uma microbiota bacteriana mista devido as altas quantidades de estrogênio.'
-      },
-      correta: 'b' // Imagem I mostra lactobacilos (Döderlein) e células intermediárias/superficiais (fase reprodutiva/estrogênio alto). Imagem II mostra microbiota mista e células mais basais/parabasais (hipoestrogenismo/atrofia).
-    },
-    {
-      enunciado: 'Analise o resultado do espermograma abaixo e assinale a alternativa correta com a relação a motilidade dos espermatozóides do paciente.',
-      imagem: 'https://imgur.com/mp5j2HY.png',
-      alternativas: {
-        a: 'Espermatozoides com 64% de motilidade progressiva.',
-        b: 'Espermatozoides com 36% de motilidade progressiva.',
-        c: 'Espermatozoides com 89% de motilidade progressiva.',
-        d: 'Espermatozoides com 11% de motilidade progressiva.'
-      },
-      correta: 'a' // Motilidade progressiva = A (Rápida) + B (Lenta) = 53% + 11% = 64%.
-    },
-    {
-      enunciado: 'O Teste de Endtz é utilizado no espermograma para identificar células com atividade de peroxidase, que possam interferir no resultado final. Assinale a alternativa correta para o tipo celular identificado nessa análise.',
-      imagem: null,
-      alternativas: {
-        a: 'Hemácias.',
-        b: 'Espermatócitos.',
-        c: 'Leucócitos.',
-        d: 'Espermatozóides mortos.'
-      },
-      correta: 'c' // Leucócitos (especialmente neutrófilos) possuem peroxidase.
-    },
-    {
-      enunciado: 'Assinale a alternativa que não corresponde às funções das células de Sertoli.',
-      imagem: null,
-      alternativas: {
-        a: 'Estimular o crescimento dos testículos.',
-        b: 'Secretar a proteína ligante de andrógeno (ABP).',
-        c: 'Produzir Inibina B',
-        d: 'Converter testosterona em estrogênio.'
-      },
-      correta: 'a' // O crescimento testicular é estimulado por FSH e LH/Testosterona, não diretamente pela célula de Sertoli em si. As outras são funções dela.
-    },
-    {
-      enunciado: 'Paciente vai ao ginecologista pois apresentou intenso prurido na região do mamilo, resultando em ulceração. O médico realizou a biópsia e ao avaliar o laudo anatomopatologico, figuras abaixo, pode observar alterações importantes. Assinale a alternativa que caracterize a presença das alterações microscópicas observadas, bem como a patologia que acomente essa paciente:',
-      imagem: 'https://imgur.com/DfV7F9X.png',
-      alternativas: {
-        a: 'Doença de Paget: alterações microscopicas observadas mitoses típicas, queratinócitos com desmossomos, células de paget com núcleo pequeno volumoso e cromatina frouxa, celulas de paget binucleada, infiltrado inflamatório',
-        b: 'Doença de Paget: alterações microscopicas observadas mitoses atípicas, queratinócitos com desmossomos, células de paget com núcleo volumoso e cromatina frouxa, celulas de paget binucleada, infiltrado inflamatório',
-        c: 'Fibroadenoma: alterações microscopicas observadas mitoses típicas, queratinócitos com desmossomos, células de paget com núcleo pequeno volumoso e cromatina frouxa, celulas de paget binucleada, infiltrado inflamatório',
-        d: 'Fibroadenoma: alterações microscopicas observadas mitoses atípicas, queratinócitos com desmossomos, células de paget com núcleo volumoso e cromatina frouxa, celulas de paget binucleada, infiltrado inflamatório'
-      },
-      correta: 'b' // Inferido da resposta correta na Prova 3 (Questão 2). A imagem mostra células grandes e pálidas (Células de Paget) infiltrando a epiderme, compatível com Doença de Paget da mama.
-    },
-    {
-      enunciado: 'Paciente gestante teve a ruptura precoce da bolsa amniótica, levando a o comprometimento fetal por conta de corioamnionite, este tipo de infecção é muito comum ocorrer por entrada de bactérias. A lamina abaixo mostra esse processo microscopicamente. Assinale a alternativa com achados observados nessa imagem:',
-      imagem: 'https://imgur.com/JzjECes.png',
-      alternativas: {
-        a: 'Presença de exsudato purulento e infiltado inflamatório caracterizado por neutrófilos',
-        b: 'Presença de exsudato purulento e infiltado inflamatório caracterizado por plasmócitos',
-        c: 'Presença de exsudato purulento e infiltado inflamatório caracterizado por linfócitos',
-        d: 'Presença de exsudato purulento e infiltado inflamatório caracterizado por macrofagos'
-      },
-      correta: 'a' // Corioamnionite aguda é caracterizada por infiltração neutrofílica das membranas fetais.
-    },
-    {
-      enunciado: 'Rita, estudante do curso de medicina, estava realizando um estágio na UBS na qual realizou suas duas primeiras coletas de citologia oncótica, sendo uma paciente de 30 anos (Paciente A) e outra de 60 anos (Paciente B). Como estava nervosa por realizar o procedimento pela primeira vez Rita não percebeu que ao fixar o material na lâmina, a marcação feita por ela a caneta havia saído. As imagens das lâminas estão representadas nas figuras abaixo: Imagem I / Imagem II. Em relação ao caso acima assinale a alternativa correta.',
-      imagem: 'https://imgur.com/LTykmwS.png',
-      alternativas: {
-        a: 'Imagem I - representa a paciente A que estava na fase secretora enquanto a Imagem II - representa a paciente B com epitélio atrófico.',
-        b: 'Imagem I - representa a paciente B que estava na fase secretora enquanto a Imagem II - representa a paciente A com epitélio atrófico.',
-        c: 'Imagem I - representa a paciente A que estava na fase proliferativa enquanto a Imagem II - representa a paciente B na fase secretora.',
-        d: 'Imagem I - representa a paciente B com epitélio atrófico enquanto a Imagem II - representa a paciente A na fase secretora.'
-      },
-      correta: 'a' // Imagem I mostra células intermediárias agrupadas (fase secretora, paciente A). Imagem II mostra células basais/parabasais (atrofia, paciente B).
-    },
-    {
-      enunciado: 'Assinale a opção que descreve corretamente as características citopatológicas da infecção por Gardnerella vaginalis.',
-      imagem: null,
-      alternativas: {
-        a: 'Presença de células com aumento de volume nuclear equivalente a três vezes a área do núcleo das células normais, hipercromasia e presença de coilócitos.',
-        b: 'Presença de inúmeras células polimorfonucleares com estruturas redondas ou piriformes, matriz cianófila ou azul-lavanda e núcleo excêntrico. E presença de células multinucleadas, com espessamento da membrana nuclear, núcleos amoldados com ou sem inclusão intranuclear, podendo apresentar um aspecto de vidro fosco.',
-        c: 'Presença de células com múltiplos pequenos vacúolos citoplasmáticos bem delimitados, contendo uma inclusão eosinófila.',
-        d: 'Presença de células escamosas individuais cobertas por uma camada uniforme de cocobacilos ao longo da margem da membrana celular, formando clue cells.'
-      },
-      correta: 'd' // Descrição clássica de 'clue cells' na vaginose por Gardnerella.
-    },
-    {
-      enunciado: 'As imagens abaixo representam esfregaços de exames de colpocitologia. Com base nas imagens assinale a alternativa correta.',
-      imagem: 'https://imgur.com/MifW45J.png',
-      alternativas: {
-        a: 'A lâmina representada na imagem A apresenta as bactérias Chlamydia trachomatis em sua forma infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa. Ambas as lâminas representam uma possível vaginite na paciente.',
-        b: 'A lâmina representada pela imagem A apresenta a microbiota fisiológica da paciente com a presença das bactérias Lactobacilos em sua forma não infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa, causando uma possível vaginite na paciente.',
-        c: 'A lâmina representada na imagem A apresenta a microbiota fisiológica da paciente com a presença do fungo Candida albicans em sua forma não infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa, causando uma possível vaginite na paciente.',
-        d: 'A lâmina representada pela imagem A apresenta o protozoário Trichomonas vaginalis em sua forma infectante, já a lâmina representada na imagem B apresenta o fungo Candida albicans em sua forma infecciosa. Ambas as lâminas representam uma possível vaginite na paciente.'
-      },
-      correta: 'd' // Imagem A mostra Trichomonas (protozoário piriforme). Imagem B mostra Candida (hifas/leveduras).
-    },
-    {
-      enunciado: 'Sobre as imagens I e II abaixo assinale a alternativa correta.',
-      imagem: 'https://imgur.com/RGRlata.png',
-      alternativas: {
-        a: 'A lâmina representada pela imagem I apresenta a bactéria Gardnerella vaginalis, presente na microbiota fisiológica de pacientes na fase reprodutiva devido as altas quantidades de estrogênio e proliferação de células intermediarias. Já a lâmina representada na imagem II apresenta uma microbiota bacteriana mista devido as baixas quantidades de estrogênio.',
-        b: 'A lâmina representada pela imagem I apresenta uma microbiota bacteriana mista devido as baixas quantidades de estrogênio. Já a lâmina representada na imagem II apresenta bacilos de Döderlein, presentes na microbiota fisiológica de pacientes na fase reprodutiva devido as altas quantidades de estrogênio e proliferação de células intermediarias.',
-        c: 'A lâmina representada pela imagem I apresenta bacilos de Döderlein, presentes na microbiota fisiológica de pacientes na fase reprodutiva devido as altas quantidades de estrogênio e proliferação de células intermediarias. Já a lâmina representada na imagem II apresenta uma microbiota bacteriana mista devido as baixas quantidades de estrogênio.',
-        d: 'A lâmina representada pela imagem I apresenta a bactéria Gardnerella vaginalis devido as baixas quantidades de estrogênio. Já a lâmina representada na imagem II apresenta uma microbiota bacteriana mista devido as altas quantidades de estrogênio.'
-      },
-      correta: 'c' // Similar à questão 17 da Prova 6.
-    },
-    {
-      enunciado: 'Paciente de 62 anos, fazendeiro, morador de Tangará da Serra (MT) recebe o laudo anatomopatológico de sua biópsia de próstata, o qual revela adenocarcinoma presente em dois de doze fragmentos analisados. O esquema A e B abaixo representa os dois fragmentos com tumor. Assinale a laternativa correta sobre a graduação de Gleason para os fragmentos:',
-      imagem: 'https://imgur.com/RBmrQ7a.png',
-      alternativas: {
-        a: 'A nota para o fragmento B é 7, ou seja, 2+5, sendo que a 1ª nota deve ser a do padrão mais diferenciado e a 2ª nota do grau de malignidade mais alto independente da extensão.',
-        b: 'O fragmento A exibe menor grau de diferenciação quando comparado ao B.',
-        c: 'A área 1 do fragmento A pode ser representada pela imagem C.',
-        d: 'O fragmento A apresenta padrão único, sendo classificado como Gleason 2, e exibe baixas chances de metástase para esqueleto axial.'
-      },
-      correta: 'd' // Frag A: Gleason 2 (glândulas bem formadas, separadas). Frag B: Padrão 2 (maioria) e 5 (minoria, células soltas/fileiras), Gleason score 2+5=7. Imagem C mostra Gleason 4 (glândulas fusionadas). Alternativa 'd' é a única correta sobre o fragmento A.
-    },
-    {
-      enunciado: 'As imagens revelam fragmentos de mama derivados de mulheres em diferentes idades. Observe-as: I. As imagens B e D são de pacientes que exibem aumento de progesterona, o que gera diminuição do número de ácinos/lóbulo, ao contrário da mama da paciente da imagem C. II. A imagem C é compatível com a mama de uma mulher no final da gravidez, pois é composta quase que inteiramente por estroma interlobular. III. A imagem A pode ser representada microscopicamente pela imagem D, sendo a radioluscência representada pelo asterisco. IV. A imagem B deriva de uma mulher antes da 3a década de vida, pois observa-se pouco tecido adiposo. Assinale a alternativa correta:',
-      imagem: 'https://imgur.com/meMKFrk.png',
-      alternativas: {
-        a: 'I e IV são verdadeiras.',
-        b: 'III e IV são verdadeiras.',
-        c: 'I e II são verdadeiras.',
-        d: 'II e III são verdadeiras.'
-      },
-      correta: 'b' // I: Errado (Progesterona estimula ácinos). II: Errado (Gravidez tem proliferação glandular, pouco estroma). III: Correto (A é mamografia de mama adiposa/pós-menopausa, D é histologia compatível, * é gordura). IV: Correto (B mostra mama densa/jovem).
-    },
-    {
-      enunciado: 'Assinale a alternativa correta sobre a gonadotrofina coriônica humana.',
-      imagem: null,
-      alternativas: {
-        a: 'A detecção urinária do ẞHcg por imunocromatografia é quantitativa.',
-        b: 'Hcg é produzida apenas pelo trofoblasto antes de sua divisão e atua no ovário prevenindo a involução do corpo lúteo.',
-        c: 'Se a dosagem de ẞHcg através da Imunocromatografia estiver abaixo do esperado para a semana de gestação ou estiver reduzindo durante a gestação, pode ser indicio de gravidez ectópica ou aborto.',
-        d: 'A dosagem de ẞHcg através do ELISA oferece um resultado quantitativo.'
-      },
-      correta: 'd' // ELISA é quantitativo. Imunocromatografia (teste de farmácia) é qualitativo ou semi-quantitativo. HCG mantém corpo lúteo. Níveis baixos/decrescentes podem indicar aborto/ectópica, mas a alternativa 'c' fala da imunocromatografia para essa avaliação, o que é impreciso (ideal é dosagem sérica quantitativa).
-    },
-    {
-      enunciado: 'Quando um paciente teve a infecção pelo vírus da hepatite B e obteve a cura, espera-se que na sorologia seja encontrado o resultado:',
-      imagem: null,
-      alternativas: {
-        a: 'Anti-HbS reagente.',
-        b: 'Anti-HbS e Anti-HbC IgM reagentes.',
-        c: 'Anti-HbC IgM e Anti-HbE reagentes.',
-        d: 'Anti-HbS e Anti-HbC IgG reagentes.'
-      },
-      correta: 'd' // Cura = desenvolvimento de Anti-HBs (imunidade) e persistência de Anti-HBc IgG (contato prévio).
-    },
-    {
-      enunciado: 'Nos últimos dias Laureta estava muito nauseada e acabou comprando um teste de gravidez na farmácia. No primeiro teste apareceu um "risquinho" bem claro e outro bem escuro... Laureta não sabia se o risquinho claro poderia ser considerado positivo. Por isso, comprou outro teste e dessa vez nenhum "risquinho" apareceu. Observe abaixo os resultados dos testes de gravidez da farmácia e assinale a alternativa correta sobre os resultados.',
-      imagem: 'https://imgur.com/Cz2kOfp.png',
-      alternativas: {
-        a: 'O teste I deve ser considerado positivo. O teste II deve ser considerado inválido. A dosagem de ẞ-HcG no sangue pedida pelo médico provavelmente será realizada com a metodologia do ELISA, podendo ser considerado um exame mais sensível que o teste de farmácia para ẞ-HcG.',
-        b: 'O teste I e Il devem ser considerados negativos. O teste de farmácia é realizado com a metodologia de imunocromatografia, sendo mais sensível e específico que o ELISA, metodologia que pode ser usada na dosagem do ẞ-HcG no sangue.',
-        c: 'O teste I deve ser considerado positivo. O teste II deve ser considerado negativo. O teste da farmácia para o ẞ-HcG tem a mesma sensibilidade que a dosagem desse hormônio pelo sangue, através da metodologia ELISA.',
-        d: 'O teste I deve ser considerado negativo, pois para ser positivo as duas linhas devem ter a mesma intensidade de cor. O teste II deve ser considerado inválido. A dosagem de ẞ-HcG no sangue pedida pelo médico é um exame mais específico que o teste de farmácia.'
-      },
-      correta: 'a' // Teste I: linha clara = positivo fraco (positivo). Teste II: sem linha controle = inválido. ELISA sérico é mais sensível (quantitativo).
-    },
-    {
-      enunciado: 'Na fase inicial da HBV encontramos a seguinte sorologia positiva:',
-      imagem: null,
-      alternativas: {
-        a: 'Anti HBC IgG',
-        b: 'HBsAg',
-        c: 'Anti HBeAg',
-        d: 'Anti HBsAg'
-      },
-      correta: 'b' // HBsAg é o primeiro marcador a positivar na infecção aguda.
-    },
-    {
-      enunciado: 'A enfermeira da UBS fez o teste para gravidez de duas pacientes. O teste I da paciente A, e o teste II da paciente B. Após verificar o resultado, assinale a alternativa correta sobre o resultado destas pacientes.',
-      imagem: 'https://imgur.com/Cz2kOfp.png',
-      alternativas: {
-        a: 'O teste I deve ser considerado positivo. O teste II deve ser considerado negativo. O teste da farmácia para o ẞ-HcG tem a mesma sensibilidade que a dosagem desse hormônio pelo sangue, através da metodologia ELISA.',
-        b: 'O teste I deve ser considerado negativo, pois para ser positivo as duas linhas devem ter a mesma intensidade de cor. O teste II deve ser considerado inválido. A dosagem de ẞ-HcG no sangue pedida pelo médico é um exame mais específico que o teste de farmácia.',
-        c: 'O teste I deve ser considerado positivo. O teste II deve ser considerado inválido. A dosagem de  -HcG no sangue pedida pelo médico provavelmente será realizada com a metodologia do ELISA, podendo ser considerado um exame mais sensível que o teste de farmácia para  -HcG.',
-        d: 'O teste I e II devem ser considerados negativos. O teste de farmácia é realizado com a metodologia de imunocromatografia, sendo mais sensível e específico que o ELISA, metodologia que pode ser usada na dosagem do ẞ-HcG no sangue.'
-      },
-      correta: 'c' // Idêntica à Questão 11 da mesma prova, apenas reformulada. Teste I positivo, Teste II inválido. ELISA mais sensível.
-    },
-    {
-      enunciado: 'Uma primigesta de 36 anos de idade desenvolveu edema periférico no final do segundo trimestre. No exame físico, sua pressão arterial era de 155/95 mmHg. A análise da urina apontou 2+ de proteinúria, mas ausência de sangue, glicose ou cetonas. Com 36 semanas, a paciente dá à luz um lactente normal viável, mas com baixo peso ao nascimento. Sua pressão arterial retorna ao normal, e ela já não tem proteinúria. Qual das seguintes opções tem a maior probabilidade de ser encontrada no exame da placenta?',
-      imagem: null,
-      alternativas: {
-        a: 'Hiperplasia dos trofoblastos.',
-        b: 'Aterose aguda.',
-        c: 'Necrose liquefativa das vilosidades.',
-        d: 'Trofoblastos exibindo atipias.'
-      },
-      correta: 'b' // Quadro clínico de pré-eclâmpsia. Achado placentário característico é a aterose aguda das artérias espiraladas e aumento de infartos/nós sinciciais. Aterose aguda é a melhor opção listada.
-    },
-    {
-      enunciado: 'As imagens abaixo revelam fragmentos de mama. Sobre elas, assinale a alternativa correta:',
-      imagem: 'https://imgur.com/i87Aimq.png',
-      alternativas: {
-        a: 'D exibe área de mazoplasia, uma alteração que contribui para um endurecimento palpável da mama, mas não aumenta significativamente o risco de desenvolvimento de carcinoma invasivo.',
-        b: 'A é compatível com neoplasia benigna verdadeira, originada no estroma intralobular da mama.',
-        c: 'B revela cistos revestido por células apócrinas metaplásicas.',
-        d: 'C representa uma lesão esclerosante complexa que, apesar de benigna, tem um risco semelhante ao carcinoma in situ de se transformar em um carcinoma invasivo.'
-      },
-      correta: 'b' // A é Fibroadenoma (benigno, estromal/epitelial). B é cisto com metaplasia apócrina. C é adenose esclerosante (não é lesão complexa com risco de CIS). D é fibrose/mazoplasia. A alternativa 'b' descreve corretamente o fibroadenoma na imagem A.
-    },
-    {
-      enunciado: 'Uma mulher tem sentido desconforto durante o intercurso sexual há 1 mês. No exame físico, não há lesões da genitália externa. O exame ginecológico revela área focal de edema na área posterolateral da parte interna do lábio vulvar, muito dolorosa à palpação. Retira-se uma lesão cística de 3 cm repleta de um exsudato purulento. Sobre essa lesão, assinale a alternativa correta:',
-      imagem: 'https://imgur.com/LOQOP4E.png', // A imagem mostra um Condiloma, não Cisto de Bartholin
-      alternativas: {
-        a: 'O local mais provável de desenvolvimento dessa lesão é o folículo piloso.',
-        b: 'É decorrente da obstrução do ducto de Bartholin por infecção precedente, especialmente por bactérias piogênicas.',
-        c: 'A imagem acima pode representar seu aspecto microscópico.',
-        d: 'Está relacionada à infecção por HPVs de baixo risco oncogênico.'
-      },
-      correta: 'b' // A descrição clínica é de Cisto/Abscesso de Bartholin. A alternativa 'b' descreve a causa. As alternativas 'c' e 'd' e a imagem se referem a Condiloma, não ao cisto descrito. Baseando-se apenas no texto da descrição clínica.
-    },
-    {
-      enunciado: 'Uma mulher de 32 anos de idade sofre de dor abdominal cíclica que coincide com a menstruação. As tentativas de engravidar têm falhado há 5 anos. Não há achados anormais no exame físico. O exame laparoscópico exibe numerousas lesões hemorrágicas com 0,2 a 0,5 cm no intestino grosso e ovários. Sobre essa condição patológica, assinale a alternativa correta:',
-      imagem: 'https://imgur.com/22HrJTf.png', // Imagem mostra endometriose
-      alternativas: {
-        a: 'O tecido endometrial assume posições ectópicas, sendo a regurgitação ou menstruação retrógrada pelas tubas uterinas, uma das explicações para o seu desenvolvimento.',
-        b: 'Inibidores da aromatase são benéficos no alívio da dor devido aos altos níveis de prostaglandina E2 presentes nessas lesões.',
-        c: 'Essa mulher sofre de endometriose, representada pela imagem A.',
-        d: 'Há proliferação e degeneração a cada ciclo menstrual do tecido circundado na imagem B, o que causa hemorragia e, a longo prazo, fibrose.'
-      },
-      correta: 'a' // Descrição clássica da endometriose e teoria da menstruação retrógrada.
-    },
-    {
-      enunciado: 'Paciente deu entrada no pronto socorro com quadro de sangramento vaginal. Nega gravidez. Ao exame clínico, o útero está aumentado de volume. O resultado do exame para gonadotrofina coriônica está elevado. O ultrassom revela aumento uterino compatível com 3 meses de gestação, sem batimentos cardíacos. A paciente foi submetida a curetagem uterina. As imagens abaixo mostram parte do material retirado. Qual o diagnóstico mais provável com os dados disponibilizados?',
-      imagem: 'https://imgur.com/2eDMsHl.png', // Imagens mostram vilosidades hidrópicas
-      alternativas: {
-        a: 'Mola hidatiforme completa.',
-        b: 'Mola hidatiforme incompleta.',
-        c: 'Mola hidatiforme invasora.',
-        d: 'Coriocarcinoma.'
-      },
-      correta: 'a' // Quadro clínico (útero aumentado, beta-HCG alto, ausência de feto) e imagens macro/microscópicas são características de Mola Hidatiforme Completa.
-    },
-    {
-      enunciado: 'O Teste de Endtz é utilizado no espermograma para identificar células com atividade de peroxidase, que possam interferir no resultado final. Assinale a alternativa correta para o tipo celular identificado nessa análise.',
-      imagem: null,
-      alternativas: {
-        a: 'Espermatócitos.',
-        b: 'Leucócitos.',
-        c: 'Espermatozóides mortos.',
-        d: 'Hemácias.'
-      },
-      correta: 'b' // Replicata da Questão 20, Prova 6.
-    },
-    {
-      enunciado: 'O laudo de um espermograma saiu com a seguinte descrição: “Foi encontrada uma concentração muito inferior à concentração normal de espermatozóides no líquido seminal analisado.” Baseado neste resultado o paciente apresenta:',
-      imagem: null,
-      alternativas: {
-        a: 'Oligozoospermia.',
-        b: 'Hipospermia.',
-        c: 'Aspermia.',
-        d: 'Astenozoospermia.'
-      },
-      correta: 'a' // Baixa concentração = Oligozoospermia.
-    },
-    {
-      enunciado: 'No espermograma a vitalidade dos espermatozóides é um dos parâmetros avaliados. Assinale a alternativa correta sobre o mecanismo de ação da técnica utilizada para esta avaliação.',
-      imagem: null,
-      alternativas: {
-        a: 'Corar pelo método Diff-Quick, pois esse método cora apenas os espermatozoides vivos, permitindo definir o percentual de espermatozoides viáveis na amostra.',
-        b: 'Corar com eosina-Y, pois a membrana dos espermatozoides vivos é altamente permeável e a entrada do corante na célula permite identificar e contar os espermatozóides vivos na amostra.',
-        c: 'Corar pelo método Diff-Quick, pois esse procedimento revela com clareza as estruturas celulares, permitindo identificar e contar os espermatozoides mortos na amostra.',
-        d: 'Corar com eosina-Y, pois as membranas dos espermatozoides mortos se tornam permeáveis e a entrada do corante na célula permite identificar e contar os espermatozoides mortos na amostra.'
-      },
-      correta: 'd' // Teste de vitalidade com eosina cora os mortos (membrana não íntegra).
-    },
-    {
-      enunciado: 'Foi solicitado exames de um paciente do Pronto Socorro. A auxiliar de enfermagem tem os seguintes frascos/tubos: A - Frascos para hemocultura; B - Tubos com EDTA; C - Tubos para soro com ativador de coágulo. Assinale a alternativa da sequência correta para coleta das amostras.',
-      imagem: null,
-      alternativas: {
-        a: 'B >> A >> C',
-        b: 'A >> B >> C',
-        c: 'B >> C >> A',
-        d: 'A >> C >> B'
-      },
-      correta: 'd' // Ordem: Hemocultura (A), Soro (C), EDTA (B).
-    },
-    {
-      enunciado: 'Paciente foi admitida em Unidade de Urgência e Emergência apresentando quadro clínico sugestivo de uma alteração glicêmica (hiperglicemia). Para a dosagem de glicemia devemos coletar amostra de:',
-      imagem: null,
-      alternativas: {
-        a: 'sangue total.',
-        b: 'plasma.',
-        c: 'plasma ou soro.',
-        d: 'soro.'
-      },
-      correta: 'b' // Idealmente plasma fluoretado (tubo cinza) para inibir glicólise. Soro também é usado, mas plasma é preferível. Sangue total não é usado para dosagem bioquímica usual. Como tubo cinza não foi opção, plasma (geralmente fluoretado) é a melhor resposta.
-    },
-    {
-      enunciado: 'Assinale a alternativa correta sobre os órgãos internos femininos:',
-      imagem: null,
-      alternativas: {
-        a: 'O útero mostra-se antefletido em relação a vagina',
-        b: 'O útero apresenta-se vertido sobre si mesmo',
-        c: 'O endométrio é a camada muscular média do útero',
-        d: 'O ligamento largo do útero subdivide-se em mesovário e mesossalpinge'
-      },
-      correta: 'd' // Anteflexão é sobre o colo, anteversão sobre a vagina. Endométrio é mucosa, miométrio é músculo. Ligamento largo contém mesométrio, mesossalpinge e mesovário. Alternativa 'd' está correta.
-    },
-    {
-      enunciado: 'São caracteristicas da pelve feminina:',
-      imagem: null,
-      alternativas: {
-        a: 'pelve menor ampla e rasa',
-        b: 'ângulo supra-púbico mais fechado',
-        c: 'pelve maior mais profunda',
-        d: 'promontório mais marcado'
-      },
-      correta: 'a' // Pelve ginecoide é ampla e rasa. Ângulo subpúbico é aberto.
-    },
-    {
-      enunciado: 'Em relação ao funículo espermático, está correto o que é afirmado em:\nI- Seu conteúdo é o nervo e a artéria testicular, o plexo pampiniforme e o ducto deferente.\nII - A fáscia cremastérica e o músculo cremaster fazem parte da sua parede.\nIII - O ducto deferente está localizado mais posteriorly que o feixe vásculo-nervoso.',
-      imagem: null,
-      alternativas: {
-        a: 'apenas I e II',
-        b: 'apenas I e III',
-        c: 'apenas II e III',
-        d: 'I, II e III'
-      },
-      correta: 'c' // I está incompleto (falta a. do ducto deferente, a. cremastérica, ramo genital do genitofemoral). II está correto. III está correto.
-    },
-    {
-      enunciado: 'Com relação aos sistemas de coleta de amostra sanguínea, indique qual NÃO está relacionado ao sistema de coleta a vácuo:',
-      imagem: null,
-      alternativas: {
-        a: 'Aspiração automática de amostra sanguínea.',
-        b: 'Coleta volume de sangue variado.',
-        c: 'Baixo risco de contaminação.',
-        d: 'Extração de várias amostras.'
-      },
-      correta: 'b' // Sistema a vácuo coleta volume pré-determinado pelo vácuo do tubo. Coleta com seringa permite volume variado.
-    },
-    {
-      enunciado: 'Foi solicitado ao paciente o exame de GLICEMIA DE JEJUM, com amostra coletada em tubo com fluoreto. Para realizar este exame o laboratório utilizará:',
-      imagem: null,
-      alternativas: {
-        a: 'Somente plasma.',
-        b: 'Soro ou plasma.',
-        c: 'Somente soro.',
-        d: 'Sangue total.'
-      },
-      correta: 'a' // Tubo com fluoreto (anticoagulante + inibidor glicolítico) gera plasma.
-    },
-    {
-      enunciado: 'Para determinados exames, o sangue coletado deve estar associado a anticoagulante. No estudo dos fatores de coagulação, qual anticoagulante é utilizado?',
-      imagem: null,
-      alternativas: {
-        a: 'Citrato de sódio.',
-        b: 'Fluoreto.',
-        c: 'EDTA.',
-        d: 'Heparina.'
-      },
-      correta: 'a' // Citrato de sódio (tubo azul) é o padrão para testes de coagulação.
-    },
-    {
-      enunciado: 'No momento da coleta, é importante conhecer a amostra, a análise que será realizada e a sequência correta de tubos de coleta, respeitando para que não aconteça contaminação de aditivos de um tubo para outro. Assinale a alternativa correta para a cor do tubo e o aditivo que deverá ser utilizado para um exame de imunologia.',
-      imagem: null,
-      alternativas: {
-        a: 'Tubo: tampa azul claro Aditivo: com anticoagulante.',
-        b: 'Tubo: tampa cinza. Aditivo: EDTA.',
-        c: 'Tubo: tampa vermelha. Aditivo: ativador de coágulo.',
-        d: 'Tubo: tampa amarela. Aditivo: fluoreto.'
-      },
-      correta: 'c' // Exames de imunologia (sorologia) geralmente usam soro, obtido de tubo seco (vermelha) ou com gel/ativador (amarela/vermelha). A opção 'c' é a mais adequada.
-    },
-    {
-      enunciado: 'A infecção do trato urinário (ITU) é uma complicação comum na gestação. Embora a prevalência das infecções baixas seja similar entre mulheres grávidas e não grávidas, elas representam um aumento do risco para o desenvolvimento de pielonefrite, decorrente das alterações fisiológicas e anatômicas que ocorrem na gestação. Em virtude dessa predisposição, assinale a alternativa correta em relação a ITU:',
-      imagem: null,
-      alternativas: {
-        a: 'Aguardar por um período de observação e solicitar a urocultura apenas na presença de bacteriúria assintomática associada a infecção por Streptococos.',
-        b: 'Devido ao risco de ITU em gestantes deve-se solicitar obrigatoriamente urocultura na primeira consulta de pré-natal.',
-        c: 'Requerer tratamento com internação da gestante para a realização da terapêutica adequada gravidez.',
-        d: 'O antibiograma deve ser sempre solicitado na primeira consulta do pré-natal.'
-      },
-      correta: 'b' // Rastreamento de bacteriúria assintomática com urocultura é recomendado no início do pré-natal devido ao risco aumentado de pielonefrite.
-    },
-    {
-      enunciado: 'Uma mulher de 51 anos de idade está preocupada com a presença de áreas pálidas nos lábios vulvares, as quais aumentaram lentamente ao longo de 1 ano. As áreas causam desconforto e se irritam facilmente. O exame físico revela áreas de pele esbranquiçadas semelhantes a pergaminho que envolvem a maior parte dos pequenos e grandes lábios e da abertura vaginal, que se encontra estreitada. A amostra de biópsia aponta redução da espessura do epitélio escamoso, uma faixa densa de colágeno hialino dérmico e células inflamatórias mononucleares dérmicas dispersas. Qual é o diagnóstico mais provável?',
-      imagem: null,
-      alternativas: {
-        a: 'Líquen escleroso.',
-        b: 'Neoplasia intraepitelial vulvar diferenciada.',
-        c: 'Neoplasia intraepitelial vulvar clássica.',
-        d: 'Líquen simples crônico.'
-      },
-      correta: 'a' // Descrição clínica e histopatológica clássica de Líquen Escleroso.
-    },
-    ]; // Fechamento do array sampleQuestions
-    
-        // =============================================
-        // LÓGICA DO QUIZ
-        // =============================================
-        let shuffledQuestions = [];
-        let currentQuestionIndex = 0;
-        let questionsInBatch = 0;
-        let scoreBatch = 0;
-        let resultsHistory = [];
-        let currentChart = null; // Para armazenar a instância do gráfico atual
-    
-        const quizContainer = document.getElementById('quiz-container');
-        const resultsContainer = document.getElementById('results-container');
-        const imageModal = document.getElementById('imageModal');
-        const modalImageContent = document.getElementById('modalImageContent');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-    
-        // --- Funções Auxiliares ---
-        function shuffleArray(array) {
-          for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap
-          }
-          return array;
-        }
-    
-        function openImageModal(src) {
-            if (!src) return;
-            modalImageContent.src = src;
-            imageModal.style.display = "block";
-        }
-    
-        function closeImageModal() {
-            imageModal.style.display = "none";
-            modalImageContent.src = ""; // Limpa para não mostrar imagem antiga
-        }
-    
-        // --- Lógica Principal ---
-        function startQuiz() {
-          shuffledQuestions = shuffleArray([...sampleQuestions]); // Cria cópia e embaralha
-          currentQuestionIndex = 0;
-          questionsInBatch = 0;
-          scoreBatch = 0;
-          resultsHistory = [];
-          resultsContainer.style.display = 'none';
-          quizContainer.style.display = 'block';
-          renderQuestion(currentQuestionIndex);
-        }
-    
-        function renderQuestion(index) {
-          if (index >= shuffledQuestions.length) {
-              showFinalResults(); // Mostra resultados finais se acabar
-              return;
-          }
-    
-          const question = shuffledQuestions[index];
-          const totalQuestions = shuffledQuestions.length;
-          quizContainer.innerHTML = `
-            <div class="quiz-card">
-              <div class="quiz-header">
-                  <span class="quiz-title">Questão ${index + 1}</span>
-                  <span class="question-counter">${index + 1} / ${totalQuestions}</span>
-              </div>
-              <p id="question-text">${question.enunciado}</p>
-              ${question.imagem ? `<div class="image-container"><img src="${question.imagem}" alt="Imagem da questão" onclick="openImageModal('${question.imagem}')"></div>` : ''}
-              <ul class="options">
-                ${Object.entries(question.alternativas).map(([key, value]) => `
-                  <li><div class="option" data-option="${key}"> <span class="option-letter">${key.toUpperCase()})</span> ${value}</div></li>
-                `).join('')}
-              </ul>
-              <div class="button-container">
-                  <button class="button" id="next-btn" onclick="handleNext()" disabled>Próxima</button>
-              </div>
+    // =============================================
+    // LÓGICA DO QUIZ
+    // =============================================
+    let shuffledQuestions = [];
+    let currentQuestionIndex = 0;
+    let questionsInBatch = 0;
+    let scoreBatch = 0;
+    let resultsHistory = [];
+    let currentChart = null;
+
+    const quizContainer = document.getElementById('quiz-container');
+    const resultsContainer = document.getElementById('results-container');
+    const imageModal = document.getElementById('imageModal');
+    const modalImageContent = document.getElementById('modalImageContent');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    // Funções auxiliares
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function playSound(id) {
+      const sound = document.getElementById(id);
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log("Audio play failed:", e));
+      }
+    }
+
+    // Funções do modal de imagem
+    function openImageModal(src) {
+      if (!src) return;
+      modalImageContent.src = src;
+      imageModal.style.display = "block";
+    }
+
+    function closeImageModal() {
+      imageModal.style.display = "none";
+      modalImageContent.src = "";
+    }
+
+    // Lógica principal
+    function startQuiz() {
+      shuffledQuestions = shuffleArray([...sampleQuestions]);
+      currentQuestionIndex = 0;
+      questionsInBatch = 0;
+      scoreBatch = 0;
+      resultsHistory = [];
+      resultsContainer.style.display = 'none';
+      quizContainer.style.display = 'block';
+      renderQuestion(currentQuestionIndex);
+    }
+
+    function renderQuestion(index) {
+      if (index >= shuffledQuestions.length) {
+        showFinalResults();
+        return;
+      }
+
+      const question = shuffledQuestions[index];
+      const totalQuestions = shuffledQuestions.length;
+      
+      quizContainer.innerHTML = `
+        <div class="quiz-card">
+          <div class="quiz-header">
+            <span class="quiz-title">Questão ${index + 1}</span>
+            <span class="question-counter">${index + 1} / ${totalQuestions}</span>
+          </div>
+          <p id="question-text">${question.enunciado}</p>
+          ${question.imagem ? `
+            <div class="image-container">
+              <img src="${question.imagem}" alt="Imagem da questão" onclick="openImageModal('${question.imagem}')">
             </div>
-          `;
-    
-          document.querySelectorAll('.option').forEach(el => {
-            el.addEventListener('click', handleAnswerSelection);
-          });
-        }
-    
-        function handleAnswerSelection(event) {
-            const selectedOptionElement = event.currentTarget;
-            const optionsContainer = selectedOptionElement.closest('.options');
-    
-            // Já respondeu? Ignora.
-            if (optionsContainer.classList.contains('disabled')) return;
-    
-            // Desabilita outras opções e marca como respondido
-            optionsContainer.classList.add('disabled');
-    
-            const userAnswer = selectedOptionElement.getAttribute('data-option');
-            const currentQuestion = shuffledQuestions[currentQuestionIndex];
-            const correctAnswer = currentQuestion.correta;
-    
-            // Marca selecionada e verifica se está correta
-            selectedOptionElement.classList.add('selected');
-            if (userAnswer === correctAnswer) {
-                selectedOptionElement.classList.add('correct');
-                scoreBatch++;
-            } else {
-                selectedOptionElement.classList.add('incorrect');
-                // Mostra a correta se errou
-                const correctOptionElement = optionsContainer.querySelector(`.option[data-option="${correctAnswer}"]`);
-                if(correctOptionElement) { // Garante que a correta existe
-                    correctOptionElement.classList.add('correct');
-                }
-            }
-    
-            questionsInBatch++;
-    
-            // Habilita o botão "Próxima"
-            document.getElementById('next-btn').disabled = false;
-        }
-    
-         function handleNext() {
-             currentQuestionIndex++;
-             const isEndOfBatch = (questionsInBatch === 10) || (currentQuestionIndex >= shuffledQuestions.length);
-    
-             if (isEndOfBatch) {
-                 showBatchResults();
-             } else {
-                 renderQuestion(currentQuestionIndex);
-             }
-         }
-    
-         function showBatchResults() {
-             quizContainer.style.display = 'none'; // Esconde questão
-             resultsContainer.style.display = 'block'; // Mostra resultados
-    
-             const batchNumber = resultsHistory.length + 1;
-             const totalInBatch = questionsInBatch; // Quantas questões foram respondidas neste batch
-             const percentage = totalInBatch > 0 ? Math.round((scoreBatch / totalInBatch) * 100) : 0;
-    
-             resultsHistory.push({ batch: batchNumber, score: scoreBatch, total: totalInBatch });
-    
-             resultsContainer.innerHTML = `
-                <div class="results-card">
-                    <h2>Resultado - Bloco ${batchNumber}</h2>
-                    <p>Você acertou ${scoreBatch} de ${totalInBatch} questões (${percentage}%).</p>
-                    <div class="chart-container">
-                        <canvas id="resultsChart"></canvas>
-                    </div>
-                    <div class="button-container">
-                        ${currentQuestionIndex < shuffledQuestions.length ?
-                            '<button class="button" onclick="continueQuiz()">Continuar</button>' :
-                            '<button class="button" onclick="showFinalResults()">Ver Resultado Final</button>'
-                        }
-                    </div>
+          ` : ''}
+          <ul class="options">
+            ${Object.entries(question.alternativas).map(([key, value]) => `
+              <li>
+                <div class="option" data-option="${key}">
+                  <span class="option-letter">${key.toUpperCase()})</span> ${value}
                 </div>
-             `;
-    
-             renderChart(scoreBatch, totalInBatch - scoreBatch);
-    
-             // Reseta para o próximo bloco
-             scoreBatch = 0;
-             questionsInBatch = 0;
-         }
-    
-        function renderChart(correct, incorrect) {
-            const ctx = document.getElementById('resultsChart').getContext('2d');
-    
-            // Destroi gráfico anterior se existir
-            if (currentChart) {
-                currentChart.destroy();
-            }
-    
-            currentChart = new Chart(ctx, {
-                type: 'doughnut', // Ou 'pie', 'bar'
-                data: {
-                    labels: ['Corretas', 'Incorretas'],
-                    datasets: [{
-                        label: 'Desempenho',
-                        data: [correct, incorrect],
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.7)', // Verde/Azul para corretas
-                            'rgba(255, 99, 132, 0.7)'  // Vermelho para incorretas
-                        ],
-                        borderColor: [
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true, // Mantem proporção
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed;
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+              </li>
+            `).join('')}
+          </ul>
+          <div class="button-container">
+            <button class="button" id="next-btn" onclick="handleNext()" disabled>Próxima</button>
+          </div>
+        </div>
+      `;
+
+      document.querySelectorAll('.option').forEach(el => {
+        el.addEventListener('click', handleAnswerSelection);
+      });
+    }
+
+    function handleAnswerSelection(event) {
+      const selectedOptionElement = event.currentTarget;
+      const optionsContainer = selectedOptionElement.closest('.options');
+
+      if (optionsContainer.classList.contains('disabled')) return;
+
+      optionsContainer.classList.add('disabled');
+
+      const userAnswer = selectedOptionElement.getAttribute('data-option');
+      const currentQuestion = shuffledQuestions[currentQuestionIndex];
+      const correctAnswer = currentQuestion.correta;
+
+      selectedOptionElement.classList.add('selected');
+      if (userAnswer === correctAnswer) {
+        selectedOptionElement.classList.add('correct');
+        scoreBatch++;
+        playSound('correctSound');
+      } else {
+        selectedOptionElement.classList.add('incorrect');
+        playSound('wrongSound');
+        const correctOptionElement = optionsContainer.querySelector(`.option[data-option="${correctAnswer}"]`);
+        if (correctOptionElement) {
+          correctOptionElement.classList.add('correct');
         }
-    
-         function continueQuiz() {
-             resultsContainer.style.display = 'none'; // Esconde resultados
-             quizContainer.style.display = 'block';  // Mostra quiz
-             renderQuestion(currentQuestionIndex); // Renderiza próxima questão
-         }
-    
-        function showFinalResults() {
-             quizContainer.style.display = 'none';
-             resultsContainer.style.display = 'block';
-    
-             let totalCorrect = 0;
-             let totalAttempted = 0;
-             resultsHistory.forEach(batch => {
-                 totalCorrect += batch.score;
-                 totalAttempted += batch.total;
-             });
-             const finalPercentage = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
-    
-             // Poderia adicionar um gráfico de barras mostrando o desempenho por bloco aqui
-             resultsContainer.innerHTML = `
-                <div class="results-card">
-                    <h2>Simulado Finalizado!</h2>
-                    <p>Seu desempenho geral: ${totalCorrect} de ${totalAttempted} questões corretas (${finalPercentage}%).</p>
-                    <div class="chart-container">
-                        <canvas id="finalResultsChart"></canvas>
-                    </div>
-                    <div class="button-container">
-                        <button class="button" onclick="startQuiz()">Reiniciar Simulado</button>
-                    </div>
-                </div>
-             `;
-             renderFinalChart(resultsHistory);
-         }
-    
-         function renderFinalChart(history) {
-            const ctx = document.getElementById('finalResultsChart').getContext('2d');
-            if (currentChart) {
-                currentChart.destroy(); // Destroi gráfico anterior
+      }
+
+      questionsInBatch++;
+      document.getElementById('next-btn').disabled = false;
+    }
+
+    function handleNext() {
+      currentQuestionIndex++;
+      const isEndOfBatch = (questionsInBatch === 10) || (currentQuestionIndex >= shuffledQuestions.length);
+
+      if (isEndOfBatch) {
+        showBatchResults();
+      } else {
+        renderQuestion(currentQuestionIndex);
+      }
+    }
+
+    function showBatchResults() {
+      quizContainer.style.display = 'none';
+      resultsContainer.style.display = 'block';
+
+      const batchNumber = resultsHistory.length + 1;
+      const totalInBatch = questionsInBatch;
+      const percentage = totalInBatch > 0 ? Math.round((scoreBatch / totalInBatch) * 100) : 0;
+
+      resultsHistory.push({ batch: batchNumber, score: scoreBatch, total: totalInBatch });
+
+      resultsContainer.innerHTML = `
+        <div class="results-card">
+          <h2>Resultado - Bloco ${batchNumber}</h2>
+          <p>Você acertou ${scoreBatch} de ${totalInBatch} questões (${percentage}%).</p>
+          <div class="chart-container">
+            <canvas id="resultsChart"></canvas>
+          </div>
+          <div class="button-container">
+            ${currentQuestionIndex < shuffledQuestions.length ?
+              '<button class="button" onclick="continueQuiz()">Continuar</button>' :
+              '<button class="button" onclick="showFinalResults()">Ver Resultado Final</button>'
             }
-    
-            const labels = history.map(b => `Bloco ${b.batch}`);
-            const data = history.map(b => b.total > 0 ? (b.score / b.total) * 100 : 0); // Percentual por bloco
-    
-            currentChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '% Acerto por Bloco',
-                        data: data,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // Azul
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100, // Define máximo como 100%
-                            ticks: {
-                               callback: function(value) {
-                                   return value + '%'; // Adiciona % ao eixo Y
-                               }
-                            }
-                        }
-                    },
-                     responsive: true,
-                    maintainAspectRatio: true,
-                     plugins: {
-                        legend: { display: false }, // Esconde legenda se não necessária
-                         tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `Bloco ${context.label}: ${context.parsed.y.toFixed(1)}%`;
-                                }
-                            }
-                        }
-                     }
+          </div>
+        </div>
+      `;
+
+      renderChart(scoreBatch, totalInBatch - scoreBatch);
+      scoreBatch = 0;
+      questionsInBatch = 0;
+    }
+
+    function renderChart(correct, incorrect) {
+      const ctx = document.getElementById('resultsChart').getContext('2d');
+
+      if (currentChart) {
+        currentChart.destroy();
+      }
+
+      currentChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Corretas', 'Incorretas'],
+          datasets: [{
+            label: 'Desempenho',
+            data: [correct, incorrect],
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(255, 99, 132, 0.7)'
+            ],
+            borderColor: [
+              'rgba(75, 192, 192, 1)',
+              'rgba(255, 99, 132, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: ${context.parsed}`;
                 }
-            });
+              }
+            }
+          }
         }
-    
-         // Event listeners do Modal de Imagem
-         closeModalBtn.onclick = closeImageModal;
-         imageModal.onclick = function(event) { // Fecha se clicar fora da imagem
-             if (event.target == imageModal) {
-                 closeImageModal();
-             }
-         }
-    
-        // Inicia o quiz quando a página carrega
-        document.addEventListener('DOMContentLoaded', startQuiz);
-    
-      </script>
-    </body>
-    </html>
+      });
+    }
+
+    function continueQuiz() {
+      resultsContainer.style.display = 'none';
+      quizContainer.style.display = 'block';
+      renderQuestion(currentQuestionIndex);
+    }
+
+    function showRandomCongratsPopup() {
+      const iframes = [
+        '<iframe width="110" height="200" src="https://www.myinstants.com/instant/lista-mais-g-y-do-planeta-terra-2-0-1308/embed/" frameborder="0" scrolling="no"></iframe>',
+        '<iframe width="110" height="200" src="https://www.myinstants.com/instant/eu-quero-comer-voce-99397/embed/" frameborder="0" scrolling="no"></iframe>',
+        '<iframe width="110" height="200" src="https://www.myinstants.com/instant/rat-dance-music-93451/embed/" frameborder="0" scrolling="no"></iframe>'
+      ];
+
+      const randomIframe = iframes[Math.floor(Math.random() * iframes.length)];
+
+      const popup = document.createElement('div');
+      popup.className = 'congrats-popup';
+      popup.innerHTML = `
+        <div class="congrats-content">
+          <p class="congrats-message">Parabéns! Você tirou mais que 7, tome aqui seu botão aleatório</p>
+          <div class="random-iframe">${randomIframe}</div>
+          <button class="button close-popup" onclick="this.closest('.congrats-popup').remove()">Fechar</button>
+        </div>
+      `;
+
+      document.body.appendChild(popup);
+    }
+
+    function showFinalResults() {
+      quizContainer.style.display = 'none';
+      resultsContainer.style.display = 'block';
+
+      let totalCorrect = 0;
+      let totalAttempted = 0;
+      resultsHistory.forEach(batch => {
+        totalCorrect += batch.score;
+        totalAttempted += batch.total;
+      });
+      const finalPercentage = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
+
+      if ((totalCorrect / totalAttempted) >= 0.7) {
+        setTimeout(showRandomCongratsPopup, 1000);
+      }
+
+      resultsContainer.innerHTML = `
+        <div class="results-card">
+          <h2>Simulado Finalizado!</h2>
+          <p>Seu desempenho geral: ${totalCorrect} de ${totalAttempted} questões corretas (${finalPercentage}%).</p>
+          <div class="chart-container">
+            <canvas id="finalResultsChart"></canvas>
+          </div>
+          <div class="button-container">
+            <button class="button" onclick="startQuiz()">Reiniciar Simulado</button>
+          </div>
+        </div>
+      `;
+      renderFinalChart(resultsHistory);
+    }
+
+    function renderFinalChart(history) {
+      const ctx = document.getElementById('finalResultsChart').getContext('2d');
+      if (currentChart) {
+        currentChart.destroy();
+      }
+
+      const labels = history.map(b => `Bloco ${b.batch}`);
+      const data = history.map(b => b.total > 0 ? (b.score / b.total) * 100 : 0);
+
+      currentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '% Acerto por Bloco',
+            data: data,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Bloco ${context.label}: ${context.parsed.y.toFixed(1)}%`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Event listeners
+    closeModalBtn.onclick = closeImageModal;
+    imageModal.onclick = function(event) {
+      if (event.target == imageModal) {
+        closeImageModal();
+      }
+    }
+
+    // Torna funções globais
+    window.openImageModal = openImageModal;
+    window.closeImageModal = closeImageModal;
+    window.handleNext = handleNext;
+    window.continueQuiz = continueQuiz;
+    window.startQuiz = startQuiz;
+
+    // Inicia o quiz
+    document.addEventListener('DOMContentLoaded', startQuiz);
+  </script>
+</body>
+</html>
