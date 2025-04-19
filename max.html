@@ -6,71 +6,103 @@
    <title>Entrando no simulado...</title>
    <script>
     // =============================================
-    // CONFIGURAÇÕES DE SEGURANÇA
-    // =============================================
-    const authorizedIPs = [
-      "172.225.223.49",
-      "189.97.72.21",
-    ];
-    
-    // URL para redirecionamento caso o IP não esteja autorizado
-    const redirectURL = "https://inaciomaximoo.github.io/treino/uiuiui.html";
-    
-    // URL para redirecionamento caso o IP esteja autorizado
-    const successURL = "https://inaciomaximoo.github.io/trein/max.html";
+// CONFIGURAÇÕES DE SEGURANÇA
+// =============================================
+const authorizedIPs = [
+  "172.225.223.49",
+  "189.97.72.21",
+];
 
-    // =============================================
-    // VERIFICAÇÃO DE IP
-    // =============================================
-    async function checkIPAuthorization() {
-      try {
-        // Verifica se já estamos em uma página de redirecionamento
-        const currentURL = window.location.href.split('?')[0].split('#')[0];
-        const baseRedirectURL = redirectURL.split('?')[0].split('#')[0];
-        const baseSuccessURL = successURL.split('?')[0].split('#')[0];
-        
-        if (currentURL === baseRedirectURL || currentURL === baseSuccessURL) {
-          return;
-        }
+// URL para redirecionamento caso o IP não esteja autorizado
+const redirectURL = "https://inaciomaximoo.github.io/treino/uiuiui.html";
 
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        const userIP = data.ip;
-        
-        if (authorizedIPs.includes(userIP)) {
-          // IP autorizado - redireciona se necessário
-          if (successURL && currentURL !== baseSuccessURL) {
-            window.location.href = successURL;
-          } else {
-            // Mostra o conteúdo principal
-            document.getElementById('main-content').style.display = 'block';
-          }
-        } else {
-          // IP não autorizado - redireciona
-          if (currentURL !== baseRedirectURL) {
-            window.location.href = redirectURL;
-          }
-        }
-      } catch (error) {
-        console.error("Erro ao verificar IP:", error);
-        // Em caso de erro, mostra o conteúdo por padrão
-        document.getElementById('main-content').style.display = 'block';
-      }
+// URL para redirecionamento caso o IP esteja autorizado
+const successURL = "https://inaciomaximoo.github.io/trein/max.html";
+
+// Função para iniciar o quiz (certifique-se de definir essa função em algum lugar do seu código)
+function startQuiz() {
+  console.log('Iniciando quiz...');
+  // Código do quiz aqui
+  const quizContainer = document.getElementById('quiz-container');
+  // Adicione o conteúdo do quiz aqui
+}
+
+// =============================================
+// VERIFICAÇÃO DE IP
+// =============================================
+async function checkIPAuthorization() {
+  try {
+    console.log('Verificando IP...');
+
+    // Verifica se já estamos em uma página de redirecionamento
+    const currentURL = window.location.href.split('?')[0].split('#')[0];
+    const baseRedirectURL = redirectURL.split('?')[0].split('#')[0];
+    const baseSuccessURL = successURL.split('?')[0].split('#')[0];
+
+    if (currentURL === baseRedirectURL || currentURL === baseSuccessURL) {
+      console.log('Já estamos em uma página de redirecionamento. Não faremos nada.');
+      return;
     }
 
-    // Verifica o IP quando o DOM estiver pronto
-    document.addEventListener('DOMContentLoaded', function() {
-      // Esconde o conteúdo inicialmente
-      document.getElementById('main-content').style.display = 'none';
-      
-      // Inicia a verificação de IP
-      checkIPAuthorization().then(() => {
-        // Se não houve redirecionamento, inicia o quiz
-        if (document.getElementById('main-content').style.display !== 'none') {
-          startQuiz();
-        }
-      });
-    });
+    const response = await fetch('https://api.ipify.org?format=json');
+    console.log('Resposta da API:', response);
+
+    if (!response.ok) {
+      throw new Error('Erro ao obter IP');
+    }
+
+    const data = await response.json();
+    console.log('Dados da API:', data);
+
+    const userIP = data.ip;
+    console.log('IP do usuário:', userIP);
+
+    if (authorizedIPs.includes(userIP)) {
+      console.log('IP autorizado!');
+      // IP autorizado - redireciona se necessário
+      if (successURL && currentURL !== baseSuccessURL) {
+        console.log('Redirecionando para página de sucesso...');
+        window.location.href = successURL;
+      } else {
+        console.log('Mostrando conteúdo principal...');
+        // Mostra o conteúdo principal
+        const quizContainer = document.getElementById('quiz-container');
+        quizContainer.style.display = 'block';
+      }
+    } else {
+      console.log('IP não autorizado!');
+      // IP não autorizado - redireciona
+      if (currentURL !== baseRedirectURL) {
+        console.log('Redirecionando para página de redirecionamento...');
+        window.location.href = redirectURL;
+      }
+    }
+  } catch (error) {
+    console.error("Erro ao verificar IP:", error);
+    // Em caso de erro, mostra o conteúdo por padrão
+    console.log('Mostrando conteúdo principal por padrão...');
+    const quizContainer = document.getElementById('quiz-container');
+    quizContainer.style.display = 'block';
+  }
+}
+
+// Verifica o IP quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM carregado!');
+  // Esconde o conteúdo inicialmente
+  const quizContainer = document.getElementById('quiz-container');
+  quizContainer.style.display = 'none';
+
+  // Inicia a verificação de IP
+  checkIPAuthorization().then(() => {
+    console.log('Verificação de IP concluída!');
+    // Se não houve redirecionamento, inicia o quiz
+    if (quizContainer.style.display !== 'none') {
+      console.log('Iniciando quiz...');
+      startQuiz();
+    }
+  });
+});
    </script>
    <title>Simulado</title>
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
