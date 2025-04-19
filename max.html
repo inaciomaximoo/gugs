@@ -18,38 +18,47 @@
      
      // URL para redirecionamento caso o IP esteja autorizado
      const successURL = " "; // Ou deixe vazio para carregar o conteúdo normal
- 
+
      // =============================================
      // VERIFICAÇÃO DE IP
      // =============================================
      async function checkIPAuthorization() {
        try {
+         // Verifica se já estamos na página de redirecionamento
+         if (window.location.href === redirectURL) {
+           return;
+         }
+         
          const response = await fetch('https://api.ipify.org?format=json');
          const data = await response.json();
          const userIP = data.ip;
          
          if (authorizedIPs.includes(userIP)) {
            // IP autorizado - redireciona ou carrega o conteúdo
-           if (successURL) {
+           if (successURL && window.location.href !== successURL) {
              window.location.href = successURL;
            } else {
              // Remove o estilo display:none do conteúdo principal
              document.getElementById('main-content').style.display = 'block';
            }
          } else {
-           // IP não autorizado - redireciona imediatamente
-           window.location.href = redirectURL;
+           // IP não autorizado - redireciona apenas se não estiver na página de redirecionamento
+           if (window.location.href !== redirectURL) {
+             window.location.href = redirectURL;
+           }
          }
        } catch (error) {
          console.error("Erro ao verificar IP:", error);
-         // Em caso de erro, redireciona por segurança
-         window.location.href = redirectURL;
+         // Em caso de erro, redireciona por segurança apenas se não estiver na página de redirecionamento
+         if (window.location.href !== redirectURL) {
+           window.location.href = redirectURL;
+         }
        }
      }
- 
+
      // Verifica o IP assim que a página carrega
      window.onload = checkIPAuthorization;
-   </script>
+</script>
    <title>Simulado</title>
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
