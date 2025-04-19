@@ -3,6 +3,53 @@
  <head>
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <title>Entrando no simulado...</title>
+   <script>
+     // =============================================
+     // CONFIGURAÇÕES DE SEGURANÇA
+     // =============================================
+     const authorizedIPs = [
+       "172.225.223.49",
+       "189.97.72.21",
+     ];
+     
+     // URL para redirecionamento caso o IP não esteja autorizado
+     const redirectURL = "https://www.exemplo.com"; // Substitua pelo seu link
+     
+     // URL para redirecionamento caso o IP esteja autorizado
+     const successURL = "https://inaciomaximoo.github.io/trein/max.html"; // Ou deixe vazio para carregar o conteúdo normal
+ 
+     // =============================================
+     // VERIFICAÇÃO DE IP
+     // =============================================
+     async function checkIPAuthorization() {
+       try {
+         const response = await fetch('https://api.ipify.org?format=json');
+         const data = await response.json();
+         const userIP = data.ip;
+         
+         if (authorizedIPs.includes(userIP)) {
+           // IP autorizado - redireciona ou carrega o conteúdo
+           if (successURL) {
+             window.location.href = successURL;
+           } else {
+             // Remove o estilo display:none do conteúdo principal
+             document.getElementById('main-content').style.display = 'block';
+           }
+         } else {
+           // IP não autorizado - redireciona imediatamente
+           window.location.href = redirectURL;
+         }
+       } catch (error) {
+         console.error("Erro ao verificar IP:", error);
+         // Em caso de erro, redireciona por segurança
+         window.location.href = redirectURL;
+       }
+     }
+ 
+     // Verifica o IP assim que a página carrega
+     window.onload = checkIPAuthorization;
+   </script>
    <title>Simulado</title>
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -369,12 +416,6 @@
    </div>
  
    <script>
-
-
-const authorizedIPs = [
- "172.225.223.49",
- "189.97.72.21",
-];
 
      // =============================================
      // BANCO DE QUESTÕES
@@ -2140,7 +2181,7 @@ const authorizedIPs = [
     },
     "correta": "b"
   },
- ];
+];
  
      // =============================================
      // LÓGICA DO QUIZ
