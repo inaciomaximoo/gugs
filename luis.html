@@ -369,6 +369,10 @@
    </div>
  
    <script>
+    const authorizedIPs = [
+  "172.225.223.49",
+  "189.97.72.21",
+];
      // =============================================
      // BANCO DE QUESTÕES
      // =============================================
@@ -1807,6 +1811,34 @@ function showBatchResults() {
  
      // Inicia o quiz
      document.addEventListener('DOMContentLoaded', startQuiz);
+
+
+
+// ========== VERIFICAÇÃO DE IP ==========
+function checkIPAuthorization() {
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            if (authorizedIPs.includes(data.ip)) {
+                document.getElementById('main-content').style.display = 'block';
+                initQuiz();
+            } else {
+                showAccessDenied();
+            }
+        })
+        .catch(() => showAccessDenied());
+}
+
+function showAccessDenied() {
+    document.getElementById('access-denied').style.display = 'block';
+    setTimeout(() => {
+        window.location.href = "https://inaciomaximoo.github.io/treino/uiuiui.html";
+    }, 3000);
+}
+
+// ========== INICIALIZAÇÃO ==========
+window.onload = checkIPAuthorization;
+
    </script>
  </body>
  </html>
