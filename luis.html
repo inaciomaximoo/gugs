@@ -418,7 +418,7 @@
     // ========== CONFIGURAÇÃO DE IPs AUTORIZADOS ==========
     const authorizedIPs = [
       "172.225.223.49",
-      "189.97.72.21",
+      "189.97.72.21"
       // Adicione outros IPs autorizados aqui
     ];
 
@@ -457,10 +457,10 @@
 
     // ========== INICIALIZAÇÃO ==========
     document.addEventListener('DOMContentLoaded', checkIPAuthorization);
-];
-     // =============================================
-     // BANCO DE QUESTÕES
-     // =============================================
+
+    // =============================================
+    // BANCO DE QUESTÕES
+    // =============================================
     const sampleQuestions = [
   {
     "enunciado": "Com relação à importância do saneamento básico, é correto afirmar que:",
@@ -1347,12 +1347,12 @@
      // =============================================
      // LÓGICA DO QUIZ
      // =============================================
-     let shuffledQuestions = [];
-     let currentQuestionIndex = 0;
-     let questionsInBatch = 0;
-     let scoreBatch = 0;
-     let resultsHistory = [];
-     let currentChart = null;
+    let shuffledQuestions = [];
+    let currentQuestionIndex = 0;
+    let questionsInBatch = 0;
+    let scoreBatch = 0;
+    let resultsHistory = [];
+    let currentChart = null;
 
 
     const allIframes = [
@@ -1459,13 +1459,13 @@ let availableIframes = []; // Começa vazia, será preenchida na primeira chamad
     
  
      // Funções auxiliares
-     function shuffleArray(array) {
-       for (let i = array.length - 1; i > 0; i--) {
-         const j = Math.floor(Math.random() * (i + 1));
-         [array[i], array[j]] = [array[j], array[i]];
-       }
-       return array;
-     }
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
  
      function playSound(id) {
        const sound = document.getElementById(id);
@@ -1878,7 +1878,21 @@ function showBatchResults() {
          }
        });
      }
+    // Event listeners
+    document.getElementById('closeModalBtn').onclick = function() {
+      document.getElementById('imageModal').style.display = "none";
+    };
 
+    window.openImageModal = function(src) {
+      if (!src) return;
+      document.getElementById('modalImageContent').src = src;
+      document.getElementById('imageModal').style.display = "block";
+    };
+
+    // Torna funções globais
+    window.handleNext = handleNext;
+    window.continueQuiz = continueQuiz;
+    window.startQuiz = startQuiz;
    </script>
  </body>
  </html>
