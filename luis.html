@@ -355,6 +355,47 @@
        .results-card h2 { font-size: 1.5rem; }
        .results-card p { font-size: 1rem; }
      }
+    /* Adicione este estilo para a mensagem de acesso negado */
+    .access-denied {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .access-denied h2 {
+      color: #dc3545;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .access-denied p {
+      color: #6c757d;
+      font-size: 1.2rem;
+    }
+    
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
    </style>
  </head>
  <body>
