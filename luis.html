@@ -423,37 +423,37 @@
     ];
 
     // ========== VERIFICAÇÃO DE IP ==========
-    function checkIPAuthorization() {
-      fetch('https://api.ipify.org?format=json')
-        .then(response => {
-          if (!response.ok) throw new Error('Falha na requisição');
-          return response.json();
-        })
-        .then(data => {
-          if (authorizedIPs.includes(data.ip)) {
-            // IP autorizado - mostra o conteúdo
-            document.getElementById('content-container').style.display = 'block';
-            document.getElementById('access-denied').style.display = 'none';
-            startQuiz(); // Inicia o quiz
-          } else {
-            // IP não autorizado
-            showAccessDenied();
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao verificar IP:', error);
-          showAccessDenied();
-        });
-    }
+function checkIPAuthorization() {
+  fetch('https://api.ipify.org?format=json')
+    .then(response => {
+      if (!response.ok) throw new Error('Falha na requisição');
+      return response.json();
+    })
+    .then(data => {
+      const userIP = data.ip.trim();
+      console.log("IP detectado:", userIP);
 
-    function showAccessDenied() {
-      document.getElementById('access-denied').style.display = 'flex';
-      document.getElementById('content-container').style.display = 'none';
-      
-      setTimeout(() => {
-        window.location.href = "https://inaciomaximoo.github.io/treino/uiuiui.html";
-      }, 3000);
-    }
+      const authorizedIPs = [
+        "172.225.223.49",
+        "189.97.72.21"
+        // Adicione mais IPs se quiser
+      ];
+
+      if (authorizedIPs.includes(userIP)) {
+        // IP autorizado
+        document.getElementById('content-container').style.display = 'block';
+        document.getElementById('access-denied').style.display = 'none';
+        startQuiz();
+      } else {
+        // IP não autorizado
+        showAccessDenied();
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao verificar IP:', error);
+      showAccessDenied();
+    });
+}
 
     // ========== INICIALIZAÇÃO ==========
     document.addEventListener('DOMContentLoaded', checkIPAuthorization);
