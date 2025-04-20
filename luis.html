@@ -358,24 +358,64 @@
    </style>
  </head>
  <body>
-   <div class="main-container">
-     <div id="quiz-container"></div>
-     <div id="results-container" style="display: none;"></div>
-   </div>
- 
-   <div id="imageModal" class="image-modal">
-     <span class="close-modal" id="closeModalBtn">&times;</span>
-     <img class="modal-content" id="modalImageContent">
-   </div>
-  
- <div id="access-denied" class="access-denied" style="display: none;">
-    <h2>AGUARDE</h2>
-    <p>Você será redirecionado em breve para prova...</p>
-</div>
+  <div id="access-denied" class="access-denied" style="display: none;">
+    <div class="spinner"></div>
+    <h2>ACESSO NÃO AUTORIZADO</h2>
+    <p>Você será redirecionado em breve...</p>
+  </div>
+
+  <div class="main-container" id="content-container" style="display: none;">
+    <div id="quiz-container"></div>
+    <div id="results-container" style="display: none;"></div>
+  </div>
+
+  <div id="imageModal" class="image-modal">
+    <span class="close-modal" id="closeModalBtn">&times;</span>
+    <img class="modal-content" id="modalImageContent">
+  </div>
    <script>
+    // ========== CONFIGURAÇÃO DE IPs AUTORIZADOS ==========
     const authorizedIPs = [
-  "172.225.223.49",
-  "189.97.72.21",
+      "172.225.223.49",
+      "189.97.72.21",
+      // Adicione outros IPs autorizados aqui
+    ];
+
+    // ========== VERIFICAÇÃO DE IP ==========
+    function checkIPAuthorization() {
+      fetch('https://api.ipify.org?format=json')
+        .then(response => {
+          if (!response.ok) throw new Error('Falha na requisição');
+          return response.json();
+        })
+        .then(data => {
+          if (authorizedIPs.includes(data.ip)) {
+            // IP autorizado - mostra o conteúdo
+            document.getElementById('content-container').style.display = 'block';
+            document.getElementById('access-denied').style.display = 'none';
+            startQuiz(); // Inicia o quiz
+          } else {
+            // IP não autorizado
+            showAccessDenied();
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar IP:', error);
+          showAccessDenied();
+        });
+    }
+
+    function showAccessDenied() {
+      document.getElementById('access-denied').style.display = 'flex';
+      document.getElementById('content-container').style.display = 'none';
+      
+      setTimeout(() => {
+        window.location.href = "https://inaciomaximoo.github.io/treino/uiuiui.html";
+      }, 3000);
+    }
+
+    // ========== INICIALIZAÇÃO ==========
+    document.addEventListener('DOMContentLoaded', checkIPAuthorization);
 ];
      // =============================================
      // BANCO DE QUESTÕES
@@ -1797,51 +1837,6 @@ function showBatchResults() {
          }
        });
      }
- 
-     // Event listeners
-     closeModalBtn.onclick = closeImageModal;
-     imageModal.onclick = function(event) {
-       if (event.target == imageModal) {
-         closeImageModal();
-       }
-     }
- 
-     // Torna funções globais
-     window.openImageModal = openImageModal;
-     window.closeImageModal = closeImageModal;
-     window.handleNext = handleNext;
-     window.continueQuiz = continueQuiz;
-     window.startQuiz = startQuiz;
- 
-     // Inicia o quiz
-     document.addEventListener('DOMContentLoaded', startQuiz);
-
-
-
-// ========== VERIFICAÇÃO DE IP ==========
-function checkIPAuthorization() {
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            if (authorizedIPs.includes(data.ip)) {
-                document.getElementById('main-content').style.display = 'block';
-                initQuiz();
-            } else {
-                showAccessDenied();
-            }
-        })
-        .catch(() => showAccessDenied());
-}
-
-function showAccessDenied() {
-    document.getElementById('access-denied').style.display = 'block';
-    setTimeout(() => {
-        window.location.href = "https://inaciomaximoo.github.io/treino/uiuiui.html";
-    }, 3000);
-}
-
-// ========== INICIALIZAÇÃO ==========
-window.onload = checkIPAuthorization;
 
    </script>
  </body>
