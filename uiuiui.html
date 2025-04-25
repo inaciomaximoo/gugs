@@ -13,28 +13,22 @@
   
    <style>
      :root {
-       --bg-gradient-start: #0f0c29;
-       --bg-gradient-end: #302b63;
-       --primary: #6a5acd;
-       --primary-dark: #483d8b;
-       --accent: #00d4aa;
-       --accent-light: #0ce8c0;
-       --danger: #ff6b6b;
+       --bg-gradient-start: #1a1a1a;
+       --bg-gradient-end: #2d2d2d;
+       --primary: #7c4dff;
+       --primary-dark: #5e35b1;
+       --accent: #00e676;
+       --accent-light: #00ff8c;
+       --danger: #ff5252;
        --danger-light: #ffebee;
        --text: #e0e0e0;
-       --text-light: #b0b0b0;
-       --border: #444;
-       --card-bg: #1e1e2d;
-       --shadow-color: rgba(0, 0, 0, 0.3);
-       --disabled-bg: #3a3a3a;
-       --disabled-text: #777;
+       --text-light: #bdbdbd;
+       --border: #424242;
+       --card-bg: #2e2e2e;
+       --shadow-color: rgba(0, 0, 0, 0.4);
+       --disabled-bg: #424242;
+       --disabled-text: #757575;
        --transition-speed: 0.4s;
-     }
- 
-     * {
-       box-sizing: border-box;
-       margin: 0;
-       padding: 0;
      }
  
      body {
@@ -48,16 +42,11 @@
        align-items: flex-start;
        transition: background 0.8s cubic-bezier(0.19, 1, 0.22, 1);
      }
- 
-     .main-container {
-       max-width: 850px;
-       width: 100%;
-     }
- 
+
      .quiz-card, .results-card {
        background-color: var(--card-bg);
        border-radius: 16px;
-       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
        padding: 35px;
        margin-bottom: 30px;
        animation: slideUpFadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -182,7 +171,7 @@
      .options li:nth-child(4) { animation-delay: 0.4s; }
  
      .option {
-       background-color: rgba(255,255,255,0.05);
+       background-color: rgba(255,255,255,0.08);
        padding: 15px 20px;
        border-radius: 10px;
        cursor: pointer;
