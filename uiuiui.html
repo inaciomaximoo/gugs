@@ -519,50 +519,50 @@
 
 
     // ========== VERIFICAÇÃO DE IP ==========
-function checkIPAuthorization() {
-  fetch('https://api.ipify.org?format=json')
-    .then(response => {
-      if (!response.ok) throw new Error('Falha na requisição');
-      return response.json();
-    })
-    .then(data => {
-      const userIP = data.ip.trim();
-      console.log("IP detectado:", userIP);
+ //function checkIPAuthorization() {
+  // fetch('https://api.ipify.org?format=json')
+   //  .then(response => {
+   //    if (!response.ok) throw new Error('Falha na requisição');
+ //      return response.json();
+ //    })
+ //    .then(data => {
+       //const userIP = data.ip.trim();
+       //console.log("IP detectado:", userIP);
 
-      const authorizedIPs = [
-        "172.225.223.49",
-        "189.97.72.21",
-        "179.209.47.6",
-        "152.244.40.203",
-        "189.96.228.78",
-        "177.26.252.52",
-        "187.90.218.223",
-        "177.26.242.86",
-        "187.90.223.168",
-        "177.141.171.90",
-       "187.57.119.152", 
-       "191.17.19.119",
+    //   const authorizedIPs = [
+       //  "172.225.223.49",
+        // "189.97.72.21",
+         //"179.209.47.6",
+         //"152.244.40.203",
+         //"189.96.228.78",
+        // "177.26.252.52",
+        // "187.90.218.223",
+        // "177.26.242.86",
+        // "187.90.223.168",
+        // "177.141.171.90",
+        //"187.57.119.152", 
+        //"191.17.19.119",
         // Adicione mais IPs se quiser
       ];
 
-      if (authorizedIPs.includes(userIP)) {
+  //     if (authorizedIPs.includes(userIP)) {
         // IP autorizado
-        document.getElementById('content-container').style.display = 'block';
-        document.getElementById('access-denied').style.display = 'none';
-        startQuiz();
-      } else {
-        // IP não autorizado
-        showAccessDenied();
-      }
-    })
-    .catch(error => {
-      console.error('Erro ao verificar IP:', error);
-      showAccessDenied();
-    });
-}
+ //        document.getElementById('content-container').style.display = 'block';
+   //      document.getElementById('access-denied').style.display = 'none';
+   //      startQuiz();
+  //     } else {
+     //    // IP não autorizado
+    //     showAccessDenied();
+    //   }
+    // })
+   //  .catch(error => {
+     //  console.error('Erro ao verificar IP:', error);
+      // showAccessDenied();
+    // });
+ //}
     
     // ========== INICIALIZAÇÃO ==========
-    document.addEventListener('DOMContentLoaded', checkIPAuthorization);
+  //   document.addEventListener('DOMContentLoaded', checkIPAuthorization);  //
 
     // =============================================
     // BANCO DE QUESTÕES
