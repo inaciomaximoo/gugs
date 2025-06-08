@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLATURAS E PENTATÔNICAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base */
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #262626;
+            color: #EAEAEA;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .menu-container {
+            max-width: 900px;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #EAEAEA;
+            font-size: 4.5em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin: 0;
+        }
+
+        .subtitulo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            color: #d4af37; /* Cor alterada para amarelo */
+            margin: 10px 0 50px 0;
+            letter-spacing: 1px;
+        }
+
+        .botoes-portal {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-portal {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.8em;
+            color: #EAEAEA;
+            border: 2px solid;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 80%;
+            max-width: 500px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        
+        .btn-portal:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .btn-dark {
+            background-color: #333;
+            border-color: #555;
+        }
+        .btn-dark:hover {
+            background-color: #444;
+            border-color: #777;
+        }
+
+        .btn-yellow {
+            background-color: #d4af37;
+            border-color: #f7d065;
+            color: #262626;
+        }
+        .btn-yellow:hover {
+            background-color: #f7d065;
+            border-color: #fff;
+        }
+        
+        /* Estilos do Modal para Iframe */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none; /* Inicia oculto */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-fechar {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 3em;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            z-index: 1001;
+        }
+        .modal-fechar:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        #site-iframe {
+            width: 95%;
+            height: 95%;
+            border: 2px solid #555;
+            border-radius: 8px;
+            background-color: #1a1a1a; /* Cor de fundo enquanto carrega */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="menu-container">
+        <h1>TABLATURAS E PENTATÔNICAS</h1>
+        <p class="subtitulo">Escolha seu instrumento e comece a criar.</p>
+        
+        <div class="botoes-portal">
+            <button id="btn-guitar" class="btn-portal btn-dark">Guitarra</button>
+            <button id="btn-ukulele" class="btn-portal btn-dark">Ukulele</button>
+            <button id="btn-harmonica" class="btn-portal btn-yellow">BLUES MASTER</button>
+        </div>
+    </div>
+
+    <div id="site-modal" class="modal-overlay">
+        <button id="modal-close" class="modal-fechar">&times;</button>
+        <iframe id="site-iframe" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleção dos elementos do DOM
+    const btnGuitar = document.getElementById('btn-guitar');
+    const btnUkulele = document.getElementById('btn-ukulele');
+    const btnHarmonica = document.getElementById('btn-harmonica');
+
+    const siteModal = document.getElementById('site-modal');
+    const modalClose = document.getElementById('modal-close');
+    const siteIframe = document.getElementById('site-iframe');
+
+    // URLs das ferramentas
+    const urls = {
+        guitar: 'https://inaciomaximoo.github.io/trein/music/Guitar.html',
+        ukulele: 'https://inaciomaximoo.github.io/trein/music/Ukulele.html',
+        harmonica: 'https://inaciomaximoo.github.io/trein/music/BLUESMASTER.html'
+    };
+
+    /**
+     * Função para abrir o modal e carregar o site no iframe.
+     * @param {string} url - O URL do site a ser carregado.
+     */
+    const openSiteInModal = (url) => {
+        siteIframe.src = url; // Define o endereço do iframe
+        siteModal.style.display = 'flex'; // Exibe o modal
+    };
+
+    /**
+     * Função para fechar o modal e limpar o iframe.
+     */
+    const closeSiteModal = () => {
+        siteModal.style.display = 'none'; // Oculta o modal
+        siteIframe.src = 'about:blank'; // Limpa o iframe para interromper a execução
+    };
+
+    // Adiciona os listeners de evento aos botões do menu
+    btnGuitar.addEventListener('click', () => openSiteInModal(urls.guitar));
+    btnUkulele.addEventListener('click', () => openSiteInModal(urls.ukulele));
+    btnHarmonica.addEventListener('click', () => openSiteInModal(urls.harmonica));
+
+    // Adiciona o listener para o botão de fechar do modal
+    modalClose.addEventListener('click', closeSiteModal);
+
+    // Opcional: fechar o modal ao pressionar a tecla 'Escape'
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && siteModal.style.display === 'flex') {
+            closeSiteModal();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
