@@ -118,7 +118,7 @@
             z-index: 1; /* Abaixo do conteúdo principal da porta */
         }
 
-        /* Novo estilo para o timer fixo na tela */
+        /* Estilo para o timer fixo na tela */
         .fixed-timer-container {
             position: fixed; /* Fixa na tela */
             top: 20px; /* Distância do topo */
@@ -130,7 +130,7 @@
             font-size: 2em; /* Tamanho da fonte do timer */
             font-weight: 700;
             box-shadow: 0 4px 10px var(--shadow-color);
-            z-index: 999; /* Garante que fique acima de outros elementos, mas abaixo de um possível modal futuro */
+            z-index: 999; /* Garante que fique acima de outros elementos */
             display: flex;
             align-items: center;
             gap: 10px; /* Espaço entre o ícone e o texto, se houver */
@@ -223,62 +223,77 @@
 
     <script>
         const doors = document.querySelectorAll('.door');
-        const mainTimerDisplay = document.getElementById('mainTimerDisplay'); // Referência ao novo display do timer
+        const mainTimerDisplay = document.getElementById('mainTimerDisplay');
 
         let countdownInterval; // Variável para armazenar o ID do intervalo do timer principal
+        const initialMainTime = 3 * 60; // Duração do timer em segundos (3 minutos)
 
         /**
          * Função para iniciar o timer principal.
-         * @param {number} duration - Duração do timer em segundos.
+         * Reseta para a duração inicial e começa a contagem regressiva.
          */
         function startMainTimer(duration) {
             let timer = duration;
-            let minutes, seconds;
 
-            // Limpa qualquer timer anterior para evitar múltiplos timers rodando
+            // Limpa qualquer timer anterior para garantir que apenas um esteja rodando
             clearInterval(countdownInterval);
 
+            // Atualiza o display imediatamente para 03:00 ao iniciar/resetar
+            updateTimerDisplay(timer);
+
             countdownInterval = setInterval(() => {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+                --timer; // Decrementa o timer
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                mainTimerDisplay.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
+                if (timer < 0) {
                     timer = 0; // Garante que o timer não fique negativo
-                    clearInterval(countdownInterval);
-                    mainTimerDisplay.textContent = "00:00"; // Define para 00:00 quando zera
-                    // Aqui você pode adicionar uma ação quando o timer principal termina, se quiser
-                    // Por exemplo: alert("Tempo esgotado para o OSCE!");
+                    clearInterval(countdownInterval); // Para o timer
+                    // Opcional: Adicionar uma ação quando o timer zera (ex: alert, mudar cor)
+                    // console.log("Tempo esgotado!");
                 }
+                updateTimerDisplay(timer); // Atualiza o display
             }, 1000);
         }
 
-        // Inicia o timer principal de 3 minutos (180 segundos) ao carregar a página
-        document.addEventListener('DOMContentLoaded', () => {
-            const initialMainTime = 3 * 60; // 3 minutos
-            startMainTimer(initialMainTime);
-        });
+        /**
+         * Função auxiliar para formatar e atualizar o texto do timer.
+         * @param {number} timeInSeconds - O tempo atual em segundos.
+         */
+        function updateTimerDisplay(timeInSeconds) {
+            const minutes = parseInt(timeInSeconds / 60, 10);
+            const seconds = parseInt(timeInSeconds % 60, 10);
 
-        // Lógica para as portas (permanece a mesma, abrindo em nova aba)
+            const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+            const formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+            mainTimerDisplay.textContent = formattedMinutes + ":" + formattedSeconds;
+        }
+
+        // Lógica para as portas
         doors.forEach(door => {
             door.addEventListener('click', () => {
                 const url = door.dataset.url;
 
-                // Adiciona a classe para a animação de "abrir"
+                // 1. Resetar e iniciar o timer principal toda vez que uma porta é clicada
+                startMainTimer(initialMainTime);
+
+                // 2. Adicionar a classe para a animação de "abrir"
                 door.classList.add('opening');
 
-                // Abre o link em uma nova aba após um pequeno atraso para a animação da porta
+                // 3. Abrir o link em uma nova aba após um pequeno atraso para a animação da porta
                 setTimeout(() => {
                     window.open(url, '_blank');
 
-                    // Remove a classe de animação após a abertura para que a porta possa ser clicada novamente
+                    // 4. Remover a classe de animação após a abertura para que a porta possa ser clicada novamente
                     door.classList.remove('opening');
                 }, 800); // Mantido o tempo de 800ms para a animação da porta
             });
+        });
+
+        // Opcional: Iniciar o timer na carga inicial da página também
+        // Isso é útil se você quer que o timer comece a contar assim que a página é acessada,
+        // mesmo antes do primeiro clique em uma porta.
+        document.addEventListener('DOMContentLoaded', () => {
+            startMainTimer(initialMainTime);
         });
     </script>
 
