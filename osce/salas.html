@@ -11,6 +11,7 @@
             --door-bg: #4a6c8c;
             --door-handle: #d4af37;
             --door-border: #314a60;
+            /* As variáveis de timer e botão de fechar modal foram mantidas, mas não serão usadas no HTML */
             --timer-bg: #fff;
             --timer-text: #005a9c;
             --close-btn-bg: #f44336;
@@ -34,7 +35,7 @@
             min-height: 100vh;
             background-color: var(--bg-color);
             padding: 20px;
-            overflow: hidden; /* Evita rolagem do body quando o modal está aberto */
+            overflow: auto; /* Permite rolagem se o conteúdo exceder a altura */
         }
 
         h1 {
@@ -119,91 +120,7 @@
             z-index: 1; /* Abaixo do conteúdo principal da porta */
         }
 
-        /* Modal da Estação (com timer, iframe e botão de fechar) */
-        .station-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95); /* Fundo semi-transparente */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-speed) ease-in-out, visibility var(--transition-speed) ease-in-out;
-            gap: 20px; /* Espaçamento entre os elementos do modal */
-            padding: 20px; /* Espaçamento interno */
-        }
-
-        .station-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .timer-display {
-            background-color: var(--timer-bg);
-            color: var(--timer-text);
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 3em; /* Aumentado para maior visibilidade */
-            font-weight: 700;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            margin-bottom: 20px; /* Espaço abaixo do timer */
-            z-index: 1001; /* Garante que o timer apareça acima do iframe */
-        }
-
-        .close-modal-btn {
-            background-color: var(--close-btn-bg);
-            color: var(--close-btn-text);
-            border: none;
-            border-radius: 50px; /* Botão mais oval/circular */
-            padding: 10px 25px; /* Tamanho do botão */
-            font-size: 1.5em;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 2px 5px var(--shadow-color);
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            z-index: 1001; /* Garante que o botão apareça acima do iframe */
-        }
-
-        .close-modal-btn:hover {
-            background-color: #d32f2f;
-            transform: scale(1.05);
-        }
-
-        /* Botão "X" de fechar no canto superior direito */
-        .close-x-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 3em; /* Tamanho do "X" */
-            color: #fff;
-            cursor: pointer;
-            z-index: 1002; /* Acima de tudo */
-            transition: transform 0.2s ease, color 0.2s ease;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-
-        .close-x-btn:hover {
-            color: var(--close-btn-bg);
-            transform: scale(1.1);
-        }
-
-        /* Estilo do iframe */
-        .station-iframe {
-            width: 90%; /* Ajuste a largura conforme necessário */
-            height: 80%; /* Ajuste a altura conforme necessário */
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            background-color: #fff; /* Fundo branco para o iframe */
-            flex-grow: 1; /* Permite que o iframe ocupe o espaço disponível */
-        }
-
+        /* Os estilos do modal e iframe foram removidos daqui */
 
         /* Responsividade */
         @media (max-width: 768px) {
@@ -223,23 +140,6 @@
                 font-size: 1.8em;
                 margin-bottom: 20px;
             }
-            .timer-display {
-                font-size: 2em; /* Ajuste para telas menores */
-                padding: 10px 20px;
-            }
-            .close-modal-btn {
-                padding: 8px 20px;
-                font-size: 1.2em;
-            }
-            .close-x-btn {
-                font-size: 2.5em;
-                top: 15px;
-                right: 20px;
-            }
-            .station-iframe {
-                width: 95%;
-                height: 75%;
-            }
         }
 
         @media (max-width: 480px) {
@@ -250,12 +150,6 @@
             .door {
                 width: 200px;
                 height: 280px;
-            }
-            .timer-display {
-                font-size: 1.5em;
-            }
-            .close-modal-btn {
-                font-size: 1em;
             }
         }
     </style>
@@ -297,76 +191,26 @@
         </div>
     </div>
 
-    <div class="station-modal" id="stationModal">
-        <span class="close-x-btn" id="closeXBtn">&times;</span> <span class="timer-display" id="timer">03:00</span>
-        <iframe class="station-iframe" id="stationIframe" src=""></iframe> <button class="close-modal-btn" id="closeModalBtn">Fechar Estação</button>
-    </div>
-
     <script>
         const doors = document.querySelectorAll('.door');
-        const stationModal = document.getElementById('stationModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const closeXBtn = document.getElementById('closeXBtn'); // Referência ao novo botão "X"
-        const timerDisplay = document.getElementById('timer');
-        const stationIframe = document.getElementById('stationIframe'); // Referência ao iframe
-
-        let countdownInterval;
-
-        // Função para fechar o modal e resetar o timer
-        function closeStationModal() {
-            stationModal.classList.remove('active');
-            clearInterval(countdownInterval); // Para o timer
-            timerDisplay.textContent = "03:00"; // Reseta o timer
-            stationIframe.src = ""; // Limpa a URL do iframe ao fechar
-        }
 
         doors.forEach(door => {
             door.addEventListener('click', () => {
-                const url = door.dataset.url;
-                const initialTime = 3 * 60; // 3 minutos (180 segundos)
+                const url = door.dataset.url; // Pega a URL do atributo data-url da porta
 
                 // Adiciona a classe para a animação de "abrir"
                 door.classList.add('opening');
 
-                // Espera a animação da porta terminar antes de abrir o modal e carregar o iframe
+                // Abre o link em uma nova aba após um pequeno atraso para a animação da porta
+                // (O tempo deve ser menor ou igual ao da transição do CSS da porta)
                 setTimeout(() => {
-                    stationModal.classList.add('active');
-                    stationIframe.src = url; // Carrega a URL no iframe
-                    startTimer(initialTime); // Inicia o timer
+                    window.open(url, '_blank'); // Abre a URL em uma nova aba
 
-                    // Remove a classe de animação após o modal abrir para que a porta possa ser clicada novamente
+                    // Remove a classe de animação após a abertura para que a porta possa ser clicada novamente
                     door.classList.remove('opening');
-                }, 800); // Ajuste este tempo para sincronizar com a duração da transição CSS da porta
+                }, 800); // Mantido o tempo de 800ms para a animação da porta
             });
         });
-
-        closeModalBtn.addEventListener('click', closeStationModal);
-        closeXBtn.addEventListener('click', closeStationModal); // Adiciona listener para o botão "X"
-
-        function startTimer(duration) {
-            let timer = duration;
-            let minutes, seconds;
-
-            clearInterval(countdownInterval); // Garante que nenhum timer anterior esteja rodando
-
-            countdownInterval = setInterval(() => {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                timerDisplay.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
-                    timer = 0; // Garante que o timer não fique negativo
-                    clearInterval(countdownInterval);
-                    timerDisplay.textContent = "00:00"; // Define para 00:00 quando zera
-                    // Se quiser que o modal feche automaticamente ao final do timer, descomente a linha abaixo:
-                    // closeStationModal();
-                }
-            }, 1000);
-        }
     </script>
 
 </body>
