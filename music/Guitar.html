@@ -13,7 +13,7 @@
         h1 { font-family: 'Cinzel Decorative', cursive; color: #EAEAEA; font-size: 3.5em; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); margin-bottom: 0; }
         h2 { font-family: 'Cinzel', serif; color: #d4af37; text-align: center; margin-top: 40px; font-size: 2.2em; letter-spacing: 2px; font-weight: 700; }
         .introducao { max-width: 900px; text-align: center; color: #ccc; margin-bottom: 20px; line-height: 1.7; }
-        .legenda { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; margin-bottom: 30px; align-items: center; justify-content: center; background-color: rgba(0,0,0,0.2); padding: 10px 20px; border-radius: 10px; border: 1px solid #444; }
+        .legenda { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; margin-bottom: 30px; align-items: center; justify-content: center; background-color: rgba(0,0,0,0.2); padding: 10px 20px; border-radius: 10px; border: 1px solid #444; }
         .legenda-item { display: flex; align-items: center; gap: 8px; font-weight: bold; }
         .cor-legenda { width: 20px; height: 20px; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; font-size: 0.7em; font-weight: bold; color: #262626;}
         .cor-escala { background-color: #ffcc00; border: 1px solid #b38f00; }
@@ -35,6 +35,7 @@
         .fret:nth-child(2) { width: 65px; } .fret:nth-child(3) { width: 62px; } .fret:nth-child(4) { width: 59px; } .fret:nth-child(5) { width: 56px; }
         .fret:nth-child(6) { width: 54px; } .fret:nth-child(7) { width: 52px; } .fret:nth-child(8) { width: 50px; } .fret:nth-child(9) { width: 48px; }
         .fret:nth-child(10) { width: 46px; } .fret:nth-child(11) { width: 45px; } .fret:nth-child(n+12) { width: 44px; } .fret:nth-child(n+16) { width: 42px; } .fret:nth-child(n+20) { width: 40px; }
+        
         .fret.fret-selecionado { background-color: rgba(46, 204, 113, 0.4); box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8); }
 
         .fret.proxima-nota-sugerida, .fret.escala-completa { background-color: rgba(255, 255, 0, 0.45) !important; box-shadow: inset 0 0 10px rgba(255, 255, 0, 0.8); }
@@ -108,31 +109,15 @@
         .acorde-item:hover { background-color: #d4af37; color: #262626; transform: scale(1.05); border-color: #d4af37; }
         .acorde-item h4 { margin: 0 0 8px 0; font-family: 'Cinzel', serif; font-size: 1.1em; }
         
-        .acorde-item.sugerido {
-            background-color: #d4af37;
-            color: #262626;
-            transform: scale(1.05);
-            border-color: #ffffff;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
-        }
-        .acorde-item.desativado {
-            opacity: 0.3;
-            background-color: #2a2a2a;
-            border-color: #555;
-            transform: scale(1);
-            cursor: default;
-        }
-        .acorde-item.desativado:hover {
-             transform: scale(1);
-             background-color: #2a2a2a;
-             color: #EAEAEA;
-        }
+        .acorde-item.sugerido { background-color: #d4af37; color: #262626; transform: scale(1.05); border-color: #ffffff; box-shadow: 0 0 15px rgba(212, 175, 55, 0.7); }
+        .acorde-item.desativado { opacity: 0.3; background-color: #2a2a2a; border-color: #555; transform: scale(1); cursor: default; }
+        .acorde-item.desativado:hover { transform: scale(1); background-color: #2a2a2a; color: #EAEAEA; }
     </style>
 </head>
 <body>
     <h1>ESTÚDIO DE GUITARRA</h1>
     <h2 style="font-size: 1.8em; margin-top: 0;">Editor de Tablaturas e Guia de Escalas</h2>
-    <p class="introducao">Crie e salve suas tablaturas! Use o "Modo Solo Interativo": clique para ver notas vizinhas, arraste na horizontal para um SLIDE ou na vertical para um BEND.</p>
+    <p class="introducao">Crie e salve suas tablaturas! Use o "Modo Solo Interativo": clique para ver notas vizinhas, arraste na horizontal para um SLIDE - ou na vertical para um BEND.</p>
 
     <div class="cartao-principal">
         <h2>Editor Interativo de Tablatura</h2>
@@ -224,7 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'G Major', shape: ['3', '0', '0', '0', '2', '3'] }, { name: 'G minor', shape: ['3', '3', '3', '5', '5', '3'] },
     ];
     
-    // NOVO: Mapeamento da Tonalidade para seus acordes diatônicos
     const diatonicChords = {
         'C': ['C Major', 'D minor', 'E minor', 'F Major', 'G Major', 'A minor'],
         'G': ['G Major', 'A minor', 'B minor', 'C Major', 'D Major', 'E minor'],
@@ -232,14 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'A': ['A Major', 'B minor', 'D Major', 'E Major'],
         'E': ['E Major', 'A Major', 'B Major'],
         'B': ['B Major', 'E Major'],
-        'F#': [],
-        'C#': [],
+        'F#': [], 'C#': [],
         'F': ['F Major', 'G minor', 'A minor', 'C Major', 'D minor'],
         'A#': ['C minor', 'D minor', 'F Major', 'G minor'],
-        'D#': ['F minor', 'G minor'],
-        'G#': ['C minor'],
+        'D#': ['F minor', 'G minor'], 'G#': ['C minor'],
     };
-
 
     // --- Seleção dos Elementos do DOM ---
     const editorContainer = document.getElementById('guitarra-editor');
@@ -388,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === stringIndex) tabLines[i] += notation;
             else tabLines[i] += '-'.repeat(notation.length);
         }
-        skipNextSeparator = false;
+        skipNextSeparator = false; // CORREÇÃO: Slides são movimentos completos, a próxima nota deve ser separada.
         updateTabText();
     };
     const addEffectToTab = (effect) => {
@@ -400,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === lastPlayedStringIndex) tabLines[i] += effect;
             else tabLines[i] += '-'.repeat(effect.length);
         }
-        skipNextSeparator = ['h', 'p', '/', '\\'].includes(effect);
+        skipNextSeparator = ['h', 'p'].includes(effect); // Apenas hammer-on e pull-off são contínuos
         updateTabText();
     };
     const addChordToTab = (chordShape) => {
@@ -426,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isChordModeActive) {
             btnModoAcorde.textContent = 'Finalizar Acorde';
             manualChord = {};
+            clearChordHighlights();
         } else {
             btnModoAcorde.textContent = 'Acorde Manual';
             if (Object.keys(manualChord).length > 0) {
@@ -459,7 +441,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleFretMouseDown(event) {
         event.preventDefault();
         const fretEl = event.target.closest('.fret');
-        if (!fretEl || fretEl.classList.contains('desativado') || isChordModeActive) return;
+        if (!fretEl || fretEl.classList.contains('desativado')) return;
+
+        if (isChordModeActive) {
+            handleChordBuildingClick(fretEl);
+            return;
+        }
 
         dragState = { isDragging: true, startX: event.clientX, startY: event.clientY, startFret: parseInt(fretEl.dataset.fret), startString: parseInt(fretEl.dataset.string), startElement: fretEl, dragType: 'none', didMove: false };
         
@@ -488,29 +475,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleDocumentMouseUp(event) {
         if (!dragState.isDragging) return;
-        const startEl = dragState.startElement;
-        if (dragState.dragType === 'slide') {
-            const endEl = event.target.closest('.fret');
-            if (endEl && endEl.classList.contains('slide-target')) {
-                const endFret = parseInt(endEl.dataset.fret);
-                const notation = `${dragState.startFret}${endFret > dragState.startFret ? '/' : '\\'}${endFret}`;
-                addComplexNotationToTab(dragState.startString, notation);
-                lastPlayedStringIndex = dragState.startString;
-                highlightAdjacentScaleNotes(dragState.startString, endFret);
+        
+        let actionTaken = false;
+
+        if (dragState.didMove) {
+            if (dragState.dragType === 'slide') {
+                const elementUnderMouse = document.elementFromPoint(event.clientX, event.clientY);
+                const endEl = elementUnderMouse ? elementUnderMouse.closest('.fret') : null;
+
+                if (endEl && endEl.classList.contains('slide-target')) {
+                    const endFret = parseInt(endEl.dataset.fret);
+                    // CORREÇÃO AQUI: Assegura que a notação é criada com crases (backticks)
+                    const notation = `${dragState.startFret}${endFret > dragState.startFret ? '/' : '\\'}${endFret}`;
+                    addComplexNotationToTab(dragState.startString, notation);
+                    lastPlayedStringIndex = dragState.startString;
+                    highlightAdjacentScaleNotes(dragState.startString, endFret);
+                    actionTaken = true;
+                }
+            } else if (dragState.dragType === 'bend') {
+                const deltaY = Math.abs(event.clientY - dragState.startY);
+                if (deltaY > 20) {
+                    addSingleNoteToTab(dragState.startString, dragState.startFret);
+                    lastPlayedStringIndex = dragState.startString;
+                    addEffectToTab('b');
+                    highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
+                    actionTaken = true;
+                }
             }
-        } else if (dragState.dragType === 'bend') {
-            addSingleNoteToTab(dragState.startString, dragState.startFret);
-            lastPlayedStringIndex = dragState.startString;
-            addEffectToTab('b');
-            highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
-        } else {
+        }
+
+        if (!actionTaken) {
             addSingleNoteToTab(dragState.startString, dragState.startFret);
             lastPlayedStringIndex = dragState.startString;
             highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
         }
-        startEl.classList.remove('dragging');
-        startEl.querySelector('.fret-note-name').style.transform = 'translateY(0)';
-        editorContainer.querySelectorAll('.fret').forEach(f => f.classList.remove('slide-target'));
+        
+        dragState.startElement.classList.remove('dragging');
+        dragState.startElement.querySelector('.fret-note-name').style.transform = 'translateY(0)';
+        editorContainer.querySelectorAll('.fret.slide-target').forEach(f => f.classList.remove('slide-target'));
+        
         document.removeEventListener('mousemove', handleDocumentMouseMove);
         document.removeEventListener('mouseup', handleDocumentMouseUp);
         dragState.isDragging = false;
@@ -537,9 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAbrirMusicasSalvas.addEventListener('click', () => { renderizarMusicasSalvas(); modalMusicas.classList.add('visivel'); });
     btnFecharMusicas.addEventListener('click', () => modalMusicas.classList.remove('visivel'));
     
-    // ATUALIZAÇÃO: Lógica de abrir e interagir com o modal de acordes
     const clearChordSuggestions = () => { listaAcordes.querySelectorAll('.acorde-item').forEach(el => el.classList.remove('sugerido', 'desativado')); };
-    
     btnAbrirAcordes.addEventListener('click', () => {
         renderizarBibliotecaAcordes();
         clearChordSuggestions();
