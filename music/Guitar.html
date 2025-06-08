@@ -20,6 +20,7 @@
         .cor-tonica { background-color: #2a9d8f; color: #EAEAEA; }
         .cor-outra { background-color: #4a4a4a; border: 1px solid #777; color: #ccc; }
         .cor-sugestao { background-color: yellow; }
+        .cor-anterior { background-color: #999; }
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 1200px; width: 100%;}
         .cartao-principal { background-color: #333; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); width: 100%; max-width: 1100px; padding: 20px; border: 1px solid #555; box-sizing: border-box; }
 
@@ -36,46 +37,23 @@
         .fret:nth-child(10) { width: 46px; } .fret:nth-child(11) { width: 45px; } .fret:nth-child(n+12) { width: 44px; } .fret:nth-child(n+16) { width: 42px; } .fret:nth-child(n+20) { width: 40px; }
         .fret.fret-selecionado { background-color: rgba(46, 204, 113, 0.4); box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8); }
 
-        .fret.proxima-nota-sugerida, .fret.escala-completa {
-            background-color: rgba(255, 255, 0, 0.45) !important;
-            box-shadow: inset 0 0 10px rgba(255, 255, 0, 0.8);
-            border-radius: 2px;
-        }
-
+        .fret.proxima-nota-sugerida, .fret.escala-completa { background-color: rgba(255, 255, 0, 0.45) !important; box-shadow: inset 0 0 10px rgba(255, 255, 0, 0.8); }
+        .fret.nota-anterior-sugerida { background-color: rgba(180, 180, 180, 0.4) !important; box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.4); }
         .fret.desativado { opacity: 0.35; }
         
         .fret-note-name {
-            position: absolute;
-            z-index: 3;
-            color: #1a1a1a;
-            font-family: 'Roboto Mono', monospace;
-            font-weight: bold;
-            font-size: 0.9em;
-            pointer-events: none;
-            visibility: hidden;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.05s ease-out;
+            position: absolute; z-index: 3; color: #1a1a1a; font-family: 'Roboto Mono', monospace; font-weight: bold; font-size: 0.9em;
+            pointer-events: none; visibility: hidden; background: rgba(255, 255, 255, 0.7); border-radius: 50%;
+            width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; transition: transform 0.05s ease-out;
         }
         
         .fret.proxima-nota-sugerida .fret-note-name,
         .fret.escala-completa .fret-note-name,
-        .fret.dragging .fret-note-name {
-            visibility: visible;
-        }
+        .fret.dragging .fret-note-name,
+        .fret.nota-anterior-sugerida .fret-note-name { visibility: visible; }
 
-        .fret.dragging {
-            background-color: rgba(46, 204, 113, 0.4) !important;
-            box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8);
-        }
-        .fret.slide-target {
-            background-color: rgba(255, 165, 0, 0.5) !important;
-        }
+        .fret.dragging { background-color: rgba(46, 204, 113, 0.4) !important; box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8); }
+        .fret.slide-target { background-color: rgba(255, 165, 0, 0.5) !important; }
 
         .marker-host { position: relative; }
         .fret-marker-container { position: absolute; left: 50%; top: -250%; transform: translateX(-50%); height: 600%; width: 100%; display: flex; align-items: center; justify-content: center; z-index: 0; pointer-events: none; }
@@ -160,13 +138,14 @@
         <h2>Editor Interativo de Tablatura</h2>
         
         <div class="escala-controles" style="margin-bottom: 10px; padding: 12px; background-color: rgba(0,0,0,0.15); border-radius: 8px; border: 1px solid #444;">
-            <label for="escala-select"><strong>Modo Solo Interativo:</strong></label>
+            <label for="escala-select"><strong>Modo Solo / Tonalidade:</strong></label>
             <select id="escala-select"></select>
         </div>
-        <div class="legenda" style="margin-top: 10px;">
-            <div class="legenda-item"><div class="cor-legenda cor-sugestao"></div><span>Nota/Acorde Sugerido</span></div>
-            <div class="legenda-item"><div class="cor-legenda cor-escala">N</div><span>Nota da Escala (Guia)</span></div>
-            <div class="legenda-item"><div class="cor-legenda cor-tonica">T</div><span>Tônica (Guia)</span></div>
+        <div class="legenda" style="margin-top: 10px; gap: 15px;">
+            <div class="legenda-item"><div class="cor-legenda cor-sugestao"></div><span>Próxima Nota</span></div>
+            <div class="legenda-item"><div class="cor-legenda cor-anterior"></div><span>Nota Anterior</span></div>
+            <div class="legenda-item"><div class="cor-legenda cor-escala">N</div><span>Nota da Escala</span></div>
+            <div class="legenda-item"><div class="cor-legenda cor-tonica">T</div><span>Tônica</span></div>
         </div>
         
         <div id="editor-wrapper">
@@ -213,15 +192,15 @@
     <div id="modal-acordes" class="modal-overlay">
         <div class="modal-content">
             <button id="btn-fechar-acordes" class="modal-fechar">&times;</button>
-            <h2>Biblioteca de Acordes de Guitarra</h2>
-            <p>Clique em um acorde para adicioná-lo à sua tablatura e ver sugestões de progressão.</p>
+            <h2>Biblioteca de Acordes</h2>
+            <p>Os acordes da tonalidade selecionada estão ativos. Clique para adicionar e ver o próximo na sequência.</p>
             <div id="lista-acordes"></div>
         </div>
     </div>
 
     <div id="guia-escalas" class="cartao-principal" style="margin-top: 30px;">
         <h2>Guia Visual de Escalas Pentatônicas</h2>
-        <p class="introducao" style="font-size: 0.9em; margin-top: -15px;">Selecione uma escala no menu "Modo Solo Interativo" acima para visualizar o padrão completo aqui.</p>
+        <p class="introducao" style="font-size: 0.9em; margin-top: -15px;">Selecione uma tonalidade no menu acima para visualizar o padrão completo da escala aqui.</p>
         
         <div id="escala-display"></div>
     </div>
@@ -236,23 +215,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const openStringNotes = [notesSharp.indexOf('E'), notesSharp.indexOf('B'), notesSharp.indexOf('G'), notesSharp.indexOf('D'), notesSharp.indexOf('A'), notesSharp.indexOf('E')];
     
     const chordLibrary = [
-        { name: 'A Major', shape: ['0', '2', '2', '2', '0', 'x'] }, { name: 'A minor', shape: ['0', '1', '2', '2', '0', 'x'] }, { name: 'A7', shape: ['0', '2', '0', '2', '0', 'x'] },
-        { name: 'B Major', shape: ['2', '4', '4', '4', '2', 'x'] }, { name: 'B minor', shape: ['2', '3', '4', '4', '2', 'x'] }, { name: 'B7', shape: ['2', '0', '2', '1', '2', 'x'] },
-        { name: 'C Major', shape: ['0', '1', '0', '2', '3', 'x'] }, { name: 'C minor', shape: ['3', '4', '5', '5', '3', 'x'] }, { name: 'C7', shape: ['0', '1', '3', '2', '3', 'x'] },
-        { name: 'D Major', shape: ['2', '3', '2', '0', 'x', 'x'] }, { name: 'D minor', shape: ['1', '3', '2', '0', 'x', 'x'] }, { name: 'D7', shape: ['2', '1', '2', '0', 'x', 'x'] },
-        { name: 'E Major', shape: ['0', '0', '1', '2', '2', '0'] }, { name: 'E minor', shape: ['0', '0', '0', '2', '2', '0'] }, { name: 'E7', shape: ['0', '0', '1', '0', '2', '0'] },
-        { name: 'F Major', shape: ['1', '1', '2', '3', '3', '1'] }, { name: 'F minor', shape: ['1', '1', '1', '3', '3', '1'] }, { name: 'F7', shape: ['1', '1', '2', '1', '3', '1'] },
-        { name: 'G Major', shape: ['3', '0', '0', '0', '2', '3'] }, { name: 'G minor', shape: ['3', '3', '3', '5', '5', '3'] }, { name: 'G7', shape: ['1', '0', '0', '0', '2', '3'] },
+        { name: 'A Major', shape: ['0', '2', '2', '2', '0', 'x'] }, { name: 'A minor', shape: ['0', '1', '2', '2', '0', 'x'] },
+        { name: 'B Major', shape: ['2', '4', '4', '4', '2', 'x'] }, { name: 'B minor', shape: ['2', '3', '4', '4', '2', 'x'] },
+        { name: 'C Major', shape: ['0', '1', '0', '2', '3', 'x'] }, { name: 'C minor', shape: ['3', '4', '5', '5', '3', 'x'] },
+        { name: 'D Major', shape: ['2', '3', '2', '0', 'x', 'x'] }, { name: 'D minor', shape: ['1', '3', '2', '0', 'x', 'x'] },
+        { name: 'E Major', shape: ['0', '0', '1', '2', '2', '0'] }, { name: 'E minor', shape: ['0', '0', '0', '2', '2', '0'] },
+        { name: 'F Major', shape: ['1', '1', '2', '3', '3', '1'] }, { name: 'F minor', shape: ['1', '1', '1', '3', '3', '1'] },
+        { name: 'G Major', shape: ['3', '0', '0', '0', '2', '3'] }, { name: 'G minor', shape: ['3', '3', '3', '5', '5', '3'] },
     ];
     
-    const chordProgressions = {
-        'A Major': ['D Major', 'E Major', 'B minor'], 'B Major': ['E Major', 'A Major'], 'C Major': ['G Major', 'F Major', 'A minor'],
-        'D Major': ['A Major', 'G Major', 'B minor'], 'E Major': ['A Major', 'B Major'], 'F Major': ['C Major', 'D minor', 'G minor'],
-        'G Major': ['D Major', 'C Major', 'E minor'], 'A minor': ['G Major', 'F Major', 'C Major'], 'B minor': ['G Major', 'A Major', 'D Major'],
-        'C minor': ['G minor', 'F minor'], 'D minor': ['G Major', 'C Major', 'F Major'], 'E minor': ['A minor', 'D Major', 'G Major'],
-        'F minor': ['C minor'], 'G minor': ['D minor', 'C minor', 'F Major'], 'A7': ['D Major', 'D minor'], 'B7': ['E Major', 'E minor'],
-        'C7': ['F Major', 'F minor'], 'D7': ['G Major', 'G minor'], 'E7': ['A Major', 'A minor'], 'G7': ['C Major', 'C minor'],
+    // NOVO: Mapeamento da Tonalidade para seus acordes diatônicos
+    const diatonicChords = {
+        'C': ['C Major', 'D minor', 'E minor', 'F Major', 'G Major', 'A minor'],
+        'G': ['G Major', 'A minor', 'B minor', 'C Major', 'D Major', 'E minor'],
+        'D': ['D Major', 'E minor', 'G Major', 'A Major', 'B minor'],
+        'A': ['A Major', 'B minor', 'D Major', 'E Major'],
+        'E': ['E Major', 'A Major', 'B Major'],
+        'B': ['B Major', 'E Major'],
+        'F#': [],
+        'C#': [],
+        'F': ['F Major', 'G minor', 'A minor', 'C Major', 'D minor'],
+        'A#': ['C minor', 'D minor', 'F Major', 'G minor'],
+        'D#': ['F minor', 'G minor'],
+        'G#': ['C minor'],
     };
+
 
     // --- Seleção dos Elementos do DOM ---
     const editorContainer = document.getElementById('guitarra-editor');
@@ -487,14 +474,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDocumentMouseMove(event) {
         if (!dragState.isDragging) return;
         dragState.didMove = true;
-
         const deltaX = event.clientX - dragState.startX;
         const deltaY = event.clientY - dragState.startY;
-        
         if (dragState.dragType === 'none' && (Math.abs(deltaX) > 15 || Math.abs(deltaY) > 15)) {
             dragState.dragType = Math.abs(deltaX) > Math.abs(deltaY) ? 'slide' : 'bend';
         }
-
         if (dragState.dragType === 'bend') {
             dragState.startElement.querySelector('.fret-note-name').style.transform = `translateY(${deltaY}px)`;
         } else if (dragState.dragType === 'slide') {
@@ -505,8 +489,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDocumentMouseUp(event) {
         if (!dragState.isDragging) return;
         const startEl = dragState.startElement;
-        
-        // Finaliza a ação baseada no tipo de arrasto
         if (dragState.dragType === 'slide') {
             const endEl = event.target.closest('.fret');
             if (endEl && endEl.classList.contains('slide-target')) {
@@ -514,24 +496,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const notation = `${dragState.startFret}${endFret > dragState.startFret ? '/' : '\\'}${endFret}`;
                 addComplexNotationToTab(dragState.startString, notation);
                 lastPlayedStringIndex = dragState.startString;
-                highlightAdjacentScaleNotes(dragState.startString, endFret); // Mostra próximas notas a partir do fim do slide
+                highlightAdjacentScaleNotes(dragState.startString, endFret);
             }
         } else if (dragState.dragType === 'bend') {
             addSingleNoteToTab(dragState.startString, dragState.startFret);
             lastPlayedStringIndex = dragState.startString;
             addEffectToTab('b');
             highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
-        } else { // Foi um clique simples
+        } else {
             addSingleNoteToTab(dragState.startString, dragState.startFret);
             lastPlayedStringIndex = dragState.startString;
             highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
         }
-        
-        // Limpeza do estado e da UI
         startEl.classList.remove('dragging');
         startEl.querySelector('.fret-note-name').style.transform = 'translateY(0)';
         editorContainer.querySelectorAll('.fret').forEach(f => f.classList.remove('slide-target'));
-        
         document.removeEventListener('mousemove', handleDocumentMouseMove);
         document.removeEventListener('mouseup', handleDocumentMouseUp);
         dragState.isDragging = false;
@@ -558,10 +537,58 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAbrirMusicasSalvas.addEventListener('click', () => { renderizarMusicasSalvas(); modalMusicas.classList.add('visivel'); });
     btnFecharMusicas.addEventListener('click', () => modalMusicas.classList.remove('visivel'));
     
+    // ATUALIZAÇÃO: Lógica de abrir e interagir com o modal de acordes
     const clearChordSuggestions = () => { listaAcordes.querySelectorAll('.acorde-item').forEach(el => el.classList.remove('sugerido', 'desativado')); };
-    btnAbrirAcordes.addEventListener('click', () => { renderizarBibliotecaAcordes(); clearChordSuggestions(); modalAcordes.classList.add('visivel'); });
+    
+    btnAbrirAcordes.addEventListener('click', () => {
+        renderizarBibliotecaAcordes();
+        clearChordSuggestions();
+        const rootNote = escalaSelect.value;
+        if (rootNote && rootNote !== 'nenhuma') {
+            const validChords = diatonicChords[rootNote] || [];
+            listaAcordes.querySelectorAll('.acorde-item').forEach(item => {
+                const itemName = item.querySelector('h4').textContent;
+                if (!validChords.includes(itemName)) {
+                    item.classList.add('desativado');
+                }
+            });
+        }
+        modalAcordes.classList.add('visivel');
+    });
+    
     btnFecharAcordes.addEventListener('click', () => modalAcordes.classList.remove('visivel'));
     
+    listaAcordes.addEventListener('click', (event) => {
+        const chordItem = event.target.closest('.acorde-item');
+        if (chordItem && !chordItem.classList.contains('desativado')) {
+            const chordIndex = parseInt(chordItem.dataset.chordIndex);
+            const clickedChord = chordLibrary[chordIndex];
+            addChordToTab(clickedChord.shape);
+
+            const rootNote = escalaSelect.value;
+            if (rootNote && rootNote !== 'nenhuma') {
+                const validChords = diatonicChords[rootNote] || [];
+                const clickedChordIndexInKey = validChords.indexOf(clickedChord.name);
+                
+                if (clickedChordIndexInKey !== -1) {
+                    const nextChordIndex = (clickedChordIndexInKey + 1) % validChords.length;
+                    const nextChordName = validChords[nextChordIndex];
+                    
+                    clearChordSuggestions();
+                    
+                    listaAcordes.querySelectorAll('.acorde-item').forEach(item => {
+                        const itemName = item.querySelector('h4').textContent;
+                        if (itemName === nextChordName) {
+                            item.classList.add('sugerido');
+                        } else if (!validChords.includes(itemName)) {
+                            item.classList.add('desativado');
+                        }
+                    });
+                }
+            }
+        }
+    });
+
     function renderizarMusicasSalvas() {
         listaMusicasSalvas.innerHTML = '';
         const musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
@@ -597,31 +624,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    listaAcordes.addEventListener('click', (event) => {
-        const chordItem = event.target.closest('.acorde-item');
-        if (chordItem && !chordItem.classList.contains('desativado')) {
-            const chordIndex = parseInt(chordItem.dataset.chordIndex);
-            const clickedChord = chordLibrary[chordIndex];
-            addChordToTab(clickedChord.shape);
-            clearChordSuggestions();
-            const suggestions = chordProgressions[clickedChord.name];
-            const mostProbable = suggestions ? suggestions[0] : null;
-
-            listaAcordes.querySelectorAll('.acorde-item').forEach(item => {
-                const itemName = item.querySelector('h4').textContent;
-                if (itemName === mostProbable) item.classList.add('sugerido');
-                else if (itemName !== clickedChord.name) item.classList.add('desativado');
-            });
-        }
-    });
-
     // --- Lógica do Guia de Escalas e MODO SOLO ---
     function getNoteName(noteIndex) { return notesSharp[noteIndex % 12]; }
     function getPentatonicMajor(rootNote) { const rootIndex = notesSharp.indexOf(rootNote); return [ rootIndex % 12, (rootIndex + 2) % 12, (rootIndex + 4) % 12, (rootIndex + 7) % 12, (rootIndex + 9) % 12 ]; }
     
     function clearSoloHighlights() { 
         editorContainer.querySelectorAll('.fret').forEach(el => {
-            el.classList.remove('proxima-nota-sugerida', 'escala-completa', 'desativado', 'slide-target');
+            el.classList.remove('proxima-nota-sugerida', 'nota-anterior-sugerida', 'escala-completa', 'desativado', 'slide-target');
             el.querySelector('.fret-note-name').textContent = '';
         });
     }
@@ -631,7 +640,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!rootNote || rootNote === 'nenhuma') return;
         const scaleNotes = getPentatonicMajor(rootNote);
         const editorFretboard = editorContainer.querySelector('.fretboard');
-
         for (let i = 0; i < NUM_STRINGS; i++) {
             for (let j = 0; j <= NUM_FRETS; j++) {
                 const fretEl = editorFretboard.children[i].children[j];
@@ -644,7 +652,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // LÓGICA RESTAURADA: Mostra notas vizinhas (anterior e próxima)
     function highlightAdjacentScaleNotes(clickedStringIndex, clickedFretNumber) {
         clearSoloHighlights();
         const rootNote = escalaSelect.value;
@@ -653,12 +660,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const clickedNoteIndex = (openStringNotes[clickedStringIndex] + clickedFretNumber) % 12;
         const indexOfClickedNoteInScale = scaleNotes.indexOf(clickedNoteIndex);
         
-        // Se a nota clicada não está na escala, apenas desativa as notas que não pertencem
         if (indexOfClickedNoteInScale === -1) {
             editorContainer.querySelectorAll('.fret').forEach(fretEl => {
-                const fretNum = parseInt(fretEl.dataset.fret);
-                const strNum = parseInt(fretEl.dataset.string);
-                const noteIdx = (openStringNotes[strNum] + fretNum) % 12;
+                const noteIdx = (openStringNotes[parseInt(fretEl.dataset.string)] + parseInt(fretEl.dataset.fret)) % 12;
                 if (!scaleNotes.includes(noteIdx)) fretEl.classList.add('desativado');
             });
             return;
@@ -676,14 +680,17 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let j = 0; j <= NUM_FRETS; j++) {
                 const fretEl = editorFretboard.children[i].children[j];
                 const currentNoteIndex = (openStringNotes[i] + j) % 12;
-                
                 if (!scaleNotes.includes(currentNoteIndex)) {
                     fretEl.classList.add('desativado');
                 } else {
                     const isProximate = (Math.abs(j - clickedFretNumber) <= FRET_PROXIMITY) || (j === 0 && clickedFretNumber <= FRET_PROXIMITY);
-                    if ((currentNoteIndex === prevScaleNote || currentNoteIndex === nextScaleNote) && isProximate) {
+                    const noteNameSpan = fretEl.querySelector('.fret-note-name');
+                    if (currentNoteIndex === nextScaleNote && isProximate) {
                         fretEl.classList.add('proxima-nota-sugerida');
-                        fretEl.querySelector('.fret-note-name').textContent = getNoteName(currentNoteIndex);
+                        noteNameSpan.textContent = getNoteName(currentNoteIndex);
+                    } else if (currentNoteIndex === prevScaleNote && isProximate) {
+                        fretEl.classList.add('nota-anterior-sugerida');
+                        noteNameSpan.textContent = getNoteName(currentNoteIndex);
                     }
                 }
             }
@@ -695,12 +702,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!rootNote || rootNote === 'nenhuma') return;
         const scaleNotes = getPentatonicMajor(rootNote);
         const stringRow = dragState.startElement.parentElement;
-
         stringRow.querySelectorAll('.fret').forEach(fretEl => {
             fretEl.classList.remove('slide-target');
             const fretNumber = parseInt(fretEl.dataset.fret);
             if(fretNumber === dragState.startFret) return;
-
             const currentNoteIndex = (openStringNotes[dragState.startString] + fretNumber) % 12;
             if (scaleNotes.includes(currentNoteIndex)) {
                 fretEl.classList.add('slide-target');
@@ -727,7 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displaySelectedScale(rootNote) {
         escalaDisplay.innerHTML = '';
         if (!rootNote || rootNote === 'nenhuma') {
-            escalaDisplay.innerHTML = '<p style="text-align:center; color: #888;">Selecione uma escala acima para ver o diagrama completo.</p>';
+            escalaDisplay.innerHTML = '<p style="text-align:center; color: #888;">Selecione uma tonalidade acima para ver o diagrama completo.</p>';
             return;
         }
         const scaleNotes = getPentatonicMajor(rootNote);
