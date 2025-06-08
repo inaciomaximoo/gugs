@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Estações OSCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --door-bg: #4a6c8c;
+            --door-handle: #d4af37;
+            --door-border: #314a60;
+            --timer-bg: #fff;
+            --timer-text: #005a9c;
+            --close-btn-bg: #f44336;
+            --close-btn-text: #fff;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --transition-speed: 0.5s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            padding: 20px;
+            overflow: hidden; /* Evita rolagem do body quando o modal está aberto */
+        }
+
+        h1 {
+            color: var(--door-bg);
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .osce-doors-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px; /* Limite para portas em linha */
+            width: 100%;
+        }
+
+        .door {
+            width: 180px;
+            height: 250px;
+            background-color: var(--door-bg);
+            border: 5px solid var(--door-border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 15px var(--shadow-color);
+            transition: transform var(--transition-speed) ease-out, box-shadow var(--transition-speed) ease-out;
+            perspective: 1000px; /* Para a animação 3D */
+        }
+
+        .door:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+        }
+
+        .door-content {
+            z-index: 2; /* Acima da camada de animação */
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 700;
+            padding: 10px;
+            user-select: none;
+        }
+
+        .door-handle {
+            width: 20px;
+            height: 50px;
+            background-color: var(--door-handle);
+            border-radius: 5px;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* Animação de porta abrindo */
+        .door.opening .door-panel {
+            transform: rotateY(-90deg); /* Gira para simular abertura */
+            transform-origin: left;
+        }
+
+        .door-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--door-bg);
+            border: 5px solid var(--door-border);
+            border-radius: 8px;
+            transition: transform 0.8s ease-out;
+            z-index: 1; /* Abaixo do conteúdo principal da porta */
+        }
+
+        /* Modal de estação */
+        .station-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Fundo semi-transparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease-in-out, visibility var(--transition-speed) ease-in-out;
+        }
+
+        .station-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content-wrapper {
+            position: relative;
+            width: 98%; /* Quase tela cheia */
+            height: 98%; /* Quase tela cheia */
+            background-color: var(--timer-bg); /* Fundo do modal */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-iframe {
+            flex-grow: 1; /* Ocupa o espaço restante */
+            width: 100%;
+            border: none;
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--timer-bg);
+            color: var(--timer-text);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+            z-index: 1001;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px; /* Canto superior esquerdo */
+            background-color: var(--close-btn-bg);
+            color: var(--close-btn-text);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .close-modal-btn:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .door {
+                width: 150px;
+                height: 200px;
+            }
+            .door-content {
+                font-size: 1em;
+            }
+            .door-handle {
+                width: 15px;
+                height: 40px;
+                right: 10px;
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            .timer-display {
+                font-size: 1.2em;
+                padding: 6px 10px;
+                top: 10px;
+                right: 10px;
+            }
+            .close-modal-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1.2em;
+                top: 10px;
+                left: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .osce-doors-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .door {
+                width: 200px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simulador de Estações OSCE</h1>
+
+    <div class="osce-doors-container">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/Mamariointeiro.html" data-timer="3">
+            <div class="door-panel"></div>
+            <div class="door-content">Estação 1:<br>Exame Mamário</div>
+            <div class="door-handle"></div>
+        </div>
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/Obstetricia.html" data-timer="3">
+            <div class="door-panel"></div>
+            <div class="door-content">Estação 2:<br>Obstetrícia</div>
+            <div class="door-handle"></div>
+        </div>
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/RetalProstatico.html" data-timer="3">
+            <div class="door-panel"></div>
+            <div class="door-content">Estação 3:<br>Retal e Prostático</div>
+            <div class="door-handle"></div>
+        </div>
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/dermatologia.html" data-timer="3">
+            <div class="door-panel"></div>
+            <div class="door-content">Estação 4:<br>Dermatologia</div>
+            <div class="door-handle"></div>
+        </div>
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/coletapapanicolautoquevaginal.html" data-timer="3">
+            <div class="door-panel"></div>
+            <div class="door-content">Estação 5:<br>Ginecológico</div>
+            <div class="door-handle"></div>
+        </div>
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/prostatico.html" data-timer="3">
+            <div class="door-panel"></div>
+            <div class="door-content">Estação 6:<br>Exame Prostático</div>
+            <div class="door-handle"></div>
+        </div>
+    </div>
+
+    <div class="station-modal" id="stationModal">
+        <div class="modal-content-wrapper">
+            <button class="close-modal-btn" id="closeModalBtn">X</button>
+            <span class="timer-display" id="timer">00:00</span>
+            <iframe id="stationIframe" class="modal-iframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const doors = document.querySelectorAll('.door');
+        const stationModal = document.getElementById('stationModal');
+        const stationIframe = document.getElementById('stationIframe');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const timerDisplay = document.getElementById('timer');
+
+        let countdownInterval; // Variável para armazenar o ID do intervalo do timer
+
+        doors.forEach(door => {
+            door.addEventListener('click', () => {
+                const url = door.dataset.url;
+                // Altera aqui: o tempo inicial é 3 minutos (3 * 60 segundos)
+                const initialTime = 3 * 60; // 3 minutos
+
+                // Adiciona a classe para a animação de "abrir"
+                door.classList.add('opening');
+
+                // Espera a animação da porta terminar antes de abrir o modal
+                setTimeout(() => {
+                    stationIframe.src = url;
+                    stationModal.classList.add('active');
+                    startTimer(initialTime); // Inicia o timer
+
+                    // Remove a classe de animação após o modal abrir para que a porta possa ser clicada novamente
+                    door.classList.remove('opening');
+                }, 800); // Ajuste este tempo para sincronizar com a duração da transição CSS da porta
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            stationModal.classList.remove('active');
+            stationIframe.src = ""; // Limpa o iframe para parar o carregamento
+            clearInterval(countdownInterval); // Para o timer
+        });
+
+        function startTimer(duration) {
+            let timer = duration;
+            let minutes, seconds;
+
+            clearInterval(countdownInterval); // Garante que nenhum timer anterior esteja rodando
+
+            countdownInterval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                timerDisplay.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0; // Garante que o timer não fique negativo
+                    clearInterval(countdownInterval);
+                    timerDisplay.textContent = "00:00"; // Define para 00:00 quando zera
+                    // Não faz mais nada, como você pediu
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
