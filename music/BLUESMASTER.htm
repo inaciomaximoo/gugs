@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia e Editor de Gaita - Si (B)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base */
+        body { font-family: 'Merriweather', serif; background-color: #262626; color: #EAEAEA; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        h1 { font-family: 'Cinzel Decorative', cursive; color: #EAEAEA; font-size: 3.5em; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); margin-bottom: 0; }
+        h2 { font-family: 'Cinzel', serif; color: #d4af37; text-align: center; margin-top: 40px; font-size: 2.2em; letter-spacing: 2px; font-weight: 700; }
+        .introducao { max-width: 800px; text-align: center; color: #ccc; margin-bottom: 20px; line-height: 1.7; }
+        .legenda { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px; align-items: center; justify-content: center; background-color: rgba(0,0,0,0.2); padding: 10px 20px; border-radius: 10px; border: 1px solid #444; }
+        .legenda-item { display: flex; align-items: center; gap: 8px; font-weight: bold; }
+        .cor-legenda { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .cor-tonica { background-color: #c92a2a; }
+        .cor-outra { background-color: #3498db; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 1200px; width: 100%;}
+        .cartao-escala { background-color: #333; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); width: 100%; max-width: 550px; padding: 20px; border: 1px solid #555; box-sizing: border-box; }
+        .cartao-escala h2 { font-family: 'Cinzel', serif; font-size: 1.8em; margin-top: 0; border-bottom: 2px solid #555; padding-bottom: 10px; text-align:center; }
+        .escala-container { margin-top: 20px; }
+        .escala-container h3 { font-family: 'Merriweather', serif; font-weight: 700; color: #EAEAEA; font-size: 1.3em; margin-bottom: 5px; text-align: center;}
+        .notas { font-family: monospace; font-size: 1.3em; font-weight: bold; color: #d4af37; text-align: center; padding: 10px; background-color: #2a2a2a; border-radius: 5px; margin-bottom: 15px; border: 1px solid #444; }
+        .gaita-corpo { position: relative; border-radius: 8px; background: #4a2d1e; padding: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.2); border: 1px solid #111; margin-top: 10px; }
+        .gaita-placa { background: linear-gradient(to bottom, #ffffff, #f0f0f0, #e0e0e0, #f0f0f0, #ffffff); padding: 8px 5px; border-radius: 4px; color: #333; font-weight: 700; font-size: 1.2em; display: flex; justify-content: space-around; box-shadow: inset 0 0 2px rgba(0,0,0,0.3); font-family: 'Cinzel', serif; }
+        .gaita-placa.inferior { font-family: 'Cinzel Decorative', cursive; font-size: 1.1em; padding: 10px 5px; justify-content: center; letter-spacing: 2px; }
+        .gaita-pente { display: grid; grid-template-columns: repeat(10, 1fr); background: linear-gradient(to right, #8c432d, #732d17, #8c432d); margin: 5px 0; border: 1px solid #4a2d1e; }
+        .buraco { text-align: center; border-left: 1px solid #4a2d1e; border-right: 1px solid #4a2d1e; box-shadow: inset 0 0 5px rgba(0,0,0,0.6); background-color: rgba(0,0,0,0.1); }
+        .notas-container { padding: 8px 0; }
+        .nota-wrapper { height: 30px; display: flex; justify-content: center; align-items: center; margin: 4px auto; }
+        .nota-texto { width: 28px; height: 28px; line-height: 28px; border-radius: 50%; font-weight: bold; color: #8c432d; }
+        .label-acao { font-size: 0.7em; font-weight: bold; color: #d7ccc8; }
+        .nota-wrapper.ativa .nota-texto { color: white; background-color: #3498db; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+        .nota-wrapper.tonica .nota-texto { background-color: #c92a2a; color: white; }
+        .parafuso { position: absolute; width: 12px; height: 12px; background: #e0e0e0; border-radius: 50%; box-shadow: inset 0 0 2px rgba(0,0,0,0.5); border: 1px solid #999; }
+        .parafuso.esquerdo { top: 50%; left: -20px; transform: translateY(-50%); }
+        .parafuso.direito { top: 50%; right: -20px; transform: translateY(-50%); }
+        
+        /* Estilos do Editor */
+        #gaita-editor .nota-wrapper { cursor: pointer; transition: transform 0.1s ease, background-color 0.2s ease; }
+        #gaita-editor .nota-wrapper:hover .nota-texto { background-color: #d4af37; color: #262626; }
+        #gaita-editor .nota-wrapper:active { transform: scale(0.9); }
+        #tablatura-visual-container { background-color: #2a2a2a; border: 2px solid #555; border-radius: 5px; padding: 10px; margin-top: 20px; min-height: 50px; width: 100%; box-sizing: border-box; }
+        #tablatura-visual { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tab-item { background-color: #111; color: #d4af37; font-family: monospace; font-size: 1.4em; font-weight: bold; padding: 8px 12px; border-radius: 4px; border: 1px solid #444; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; min-width: 25px; }
+        #tablatura-visual-placeholder { color: #777; font-style: italic; }
+        #tablatura-texto { width: 100%; height: 80px; background-color: #2a2a2a; border: 1px solid #555; color: #ccc; font-family: monospace; font-size: 1.2em; padding: 10px; border-radius: 5px; margin-top: 15px; box-sizing: border-box; line-height: 1.5; resize: vertical; }
+        .botoes-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; }
+        .btn-editor { background-color: #d4af37; color: #262626; border: none; padding: 10px 15px; border-radius: 5px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+        .btn-editor:hover { background-color: #f7d065; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
+        .btn-controle { background-color: #555; color: #EAEAEA; }
+        .btn-controle:hover { background-color: #777; }
+        
+        /* Estilos do Modal */
+        .btn-global { background: linear-gradient(145deg, #d4af37, #b18b21); color: #262626; border: none; padding: 12px 25px; border-radius: 8px; font-family: 'Cinzel Decorative', cursive; font-size: 1.2em; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.2s ease-in-out; margin-top: 30px; }
+        .btn-global:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.6); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.visivel { opacity: 1; visibility: visible; }
+        .modal-content { background-color: #333; padding: 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); width: 90%; max-width: 700px; max-height: 80vh; overflow-y: auto; position: relative; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.visivel .modal-content { transform: scale(1); }
+        .modal-fechar { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #aaa; font-size: 2.5em; line-height: 1; cursor: pointer; transition: color 0.2s ease; }
+        .modal-fechar:hover { color: #fff; }
+        #lista-musicas-salvas .musica-item { background-color: #2a2a2a; border: 1px solid #555; border-radius: 5px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+        #lista-musicas-salvas .musica-header { display: flex; justify-content: space-between; align-items: center; }
+        #lista-musicas-salvas h3 { margin: 0; color: #d4af37; font-family: 'Cinzel', serif; }
+        #lista-musicas-salvas .tab-salva { font-family: monospace; font-size: 1.1em; color: #ccc; white-space: pre-wrap; word-wrap: break-word; }
+        .btn-excluir-musica { background: #c92a2a; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1.2em; font-weight: bold; cursor: pointer; transition: background-color 0.2s ease; }
+        .btn-excluir-musica:hover { background-color: #a12121; }
+        #btn-salvar { background-color: #2a9d8f; color: white; }
+        #btn-salvar:hover { background-color: #268c7f; }
+    </style>
+</head>
+<body>
+    <h1>BLUESMASTER</h1>
+    <h2 style="font-size: 1.8em; margin-top: 0;">Ferramenta de Estudo para Gaita em Si (B)</h2>
+    <p class="introducao">Crie e salve suas próprias tablaturas! Use o editor abaixo, focado numa gaita em Si (B), e clique em "Salvar Música". Depois, veja todas as suas criações em "Minhas Músicas Salvas".</p>
+    
+    <div class="legenda">
+        <div class="legenda-item"><div class="cor-legenda cor-tonica"></div><span>Nota Tônica</span></div>
+        <div class="legenda-item"><div class="cor-legenda cor-outra"></div><span>Outras Notas da Escala</span></div>
+    </div>
+
+    <div class="container" style="margin-bottom: 20px;">
+        <div class="cartao-escala" style="max-width: 900px;">
+             <h2>Editor Interativo - Gaita em Si (B)</h2>
+             <div id="gaita-editor" class="gaita-corpo">
+                 <div class="parafuso esquerdo"></div><div class="parafuso direito"></div>
+                 <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>
+                 <div class="gaita-pente">
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="1" data-action="blow"><div class="nota-texto">B</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="1" data-action="draw"><div class="nota-texto">C#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="2" data-action="blow"><div class="nota-texto">D#</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="2" data-action="draw"><div class="nota-texto">F#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="3" data-action="blow"><div class="nota-texto">F#</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="3" data-action="draw"><div class="nota-texto">A#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="4" data-action="blow"><div class="nota-texto">B</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="4" data-action="draw"><div class="nota-texto">C#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="5" data-action="blow"><div class="nota-texto">D#</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="5" data-action="draw"><div class="nota-texto">E</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="6" data-action="blow"><div class="nota-texto">F#</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="6" data-action="draw"><div class="nota-texto">G#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="7" data-action="blow"><div class="nota-texto">B</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="7" data-action="draw"><div class="nota-texto">A#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="8" data-action="blow"><div class="nota-texto">D#</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="8" data-action="draw"><div class="nota-texto">D#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="9" data-action="blow"><div class="nota-texto">F#</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="9" data-action="draw"><div class="nota-texto">F#</div></div></div></div>
+                    <div class="buraco"><div class="notas-container"><div class="label-acao">BLOW</div><div class="nota-wrapper" data-hole="10" data-action="blow"><div class="nota-texto">B</div></div><div class="label-acao">DRAW</div><div class="nota-wrapper" data-hole="10" data-action="draw"><div class="nota-texto">G#</div></div></div></div>
+                 </div>
+                 <div class="gaita-placa inferior"><span>BLUESMASTER</span></div>
+             </div>
+             
+             <div id="tablatura-visual-container">
+                <div id="tablatura-visual">
+                    <span id="tablatura-visual-placeholder">A sua tablatura aparecerá aqui...</span>
+                </div>
+             </div>
+             
+             <label for="tablatura-texto" style="display:block; margin-top: 20px; font-weight: bold; color: #ccc;">Tablatura em Texto (para copiar):</label>
+             <textarea id="tablatura-texto" readonly placeholder="O texto para copiar aparecerá aqui..."></textarea>
+             
+             <div class="botoes-container">
+                <button class="btn-editor" data-efeito="'">Bend ' </button>
+                <button class="btn-editor" data-efeito="''">Bend ''</button>
+                <button class="btn-editor" data-efeito="'''">Bend '''</button>
+                <button class="btn-editor" data-efeito="~">Vibrato</button>
+                <button id="btn-salvar" class="btn-editor">Salvar Música</button>
+                <button id="btn-limpar" class="btn-editor btn-controle">Limpar</button>
+                <button id="btn-copiar" class="btn-editor btn-controle">Copiar</button>
+             </div>
+        </div>
+    </div>
+    
+    <button id="btn-abrir-modal" class="btn-global">Minhas Músicas Salvas</button>
+
+    <div class="container" style="margin-top: 30px; flex-direction: column; align-items: center; gap: 30px;">
+        
+        <div class="cartao-escala" style="max-width: 900px;">
+            <h2>1ª Posição: Si Maior / Relativa: Sol# Menor</h2>
+            <div class="container" style="gap: 15px;">
+                <div class="escala-container">
+                    <h3>Pentatônica Maior (B)</h3><p class="notas">B - C# - D# - F# - G#</p>
+                    <div class="gaita-corpo">
+                        <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>
+                        <div class="gaita-pente">
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper"><div class="nota-texto">E</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">B</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="escala-container">
+                    <h3>Pentatônica Menor (G#m)</h3><p class="notas">G# - B - C# - D# - F#</p>
+                    <div class="gaita-corpo">
+                        <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>
+                        <div class="gaita-pente">
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper"><div class="nota-texto">E</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper tonica"><div class="nota-texto">G#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper tonica"><div class="nota-texto">G#</div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cartao-escala" style="max-width: 900px;">
+            <h2>2ª Posição: Fá# Maior / Relativa: Ré# Menor</h2>
+            <div class="container" style="gap: 15px;">
+                <div class="escala-container">
+                    <h3>Pentatônica Maior (F#)</h3><p class="notas">F# - G# - A# - C# - D#</p>
+                    <div class="gaita-corpo">
+                        <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>Guia de Gaita
+
+                        <div class="gaita-pente">
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper tonica"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper"><div class="nota-texto">E</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">D#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">F#</div></div><div class="nota-wrapper tonica"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="escala-container">
+                    <h3>Pentatônica Menor (D#m)</h3><p class="notas">D# - F# - G# - A# - C#</p>
+                    <div class="gaita-corpo">
+                        <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>
+                        <div class="gaita-pente">
+                           <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">D#</div></div><div class="nota-wrapper"><div class="nota-texto">E</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper tonica"><div class="nota-texto">D#</div></div><div class="nota-wrapper tonica"><div class="nota-texto">D#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cartao-escala" style="max-width: 900px;">
+            <h2>4ª Posição: Mi Maior / Relativa: Dó# Menor (3ª Posição)</h2>
+            <div class="container" style="gap: 15px;">
+                <div class="escala-container">
+                    <h3>Pentatônica Maior (E)</h3><p class="notas">E - F# - G# - B - C#</p>
+                     <div class="gaita-corpo">
+                        <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>
+                        <div class="gaita-pente">
+                           <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">D#</div></div><div class="nota-wrapper tonica"><div class="nota-texto">E</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">D#</div></div><div class="nota-wrapper"><div class="nota-texto">D#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="escala-container">
+                    <h3>Pentatônica Menor (C#m)</h3><p class="notas">C# - E - F# - G# - B</p>
+                    <div class="gaita-corpo">
+                        <div class="gaita-placa"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div></div>
+                        <div class="gaita-pente">
+                           <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper tonica"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper tonica"><div class="nota-texto">C#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">D#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">E</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper"><div class="nota-texto">A#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper"><div class="nota-texto">D#</div></div><div class="nota-wrapper"><div class="nota-texto">D#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div><div class="nota-wrapper ativa"><div class="nota-texto">F#</div></div></div></div>
+                            <div class="buraco"><div class="notas-container"><div class="nota-wrapper ativa"><div class="nota-texto">B</div></div><div class="nota-wrapper ativa"><div class="nota-texto">G#</div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-musicas" class="modal-overlay">
+        <div class="modal-content">
+            <button id="btn-fechar-modal" class="modal-fechar">&times;</button>
+            <h2>Minhas Músicas Salvas</h2>
+            <div id="lista-musicas-salvas"></div>
+        </div>
+    </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Seleção dos Elementos do DOM ---
+    const gaitaEditor = document.getElementById('gaita-editor');
+    const tablaturaVisual = document.getElementById('tablatura-visual');
+    const tablaturaTexto = document.getElementById('tablatura-texto');
+    const btnLimpar = document.getElementById('btn-limpar');
+    const btnCopiar = document.getElementById('btn-copiar');
+    const btnSalvar = document.getElementById('btn-salvar');
+    const botoesEfeito = document.querySelectorAll('.btn-editor[data-efeito]');
+    const modal = document.getElementById('modal-musicas');
+    const btnAbrirModal = document.getElementById('btn-abrir-modal');
+    const btnFecharModal = document.getElementById('btn-fechar-modal');
+    const listaMusicasSalvas = document.getElementById('lista-musicas-salvas');
+
+    // --- Funções Auxiliares ---
+    const limparEditor = () => {
+        tablaturaVisual.innerHTML = '';
+        const newPlaceholder = document.createElement('span');
+        newPlaceholder.id = 'tablatura-visual-placeholder';
+        newPlaceholder.textContent = 'A sua tablatura aparecerá aqui...';
+        tablaturaVisual.appendChild(newPlaceholder);
+        tablaturaTexto.value = '';
+    };
+
+    // --- Lógica do Editor de Tablatura ---
+    gaitaEditor.addEventListener('click', (event) => {
+        const notaWrapper = event.target.closest('.nota-wrapper');
+        if (!notaWrapper) return;
+        const currentPlaceholder = document.getElementById('tablatura-visual-placeholder');
+        if (currentPlaceholder) currentPlaceholder.remove();
+        const hole = notaWrapper.dataset.hole;
+        const action = notaWrapper.dataset.action;
+        const tabNote = (action === 'draw') ? `-${hole}` : hole;
+        const tabItem = document.createElement('div');
+        tabItem.className = 'tab-item';
+        tabItem.textContent = tabNote;
+        tablaturaVisual.appendChild(tabItem);
+        tablaturaTexto.value += tabNote + ' ';
+    });
+    
+    botoesEfeito.forEach(button => {
+        button.addEventListener('click', () => {
+            const efeito = button.dataset.efeito;
+            const ultimoItemVisual = tablaturaVisual.lastElementChild;
+            if (ultimoItemVisual && ultimoItemVisual.classList.contains('tab-item')) {
+                ultimoItemVisual.textContent += efeito.trim(); // Efeitos não devem ter espaço
+                tablaturaTexto.value = tablaturaTexto.value.trim() + efeito.trim() + ' ';
+            }
+        });
+    });
+
+    btnLimpar.addEventListener('click', limparEditor);
+
+    btnCopiar.addEventListener('click', () => {
+        if(!tablaturaTexto.value) return;
+        navigator.clipboard.writeText(tablaturaTexto.value.trim()).then(() => {
+            const originalText = btnCopiar.textContent;
+            btnCopiar.textContent = 'Copiado!';
+            setTimeout(() => { btnCopiar.textContent = originalText; }, 1500);
+        });
+    });
+
+    // --- Lógica de Salvar Músicas (LocalStorage) ---
+    btnSalvar.addEventListener('click', () => {
+        const tab = tablaturaTexto.value.trim();
+        if (!tab) {
+            alert('A tablatura está vazia! Adicione algumas notas antes de salvar.');
+            return;
+        }
+        const nomeMusica = prompt('Digite um nome para a sua música:');
+        if (!nomeMusica || nomeMusica.trim() === '') {
+            alert('Nome inválido. A música não foi salva.');
+            return;
+        }
+        const musicas = JSON.parse(localStorage.getItem('minhasMusicas')) || [];
+        musicas.push({ nome: nomeMusica.trim(), tab: tab });
+        localStorage.setItem('minhasMusicas', JSON.stringify(musicas));
+        alert(`Música "${nomeMusica}" salva com sucesso!`);
+        limparEditor();
+    });
+
+    // --- Lógica do Modal (Pop-up) ---
+    const renderizarMusicas = () => {
+        listaMusicasSalvas.innerHTML = '';
+        const musicas = JSON.parse(localStorage.getItem('minhasMusicas')) || [];
+        if (musicas.length === 0) {
+            listaMusicasSalvas.innerHTML = '<p>Nenhuma música salva ainda. Crie uma no editor!</p>';
+            return;
+        }
+        musicas.forEach((musica, index) => {
+            const musicaItem = document.createElement('div');
+            musicaItem.className = 'musica-item';
+            const safeName = musica.nome.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const safeTab = musica.tab.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            musicaItem.innerHTML = `
+                <div class="musica-header">
+                    <h3>${safeName}</h3>
+                    <button class="btn-excluir-musica" data-index="${index}">&times;</button>
+                </div>
+                <div class="tab-salva">${safeTab}</div>
+            `;
+            listaMusicasSalvas.appendChild(musicaItem);
+        });
+    };
+
+    btnAbrirModal.addEventListener('click', () => {
+        renderizarMusicas();
+        modal.classList.add('visivel');
+    });
+
+    const fecharModal = () => modal.classList.remove('visivel');
+    btnFecharModal.addEventListener('click', fecharModal);
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) fecharModal();
+    });
+
+    // --- Lógica de Excluir Música ---
+    listaMusicasSalvas.addEventListener('click', (event) => {
+        if (event.target.classList.contains('btn-excluir-musica')) {
+            const confirmou = confirm('Tem a certeza que deseja excluir esta música? Esta ação não pode ser desfeita.');
+            if (confirmou) {
+                const index = event.target.dataset.index;
+                let musicas = JSON.parse(localStorage.getItem('minhasMusicas')) || [];
+                musicas.splice(index, 1);
+                localStorage.setItem('minhasMusicas', JSON.stringify(musicas));
+                renderizarMusicas();
+            }
+        }
+    });
+});
+</script>
+
+</body></html>
