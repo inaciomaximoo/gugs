@@ -119,7 +119,7 @@
             z-index: 1; /* Abaixo do conteúdo principal da porta */
         }
 
-        /* Modal de estação */
+        /* Modal da Estação (com timer, iframe e botão de fechar) */
         .station-modal {
             position: fixed;
             top: 0;
@@ -128,12 +128,15 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.95); /* Fundo semi-transparente */
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
             transition: opacity var(--transition-speed) ease-in-out, visibility var(--transition-speed) ease-in-out;
+            gap: 20px; /* Espaçamento entre os elementos do modal */
+            padding: 20px; /* Espaçamento interno */
         }
 
         .station-modal.active {
@@ -141,63 +144,66 @@
             visibility: visible;
         }
 
-        .modal-content-wrapper {
-            position: relative;
-            width: 98%; /* Quase tela cheia */
-            height: 98%; /* Quase tela cheia */
-            background-color: var(--timer-bg); /* Fundo do modal */
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-iframe {
-            flex-grow: 1; /* Ocupa o espaço restante */
-            width: 100%;
-            border: none;
-        }
-
         .timer-display {
-            position: absolute;
-            top: 15px;
-            right: 15px;
             background-color: var(--timer-bg);
             color: var(--timer-text);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 1.5em;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 3em; /* Aumentado para maior visibilidade */
             font-weight: 700;
-            z-index: 1001;
-            box-shadow: 0 2px 5px var(--shadow-color);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            margin-bottom: 20px; /* Espaço abaixo do timer */
+            z-index: 1001; /* Garante que o timer apareça acima do iframe */
         }
 
         .close-modal-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px; /* Canto superior esquerdo */
             background-color: var(--close-btn-bg);
             color: var(--close-btn-text);
             border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            border-radius: 50px; /* Botão mais oval/circular */
+            padding: 10px 25px; /* Tamanho do botão */
             font-size: 1.5em;
             font-weight: 700;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
             box-shadow: 0 2px 5px var(--shadow-color);
             transition: background-color 0.2s ease, transform 0.2s ease;
+            z-index: 1001; /* Garante que o botão apareça acima do iframe */
         }
 
         .close-modal-btn:hover {
             background-color: #d32f2f;
             transform: scale(1.05);
         }
+
+        /* Botão "X" de fechar no canto superior direito */
+        .close-x-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3em; /* Tamanho do "X" */
+            color: #fff;
+            cursor: pointer;
+            z-index: 1002; /* Acima de tudo */
+            transition: transform 0.2s ease, color 0.2s ease;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .close-x-btn:hover {
+            color: var(--close-btn-bg);
+            transform: scale(1.1);
+        }
+
+        /* Estilo do iframe */
+        .station-iframe {
+            width: 90%; /* Ajuste a largura conforme necessário */
+            height: 80%; /* Ajuste a altura conforme necessário */
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background-color: #fff; /* Fundo branco para o iframe */
+            flex-grow: 1; /* Permite que o iframe ocupe o espaço disponível */
+        }
+
 
         /* Responsividade */
         @media (max-width: 768px) {
@@ -218,17 +224,21 @@
                 margin-bottom: 20px;
             }
             .timer-display {
-                font-size: 1.2em;
-                padding: 6px 10px;
-                top: 10px;
-                right: 10px;
+                font-size: 2em; /* Ajuste para telas menores */
+                padding: 10px 20px;
             }
             .close-modal-btn {
-                width: 30px;
-                height: 30px;
+                padding: 8px 20px;
                 font-size: 1.2em;
-                top: 10px;
-                left: 10px;
+            }
+            .close-x-btn {
+                font-size: 2.5em;
+                top: 15px;
+                right: 20px;
+            }
+            .station-iframe {
+                width: 95%;
+                height: 75%;
             }
         }
 
@@ -241,6 +251,12 @@
                 width: 200px;
                 height: 280px;
             }
+            .timer-display {
+                font-size: 1.5em;
+            }
+            .close-modal-btn {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -249,32 +265,32 @@
     <h1>Simulador de Estações OSCE</h1>
 
     <div class="osce-doors-container">
-        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/Mamariointeiro.html" data-timer="3">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/Mamariointeiro.html">
             <div class="door-panel"></div>
             <div class="door-content">Estação 1:<br>Exame Mamário</div>
             <div class="door-handle"></div>
         </div>
-        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/Obstetricia.html" data-timer="3">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/Obstetricia.html">
             <div class="door-panel"></div>
             <div class="door-content">Estação 2:<br>Obstetrícia</div>
             <div class="door-handle"></div>
         </div>
-        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/RetalProstatico.html" data-timer="3">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/RetalProstatico.html">
             <div class="door-panel"></div>
             <div class="door-content">Estação 3:<br>Retal e Prostático</div>
             <div class="door-handle"></div>
         </div>
-        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/dermatologia.html" data-timer="3">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/dermatologia.html">
             <div class="door-panel"></div>
             <div class="door-content">Estação 4:<br>Dermatologia</div>
             <div class="door-handle"></div>
         </div>
-        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/coletapapanicolautoquevaginal.html" data-timer="3">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/coletapapanicolautoquevaginal.html">
             <div class="door-panel"></div>
             <div class="door-content">Estação 5:<br>Ginecológico</div>
             <div class="door-handle"></div>
         </div>
-        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/prostatico.html" data-timer="3">
+        <div class="door" data-url="http://inaciomaximoo.github.io/trein/osce/prostatico.html">
             <div class="door-panel"></div>
             <div class="door-content">Estação 6:<br>Exame Prostático</div>
             <div class="door-handle"></div>
@@ -282,35 +298,40 @@
     </div>
 
     <div class="station-modal" id="stationModal">
-        <div class="modal-content-wrapper">
-            <button class="close-modal-btn" id="closeModalBtn">X</button>
-            <span class="timer-display" id="timer">00:00</span>
-            <iframe id="stationIframe" class="modal-iframe" src="" frameborder="0"></iframe>
-        </div>
+        <span class="close-x-btn" id="closeXBtn">&times;</span> <span class="timer-display" id="timer">03:00</span>
+        <iframe class="station-iframe" id="stationIframe" src=""></iframe> <button class="close-modal-btn" id="closeModalBtn">Fechar Estação</button>
     </div>
 
     <script>
         const doors = document.querySelectorAll('.door');
         const stationModal = document.getElementById('stationModal');
-        const stationIframe = document.getElementById('stationIframe');
         const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeXBtn = document.getElementById('closeXBtn'); // Referência ao novo botão "X"
         const timerDisplay = document.getElementById('timer');
+        const stationIframe = document.getElementById('stationIframe'); // Referência ao iframe
 
-        let countdownInterval; // Variável para armazenar o ID do intervalo do timer
+        let countdownInterval;
+
+        // Função para fechar o modal e resetar o timer
+        function closeStationModal() {
+            stationModal.classList.remove('active');
+            clearInterval(countdownInterval); // Para o timer
+            timerDisplay.textContent = "03:00"; // Reseta o timer
+            stationIframe.src = ""; // Limpa a URL do iframe ao fechar
+        }
 
         doors.forEach(door => {
             door.addEventListener('click', () => {
                 const url = door.dataset.url;
-                // Altera aqui: o tempo inicial é 3 minutos (3 * 60 segundos)
-                const initialTime = 3 * 60; // 3 minutos
+                const initialTime = 3 * 60; // 3 minutos (180 segundos)
 
                 // Adiciona a classe para a animação de "abrir"
                 door.classList.add('opening');
 
-                // Espera a animação da porta terminar antes de abrir o modal
+                // Espera a animação da porta terminar antes de abrir o modal e carregar o iframe
                 setTimeout(() => {
-                    stationIframe.src = url;
                     stationModal.classList.add('active');
+                    stationIframe.src = url; // Carrega a URL no iframe
                     startTimer(initialTime); // Inicia o timer
 
                     // Remove a classe de animação após o modal abrir para que a porta possa ser clicada novamente
@@ -319,11 +340,8 @@
             });
         });
 
-        closeModalBtn.addEventListener('click', () => {
-            stationModal.classList.remove('active');
-            stationIframe.src = ""; // Limpa o iframe para parar o carregamento
-            clearInterval(countdownInterval); // Para o timer
-        });
+        closeModalBtn.addEventListener('click', closeStationModal);
+        closeXBtn.addEventListener('click', closeStationModal); // Adiciona listener para o botão "X"
 
         function startTimer(duration) {
             let timer = duration;
@@ -344,7 +362,8 @@
                     timer = 0; // Garante que o timer não fique negativo
                     clearInterval(countdownInterval);
                     timerDisplay.textContent = "00:00"; // Define para 00:00 quando zera
-                    // Não faz mais nada, como você pediu
+                    // Se quiser que o modal feche automaticamente ao final do timer, descomente a linha abaixo:
+                    // closeStationModal();
                 }
             }, 1000);
         }
