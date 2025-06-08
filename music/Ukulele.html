@@ -117,7 +117,7 @@
 <body>
     <h1>ESTÚDIO DE UKULELE</h1>
     <h2 style="font-size: 1.8em; margin-top: 0;">Editor de Tablaturas e Guia de Escalas</h2>
-    <p class="introducao">Crie e salve suas tablaturas! Use o "Modo Solo Interativo": clique para ver notas vizinhas, arraste na horizontal para um SLIDE ou na vertical para um BEND.</p>
+    <p class="introducao">Crie e salve suas tablaturas! Use o "Modo Solo Interativo": clique para ver notas vizinhas, arraste na horizontal para um SLIDE - ou na vertical para um BEND.</p>
 
     <div class="cartao-principal">
         <h2>Editor Interativo de Tablatura</h2>
@@ -134,7 +134,7 @@
         </div>
         
         <div id="editor-wrapper">
-             <div id="instrumento-editor" class="fretboard-container"></div>
+             <div id="ukulele-editor" class="fretboard-container"></div>
              <div id="fret-numbers-container-wrapper" class="fret-numbers-container"></div>
         </div>
 
@@ -195,19 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Configurações e Constantes para UKULELE ---
     const NUM_STRINGS = 4;
     const NUM_FRETS = 18;
-    const tuning = ['A', 'E', 'C', 'G']; // Afinação padrão Ukulele (High G)
+    const tuning = ['A', 'E', 'C', 'G']; // Afinação padrão Ukulele (High G), da mais fina para a mais grossa
     const notesSharp = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const openStringNotes = [notesSharp.indexOf('A'), notesSharp.indexOf('E'), notesSharp.indexOf('C'), notesSharp.indexOf('G')]; // [9, 4, 0, 7]
     
-    // --- BIBLIOTECA DE ACORDES PARA UKULELE ---
+    // Biblioteca de Acordes para Ukulele (Formato: [A, E, C, G])
     const chordLibrary = [
-        { name: 'C Major', shape: ['3','0','0','0'] }, { name: 'C minor', shape: ['3','3','3','0'] },
-        { name: 'D Major', shape: ['0','2','2','2'] }, { name: 'D minor', shape: ['0','1','2','2'] },
-        { name: 'E Major', shape: ['2','0','4','1'] }, { name: 'E minor', shape: ['2','3','4','0'] },
-        { name: 'F Major', shape: ['0','1','0','2'] }, { name: 'F minor', shape: ['3','1','0','1'] },
-        { name: 'G Major', shape: ['2','3','2','0'] }, { name: 'G minor', shape: ['1','3','2','0'] },
-        { name: 'A Major', shape: ['0','0','1','2'] }, { name: 'A minor', shape: ['0','0','0','2'] },
-        { name: 'B Major', shape: ['2','2','3','4'] }, { name: 'B minor', shape: ['2','2','2','4'] },
+        { name: 'C Major', shape: ['0','0','0','3'] }, { name: 'C minor', shape: ['3','3','3','0'] },
+        { name: 'D Major', shape: ['2','2','2','0'] }, { name: 'D minor', shape: ['2','2','1','0'] },
+        { name: 'E Major', shape: ['1','4','0','2'] }, { name: 'E minor', shape: ['0','4','3','2'] },
+        { name: 'F Major', shape: ['2','0','1','0'] }, { name: 'F minor', shape: ['1','0','1','3'] },
+        { name: 'G Major', shape: ['0','2','3','2'] }, { name: 'G minor', shape: ['0','2','3','1'] },
+        { name: 'A Major', shape: ['2','1','0','0'] }, { name: 'A minor', shape: ['2','0','0','0'] },
+        { name: 'B Major', shape: ['4','3','2','2'] }, { name: 'B minor', shape: ['4','2','2','2'] },
     ];
     
     // Mapeamento da Tonalidade para acordes diatônicos de Ukulele
@@ -218,17 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'A': ['A Major', 'B minor', 'D Major', 'E Major'],
         'E': ['E Major', 'A Major', 'B Major'],
         'B': ['B Major', 'E Major'],
-        'F#': [],
-        'C#': [],
+        'F#': [], 'C#': [],
         'F': ['F Major', 'G minor', 'A minor', 'C Major', 'D minor'],
         'A#': ['C minor', 'D minor', 'F Major', 'G minor'],
-        'D#': ['F minor', 'G minor'],
-        'G#': ['C minor'],
+        'D#': ['F minor', 'G minor'], 'G#': ['C minor'],
     };
 
-
     // --- Seleção dos Elementos do DOM ---
-    const editorContainer = document.getElementById('instrumento-editor');
+    const editorContainer = document.getElementById('ukulele-editor');
     const fretNumbersContainerWrapper = document.getElementById('fret-numbers-container-wrapper');
     const tabTexto = document.getElementById('tablatura-texto');
     const btnLimpar = document.getElementById('btn-limpar');
@@ -290,12 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             fretboard.appendChild(stringDiv);
         }
-        // Marcadores de casas para Ukulele
         const markerFretsSingle = [5, 7, 10, 15];
         const markerFretsDouble = [12];
         const attachMarker = (fretNum, type) => {
             if (fretNum <= NUM_FRETS) {
-                const hostFret = fretboard.children[1].children[fretNum]; // Marcador no meio do braço
+                const hostFret = fretboard.children[1].children[fretNum];
                 hostFret.classList.add('marker-host');
                 const markerContainer = document.createElement('div');
                 markerContainer.className = 'fret-marker-container';
@@ -375,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === stringIndex) tabLines[i] += notation;
             else tabLines[i] += '-'.repeat(notation.length);
         }
-        skipNextSeparator = false;
+        skipNextSeparator = false; 
         updateTabText();
     };
     const addEffectToTab = (effect) => {
@@ -387,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === lastPlayedStringIndex) tabLines[i] += effect;
             else tabLines[i] += '-'.repeat(effect.length);
         }
-        skipNextSeparator = ['h', 'p', '/', '\\'].includes(effect);
+        skipNextSeparator = ['h', 'p'].includes(effect);
         updateTabText();
     };
     const addChordToTab = (chordShape) => {
@@ -413,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isChordModeActive) {
             btnModoAcorde.textContent = 'Finalizar Acorde';
             manualChord = {};
+            clearChordHighlights();
         } else {
             btnModoAcorde.textContent = 'Acorde Manual';
             if (Object.keys(manualChord).length > 0) {
@@ -446,7 +443,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleFretMouseDown(event) {
         event.preventDefault();
         const fretEl = event.target.closest('.fret');
-        if (!fretEl || fretEl.classList.contains('desativado') || isChordModeActive) return;
+        if (!fretEl || fretEl.classList.contains('desativado')) return;
+
+        if (isChordModeActive) {
+            handleChordBuildingClick(fretEl);
+            return;
+        }
 
         dragState = { isDragging: true, startX: event.clientX, startY: event.clientY, startFret: parseInt(fretEl.dataset.fret), startString: parseInt(fretEl.dataset.string), startElement: fretEl, dragType: 'none', didMove: false };
         
@@ -475,29 +477,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleDocumentMouseUp(event) {
         if (!dragState.isDragging) return;
-        const startEl = dragState.startElement;
-        if (dragState.dragType === 'slide') {
-            const endEl = event.target.closest('.fret');
-            if (endEl && endEl.classList.contains('slide-target')) {
-                const endFret = parseInt(endEl.dataset.fret);
-                const notation = `${dragState.startFret}${endFret > dragState.startFret ? '/' : '\\'}${endFret}`;
-                addComplexNotationToTab(dragState.startString, notation);
-                lastPlayedStringIndex = dragState.startString;
-                highlightAdjacentScaleNotes(dragState.startString, endFret);
+        let actionTaken = false;
+
+        if (dragState.didMove) {
+            if (dragState.dragType === 'slide') {
+                const elementUnderMouse = document.elementFromPoint(event.clientX, event.clientY);
+                const endEl = elementUnderMouse ? elementUnderMouse.closest('.fret') : null;
+
+                if (endEl && endEl.classList.contains('slide-target')) {
+                    const endFret = parseInt(endEl.dataset.fret);
+                    const notation = `${dragState.startFret}${endFret > dragState.startFret ? '/' : '\\'}${endFret}`;
+                    addComplexNotationToTab(dragState.startString, notation);
+                    lastPlayedStringIndex = dragState.startString;
+                    highlightAdjacentScaleNotes(dragState.startString, endFret);
+                    actionTaken = true;
+                }
+            } else if (dragState.dragType === 'bend') {
+                const deltaY = Math.abs(event.clientY - dragState.startY);
+                if (deltaY > 20) {
+                    addSingleNoteToTab(dragState.startString, dragState.startFret);
+                    lastPlayedStringIndex = dragState.startString;
+                    addEffectToTab('b');
+                    highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
+                    actionTaken = true;
+                }
             }
-        } else if (dragState.dragType === 'bend') {
-            addSingleNoteToTab(dragState.startString, dragState.startFret);
-            lastPlayedStringIndex = dragState.startString;
-            addEffectToTab('b');
-            highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
-        } else {
+        }
+
+        if (!actionTaken) {
             addSingleNoteToTab(dragState.startString, dragState.startFret);
             lastPlayedStringIndex = dragState.startString;
             highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
         }
-        startEl.classList.remove('dragging');
-        startEl.querySelector('.fret-note-name').style.transform = 'translateY(0)';
-        editorContainer.querySelectorAll('.fret').forEach(f => f.classList.remove('slide-target'));
+        
+        dragState.startElement.classList.remove('dragging');
+        dragState.startElement.querySelector('.fret-note-name').style.transform = 'translateY(0)';
+        editorContainer.querySelectorAll('.fret.slide-target').forEach(f => f.classList.remove('slide-target'));
+        
         document.removeEventListener('mousemove', handleDocumentMouseMove);
         document.removeEventListener('mouseup', handleDocumentMouseUp);
         dragState.isDragging = false;
@@ -548,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chordItem && !chordItem.classList.contains('desativado')) {
             const chordIndex = parseInt(chordItem.dataset.chordIndex);
             const clickedChord = chordLibrary[chordIndex];
-            addChordToTab(clickedChord.shape.slice().reverse()); // Ukulele chords stored high-to-low, tab needs low-to-high
+            addChordToTab(clickedChord.shape);
 
             const rootNote = escalaSelect.value;
             if (rootNote && rootNote !== 'nenhuma') {
@@ -603,11 +619,8 @@ document.addEventListener('DOMContentLoaded', () => {
             acordeItem.className = 'acorde-item';
             acordeItem.dataset.chordIndex = index;
             let tabDiagram = '';
-            // Ukulele tab diagram
-            const shape = chord.shape.slice().reverse(); // GCEA order for diagram
-            const ukeTuning = ['A', 'E', 'C', 'G'];
-            for(let i = 0; i < ukeTuning.length; i++) {
-                 tabDiagram += `${ukeTuning[i]}|-${chord.shape[i]}-|\n`;
+            for(let i = 0; i < tuning.length; i++) {
+                tabDiagram += `${tuning[i]}|-${chord.shape[i]}-|\n`;
             }
             acordeItem.innerHTML = `<h4>${chord.name}</h4><pre>${tabDiagram.trim()}</pre>`;
             listaAcordes.appendChild(acordeItem);
