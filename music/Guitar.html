@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Roboto+Mono:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         /* Estilos base */
-        body { font-family: 'Merriweather', serif; background-color: #262626; color: #EAEAEA; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: 'Merriweather', serif; background-color: #262626; color: #EAEAEA; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; user-select: none; }
         h1 { font-family: 'Cinzel Decorative', cursive; color: #EAEAEA; font-size: 3.5em; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); margin-bottom: 0; }
         h2 { font-family: 'Cinzel', serif; color: #d4af37; text-align: center; margin-top: 40px; font-size: 2.2em; letter-spacing: 2px; font-weight: 700; }
         .introducao { max-width: 900px; text-align: center; color: #ccc; margin-bottom: 20px; line-height: 1.7; }
@@ -19,6 +19,7 @@
         .cor-escala { background-color: #ffcc00; border: 1px solid #b38f00; }
         .cor-tonica { background-color: #2a9d8f; color: #EAEAEA; }
         .cor-outra { background-color: #4a4a4a; border: 1px solid #777; color: #ccc; }
+        .cor-sugestao { background-color: yellow; }
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 1200px; width: 100%;}
         .cartao-principal { background-color: #333; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); width: 100%; max-width: 1100px; padding: 20px; border: 1px solid #555; box-sizing: border-box; }
 
@@ -27,13 +28,54 @@
         .fretboard { display: flex; flex-direction: column; width: fit-content; }
         .string { display: flex; align-items: center; border-bottom: 1px solid #4a3a2d; }
         .string:last-child { border-bottom: none; }
-        .fret { box-sizing: border-box; height: 38px; border-right: 2px solid #a88a76; position: relative; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; }
+        .fret { box-sizing: border-box; height: 38px; border-right: 2px solid #a88a76; position: relative; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s, opacity 0.2s; }
         .fret:hover { background-color: rgba(212, 175, 55, 0.2); }
         .fret:nth-child(1) { width: 35px; background-color: #291810; border-right: 4px solid #1a1a1a; }
         .fret:nth-child(2) { width: 65px; } .fret:nth-child(3) { width: 62px; } .fret:nth-child(4) { width: 59px; } .fret:nth-child(5) { width: 56px; }
         .fret:nth-child(6) { width: 54px; } .fret:nth-child(7) { width: 52px; } .fret:nth-child(8) { width: 50px; } .fret:nth-child(9) { width: 48px; }
         .fret:nth-child(10) { width: 46px; } .fret:nth-child(11) { width: 45px; } .fret:nth-child(n+12) { width: 44px; } .fret:nth-child(n+16) { width: 42px; } .fret:nth-child(n+20) { width: 40px; }
         .fret.fret-selecionado { background-color: rgba(46, 204, 113, 0.4); box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8); }
+
+        .fret.proxima-nota-sugerida, .fret.escala-completa {
+            background-color: rgba(255, 255, 0, 0.45) !important;
+            box-shadow: inset 0 0 10px rgba(255, 255, 0, 0.8);
+            border-radius: 2px;
+        }
+
+        .fret.desativado { opacity: 0.35; }
+        
+        .fret-note-name {
+            position: absolute;
+            z-index: 3;
+            color: #1a1a1a;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: bold;
+            font-size: 0.9em;
+            pointer-events: none;
+            visibility: hidden;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.05s ease-out;
+        }
+        
+        .fret.proxima-nota-sugerida .fret-note-name,
+        .fret.escala-completa .fret-note-name,
+        .fret.dragging .fret-note-name {
+            visibility: visible;
+        }
+
+        .fret.dragging {
+            background-color: rgba(46, 204, 113, 0.4) !important;
+            box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8);
+        }
+        .fret.slide-target {
+            background-color: rgba(255, 165, 0, 0.5) !important;
+        }
 
         .marker-host { position: relative; }
         .fret-marker-container { position: absolute; left: 50%; top: -250%; transform: translateX(-50%); height: 600%; width: 100%; display: flex; align-items: center; justify-content: center; z-index: 0; pointer-events: none; }
@@ -50,7 +92,6 @@
         .fret-numbers div:nth-child(6) { width: 54px; } .fret-numbers div:nth-child(7) { width: 52px; } .fret-numbers div:nth-child(8) { width: 50px; } .fret-numbers div:nth-child(9) { width: 48px; }
         .fret-numbers div:nth-child(10) { width: 46px; } .fret-numbers div:nth-child(11) { width: 45px; } .fret-numbers div:nth-child(n+12) { width: 44px; } .fret-numbers div:nth-child(n+16) { width: 42px; } .fret-numbers div:nth-child(n+20) { width: 40px; }
 
-        /* Estilos da Tablatura e Controles */
         #tablatura-texto { width: 100%; height: 180px; background-color: #2a2a2a; border: 1px solid #555; color: #ccc; font-family: 'Roboto Mono', monospace; font-size: 1.1em; padding: 10px; border-radius: 5px; margin-top: 15px; box-sizing: border-box; line-height: 1.5; resize: vertical; white-space: pre; }
         .botoes-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; }
         .btn-editor { background-color: #d4af37; color: #262626; border: none; padding: 10px 15px; border-radius: 5px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease; }
@@ -66,7 +107,6 @@
         #btn-salvar-musica { background-color: #2a9d8f; color: white; }
         #btn-salvar-musica:hover { background-color: #268c7f; }
         
-        /* Estilos do Guia de Escalas */
         .escala-controles { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 25px; }
         .escala-controles label { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.2em; color: #ccc; }
         #escala-select { background-color: #444; color: #eaeaea; border: 1px solid #888; border-radius: 5px; padding: 8px 12px; font-family: 'Merriweather', serif; font-size: 1em; cursor: pointer; }
@@ -76,7 +116,6 @@
         .nota-ponto.tonica { background-color: #2a9d8f; color: #EAEAEA; border: none; }
         .nota-ponto.outra { background-color: #4a4a4a; border: 1px solid #777; color: #ccc; }
 
-        /* Estilos do Modal */
         .btn-global { background: linear-gradient(145deg, #d4af37, #b18b21); color: #262626; border: none; padding: 12px 25px; border-radius: 8px; font-family: 'Cinzel Decorative', cursive; font-size: 1.2em; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.2s ease-in-out; margin-top: 30px; }
         .btn-global:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.6); }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
@@ -86,27 +125,57 @@
         .modal-fechar { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #aaa; font-size: 2.5em; line-height: 1; cursor: pointer; transition: color 0.2s ease; }
         .modal-fechar:hover { color: #fff; }
 
-        /* Estilos da Biblioteca de Acordes */
         #lista-acordes { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 20px; }
-        .acorde-item { background-color: #2a2a2a; border: 1px solid #555; border-radius: 5px; padding: 10px; font-family: 'Roboto Mono', monospace; white-space: pre; cursor: pointer; transition: background-color 0.2s, transform 0.2s; text-align: center; }
-        .acorde-item:hover { background-color: #d4af37; color: #262626; transform: scale(1.05); }
+        .acorde-item { background-color: #2a2a2a; border: 2px solid #555; border-radius: 5px; padding: 10px; font-family: 'Roboto Mono', monospace; white-space: pre; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .acorde-item:hover { background-color: #d4af37; color: #262626; transform: scale(1.05); border-color: #d4af37; }
         .acorde-item h4 { margin: 0 0 8px 0; font-family: 'Cinzel', serif; font-size: 1.1em; }
+        
+        .acorde-item.sugerido {
+            background-color: #d4af37;
+            color: #262626;
+            transform: scale(1.05);
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+        }
+        .acorde-item.desativado {
+            opacity: 0.3;
+            background-color: #2a2a2a;
+            border-color: #555;
+            transform: scale(1);
+            cursor: default;
+        }
+        .acorde-item.desativado:hover {
+             transform: scale(1);
+             background-color: #2a2a2a;
+             color: #EAEAEA;
+        }
     </style>
 </head>
 <body>
     <h1>ESTÚDIO DE GUITARRA</h1>
     <h2 style="font-size: 1.8em; margin-top: 0;">Editor de Tablaturas e Guia de Escalas</h2>
-    <p class="introducao">Crie e salve suas tablaturas! Clique no braço da guitarra, adicione acordes da biblioteca ou crie o seu com o modo "Acorde Manual". Errou? Use o botão "Desfazer"!</p>
+    <p class="introducao">Crie e salve suas tablaturas! Use o "Modo Solo Interativo": clique para ver notas vizinhas, arraste na horizontal para um SLIDE ou na vertical para um BEND.</p>
 
     <div class="cartao-principal">
         <h2>Editor Interativo de Tablatura</h2>
+        
+        <div class="escala-controles" style="margin-bottom: 10px; padding: 12px; background-color: rgba(0,0,0,0.15); border-radius: 8px; border: 1px solid #444;">
+            <label for="escala-select"><strong>Modo Solo Interativo:</strong></label>
+            <select id="escala-select"></select>
+        </div>
+        <div class="legenda" style="margin-top: 10px;">
+            <div class="legenda-item"><div class="cor-legenda cor-sugestao"></div><span>Nota/Acorde Sugerido</span></div>
+            <div class="legenda-item"><div class="cor-legenda cor-escala">N</div><span>Nota da Escala (Guia)</span></div>
+            <div class="legenda-item"><div class="cor-legenda cor-tonica">T</div><span>Tônica (Guia)</span></div>
+        </div>
+        
         <div id="editor-wrapper">
              <div id="guitarra-editor" class="fretboard-container"></div>
-            <div id="fret-numbers-container-wrapper" class="fret-numbers-container"></div>
+             <div id="fret-numbers-container-wrapper" class="fret-numbers-container"></div>
         </div>
 
         <div id="efeitos-container">
-            <label style="display:block; margin-top: 20px; font-weight: bold; color: #ccc;">Adicionar Efeitos à Última Nota:</label>
+            <label style="display:block; margin-top: 20px; font-weight: bold; color: #ccc;">Adicionar Efeitos (Botões):</label>
             <div class="botoes-container">
                 <button class="btn-editor btn-efeito" data-efeito="h">Hammer-on (h)</button>
                 <button class="btn-editor btn-efeito" data-efeito="p">Pull-off (p)</button>
@@ -114,11 +183,6 @@
                 <button class="btn-editor btn-efeito" data-efeito="/">Slide Up (/)</button>
                 <button class="btn-editor btn-efeito" data-efeito="\">Slide Down (\)</button>
                 <button class="btn-editor btn-efeito" data-efeito="~">Vibrato (~)</button>
-                <button class="btn-editor btn-efeito" data-efeito="r">Release (r)</button>
-                <button class="btn-editor btn-efeito" data-efeito="x">Mute Strum (x)</button>
-                <button class="btn-editor btn-efeito" data-efeito="t">Tapping (t)</button>
-                <button class="btn-editor btn-efeito" data-efeito="pm">Palm Mute (pm)</button>
-                <button class="btn-editor btn-efeito" data-efeito="tr">Trill (tr)</button>
             </div>
         </div>
 
@@ -150,39 +214,27 @@
         <div class="modal-content">
             <button id="btn-fechar-acordes" class="modal-fechar">&times;</button>
             <h2>Biblioteca de Acordes de Guitarra</h2>
-            <p>Clique em um acorde para adicioná-lo à sua tablatura.</p>
+            <p>Clique em um acorde para adicioná-lo à sua tablatura e ver sugestões de progressão.</p>
             <div id="lista-acordes"></div>
         </div>
     </div>
 
     <div id="guia-escalas" class="cartao-principal" style="margin-top: 30px;">
         <h2>Guia Visual de Escalas Pentatônicas</h2>
-        <p class="introducao" style="font-size: 0.9em; margin-top: -15px;">Selecione uma tonalidade para visualizar todas as notas no braço da guitarra. As notas da escala são destacadas em amarelo e a tônica em verde.</p>
-
-        <div class="escala-controles">
-            <label for="escala-select">Selecionar Escala:</label>
-            <select id="escala-select"></select>
-        </div>
-
-        <div class="legenda">
-            <div class="legenda-item"><div class="cor-legenda cor-escala">N</div><span>Nota da Escala</span></div>
-            <div class="legenda-item"><div class="cor-legenda cor-tonica">T</div><span>Nota Tônica</span></div>
-            <div class="legenda-item"><div class="cor-legenda cor-outra">N</div><span>Outra Nota</span></div>
-        </div>
+        <p class="introducao" style="font-size: 0.9em; margin-top: -15px;">Selecione uma escala no menu "Modo Solo Interativo" acima para visualizar o padrão completo aqui.</p>
         
         <div id="escala-display"></div>
     </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Configurações e Constantes para GUITARRA ---
+    // --- Configurações e Constantes ---
     const NUM_STRINGS = 6;
     const NUM_FRETS = 24;
     const tuning = ['e', 'B', 'G', 'D', 'A', 'E']; 
     const notesSharp = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const openStringNotes = [notesSharp.indexOf('E'), notesSharp.indexOf('B'), notesSharp.indexOf('G'), notesSharp.indexOf('D'), notesSharp.indexOf('A'), notesSharp.indexOf('E')];
-    const connectingEffects = ['h', 'p', 'b', '/', '\\'];
-
+    
     const chordLibrary = [
         { name: 'A Major', shape: ['0', '2', '2', '2', '0', 'x'] }, { name: 'A minor', shape: ['0', '1', '2', '2', '0', 'x'] }, { name: 'A7', shape: ['0', '2', '0', '2', '0', 'x'] },
         { name: 'B Major', shape: ['2', '4', '4', '4', '2', 'x'] }, { name: 'B minor', shape: ['2', '3', '4', '4', '2', 'x'] }, { name: 'B7', shape: ['2', '0', '2', '1', '2', 'x'] },
@@ -192,6 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'F Major', shape: ['1', '1', '2', '3', '3', '1'] }, { name: 'F minor', shape: ['1', '1', '1', '3', '3', '1'] }, { name: 'F7', shape: ['1', '1', '2', '1', '3', '1'] },
         { name: 'G Major', shape: ['3', '0', '0', '0', '2', '3'] }, { name: 'G minor', shape: ['3', '3', '3', '5', '5', '3'] }, { name: 'G7', shape: ['1', '0', '0', '0', '2', '3'] },
     ];
+    
+    const chordProgressions = {
+        'A Major': ['D Major', 'E Major', 'B minor'], 'B Major': ['E Major', 'A Major'], 'C Major': ['G Major', 'F Major', 'A minor'],
+        'D Major': ['A Major', 'G Major', 'B minor'], 'E Major': ['A Major', 'B Major'], 'F Major': ['C Major', 'D minor', 'G minor'],
+        'G Major': ['D Major', 'C Major', 'E minor'], 'A minor': ['G Major', 'F Major', 'C Major'], 'B minor': ['G Major', 'A Major', 'D Major'],
+        'C minor': ['G minor', 'F minor'], 'D minor': ['G Major', 'C Major', 'F Major'], 'E minor': ['A minor', 'D Major', 'G Major'],
+        'F minor': ['C minor'], 'G minor': ['D minor', 'C minor', 'F Major'], 'A7': ['D Major', 'D minor'], 'B7': ['E Major', 'E minor'],
+        'C7': ['F Major', 'F minor'], 'D7': ['G Major', 'G minor'], 'E7': ['A Major', 'A minor'], 'G7': ['C Major', 'C minor'],
+    };
 
     // --- Seleção dos Elementos do DOM ---
     const editorContainer = document.getElementById('guitarra-editor');
@@ -204,17 +265,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnModoAcorde = document.getElementById('btn-modo-acorde');
     const btnDesfazer = document.getElementById('btn-desfazer');
     const efeitosContainer = document.getElementById('efeitos-container');
-    
     const modalMusicas = document.getElementById('modal-musicas');
     const btnAbrirMusicasSalvas = document.getElementById('btn-abrir-musicas-salvas');
     const btnFecharMusicas = document.getElementById('btn-fechar-musicas');
     const listaMusicasSalvas = document.getElementById('lista-musicas-salvas');
-
     const modalAcordes = document.getElementById('modal-acordes');
     const btnAbrirAcordes = document.getElementById('btn-abrir-acordes');
     const btnFecharAcordes = document.getElementById('btn-fechar-acordes');
     const listaAcordes = document.getElementById('lista-acordes');
-
     const escalaSelect = document.getElementById('escala-select');
     const escalaDisplay = document.getElementById('escala-display');
 
@@ -225,6 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let skipNextSeparator = false;
     let isChordModeActive = false;
     let manualChord = {};
+    
+    let dragState = { isDragging: false, startX: 0, startY: 0, startFret: null, startString: null, startElement: null, dragType: 'none', didMove: false };
 
     // --- Funções de Geração da Interface ---
     function createFretboard(container, fretNumContainer, isEditor = false) {
@@ -250,6 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 fretDiv.className = 'fret';
                 fretDiv.dataset.string = i;
                 fretDiv.dataset.fret = j;
+                const noteNameSpan = document.createElement('span');
+                noteNameSpan.className = 'fret-note-name';
+                fretDiv.appendChild(noteNameSpan);
                 stringDiv.appendChild(fretDiv);
             }
             fretboard.appendChild(stringDiv);
@@ -273,45 +336,39 @@ document.addEventListener('DOMContentLoaded', () => {
         markerFretsDouble.forEach(fretNum => attachMarker(fretNum, 'double'));
         container.appendChild(fretboard);
         if (isEditor) {
-            fretboard.addEventListener('click', handleFretClick);
-            editorContainer.addEventListener('scroll', () => {
-                fretNumbersContainerWrapper.scrollLeft = editorContainer.scrollLeft;
-            });
+            fretboard.addEventListener('mousedown', handleFretMouseDown);
+            editorContainer.addEventListener('scroll', () => fretNumbersContainerWrapper.scrollLeft = editorContainer.scrollLeft );
         }
         return fretboard;
     }
 
     // --- Funções de Estado e Tablatura ---
-    const saveState = () => {
-        tabHistory.push(JSON.parse(JSON.stringify(tabLines)));
-    };
-
+    const isTabEmpty = () => tabLines.every(line => line.replace(/[eBGDAE|]/g, '').replace(/-/g, '').trim() === '');
+    const saveState = () => { tabHistory.push(JSON.parse(JSON.stringify(tabLines))); };
     const undoLastAction = () => {
         if (isChordModeActive) toggleChordMode();
         if (tabHistory.length === 0) return;
         tabLines = tabHistory.pop();
         lastPlayedStringIndex = -1;
+        clearSoloHighlights();
         updateTabText();
     };
-
     const initTab = () => {
         if (isChordModeActive) toggleChordMode();
         tabLines = tuning.map(s => s.padEnd(2, ' ') + '|');
         tabHistory = [];
         lastPlayedStringIndex = -1;
         skipNextSeparator = true;
+        clearSoloHighlights();
         updateTabText();
+        escalaSelect.dispatchEvent(new Event('change'));
     };
-
     const updateTabText = () => {
         let maxLength = 0;
-        if (tabLines.length > 0 && tabLines[0].length > 0) {
-            maxLength = Math.max(...tabLines.map(line => line.length));
-        }
+        if (tabLines.length > 0 && tabLines[0].length > 0) maxLength = Math.max(...tabLines.map(line => line.length));
         tabTexto.value = tabLines.map(line => line.padEnd(maxLength, '-')).join('\n');
         tabTexto.scrollTop = tabTexto.scrollHeight;
     };
-
     const addPartSeparator = () => {
         saveState();
         if (isChordModeActive) toggleChordMode();
@@ -319,70 +376,55 @@ document.addEventListener('DOMContentLoaded', () => {
         tabLines = tabLines.map(line => line + '--||');
         skipNextSeparator = true;
         lastPlayedStringIndex = -1;
+        clearSoloHighlights();
         updateTabText();
     };
-    
     const addSingleNoteToTab = (stringIndex, char) => {
         saveState();
         const charStr = char.toString();
-        if (!skipNextSeparator) {
-            tabLines = tabLines.map(line => line + '--');
-        }
+        if (!skipNextSeparator) tabLines = tabLines.map(line => line + '--');
         const maxLength = Math.max(...tabLines.map(line => line.length));
         for (let i = 0; i < NUM_STRINGS; i++) {
             tabLines[i] = tabLines[i].padEnd(maxLength, '-');
-            if (i === stringIndex) {
-                tabLines[i] += charStr;
-            } else {
-                tabLines[i] += '-'.repeat(charStr.length);
-            }
+            if (i === stringIndex) tabLines[i] += charStr;
+            else tabLines[i] += '-'.repeat(charStr.length);
         }
         skipNextSeparator = false;
         updateTabText();
     };
-
-    const addEffectToTab = (effect) => {
-        if (isChordModeActive) return;
-        if (lastPlayedStringIndex === -1 && effect !== 'x') return;
-        if (tabLines[0].length <= 3) return;
+    const addComplexNotationToTab = (stringIndex, notation) => {
         saveState();
-
-        if (effect === 'x') {
-            if (!skipNextSeparator) tabLines = tabLines.map(line => line + '--');
-            const maxLength = Math.max(...tabLines.map(line => line.length));
-            for (let i = 0; i < NUM_STRINGS; i++) {
-                tabLines[i] = tabLines[i].padEnd(maxLength, '-') + 'x';
-            }
-            skipNextSeparator = false;
-            updateTabText();
-            return;
-        }
-
+        if (!skipNextSeparator) tabLines = tabLines.map(line => line + '--');
         const maxLength = Math.max(...tabLines.map(line => line.length));
         for (let i = 0; i < NUM_STRINGS; i++) {
-             tabLines[i] = tabLines[i].padEnd(maxLength, '-');
-            if (i === lastPlayedStringIndex) {
-                tabLines[i] += effect;
-            } else {
-                 tabLines[i] += '-'.repeat(effect.length);
-            }
+            tabLines[i] = tabLines[i].padEnd(maxLength, '-');
+            if (i === stringIndex) tabLines[i] += notation;
+            else tabLines[i] += '-'.repeat(notation.length);
         }
-        skipNextSeparator = connectingEffects.includes(effect);
+        skipNextSeparator = false;
         updateTabText();
     };
-
+    const addEffectToTab = (effect) => {
+        if (isChordModeActive || lastPlayedStringIndex === -1 || tabLines[0].length <= 3) return;
+        saveState();
+        const maxLength = Math.max(...tabLines.map(line => line.length));
+        for (let i = 0; i < NUM_STRINGS; i++) {
+            tabLines[i] = tabLines[i].padEnd(maxLength, '-');
+            if (i === lastPlayedStringIndex) tabLines[i] += effect;
+            else tabLines[i] += '-'.repeat(effect.length);
+        }
+        skipNextSeparator = ['h', 'p', '/', '\\'].includes(effect);
+        updateTabText();
+    };
     const addChordToTab = (chordShape) => {
         saveState();
-        if (!skipNextSeparator) {
-            tabLines = tabLines.map(line => line + '--');
-        }
+        if (!skipNextSeparator) tabLines = tabLines.map(line => line + '--');
         const contentMaxLength = Math.max(...chordShape.map(n => n.toString().length));
         const currentTabMaxLength = Math.max(...tabLines.map(line => line.length));
         for (let i = 0; i < NUM_STRINGS; i++) {
-            tabLines[i] = tabLines[i].padEnd(currentTabMaxLength, '-');
             const note = chordShape[i].toString();
             const paddedNote = note.padStart(contentMaxLength, '-');
-            tabLines[i] += paddedNote;
+            tabLines[i] = tabLines[i].padEnd(currentTabMaxLength, '-') + paddedNote;
         }
         skipNextSeparator = false;
         lastPlayedStringIndex = -1;
@@ -393,6 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleChordMode = () => {
         isChordModeActive = !isChordModeActive;
         btnModoAcorde.classList.toggle('active-mode', isChordModeActive);
+        clearSoloHighlights(); 
         if (isChordModeActive) {
             btnModoAcorde.textContent = 'Finalizar Acorde';
             manualChord = {};
@@ -400,16 +443,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btnModoAcorde.textContent = 'Acorde Manual';
             if (Object.keys(manualChord).length > 0) {
                 const shape = Array(NUM_STRINGS).fill('x');
-                for (const stringIdx in manualChord) {
-                    shape[stringIdx] = manualChord[stringIdx];
-                }
+                for (const stringIdx in manualChord) shape[stringIdx] = manualChord[stringIdx];
                 addChordToTab(shape);
             }
             clearChordHighlights();
             manualChord = {};
         }
     };
-    
     const handleChordBuildingClick = (fretElement) => {
         const stringIndex = parseInt(fretElement.dataset.string);
         const fretNumber = parseInt(fretElement.dataset.fret);
@@ -426,54 +466,90 @@ document.addEventListener('DOMContentLoaded', () => {
         manualChord[stringIndex] = fretNumber;
         fretElement.classList.add('fret-selecionado');
     };
+    const clearChordHighlights = () => { editorContainer.querySelectorAll('.fret-selecionado').forEach(el => el.classList.remove('fret-selecionado')); };
 
-    const clearChordHighlights = () => {
-        editorContainer.querySelectorAll('.fret-selecionado').forEach(el => el.classList.remove('fret-selecionado'));
-    };
+    // --- Lógica de Arrastar e Clicar (Drag and Drop) ---
+    function handleFretMouseDown(event) {
+        event.preventDefault();
+        const fretEl = event.target.closest('.fret');
+        if (!fretEl || fretEl.classList.contains('desativado') || isChordModeActive) return;
 
-    // --- Dispatcher de Eventos de Clique ---
-    function handleFretClick(event) {
-        const fret = event.target.closest('.fret');
-        if (!fret) return;
-        if (isChordModeActive) {
-            handleChordBuildingClick(fret);
-        } else {
-            const stringIndex = parseInt(fret.dataset.string);
-            const fretNumber = parseInt(fret.dataset.fret);
-            lastPlayedStringIndex = stringIndex;
-            addSingleNoteToTab(stringIndex, fretNumber);
+        dragState = { isDragging: true, startX: event.clientX, startY: event.clientY, startFret: parseInt(fretEl.dataset.fret), startString: parseInt(fretEl.dataset.string), startElement: fretEl, dragType: 'none', didMove: false };
+        
+        fretEl.classList.add('dragging');
+        const noteNameSpan = fretEl.querySelector('.fret-note-name');
+        if (noteNameSpan) noteNameSpan.textContent = getNoteName((openStringNotes[dragState.startString] + dragState.startFret) % 12);
+        
+        document.addEventListener('mousemove', handleDocumentMouseMove);
+        document.addEventListener('mouseup', handleDocumentMouseUp);
+    }
+
+    function handleDocumentMouseMove(event) {
+        if (!dragState.isDragging) return;
+        dragState.didMove = true;
+
+        const deltaX = event.clientX - dragState.startX;
+        const deltaY = event.clientY - dragState.startY;
+        
+        if (dragState.dragType === 'none' && (Math.abs(deltaX) > 15 || Math.abs(deltaY) > 15)) {
+            dragState.dragType = Math.abs(deltaX) > Math.abs(deltaY) ? 'slide' : 'bend';
+        }
+
+        if (dragState.dragType === 'bend') {
+            dragState.startElement.querySelector('.fret-note-name').style.transform = `translateY(${deltaY}px)`;
+        } else if (dragState.dragType === 'slide') {
+            highlightSlideTargets();
         }
     }
 
+    function handleDocumentMouseUp(event) {
+        if (!dragState.isDragging) return;
+        const startEl = dragState.startElement;
+        
+        // Finaliza a ação baseada no tipo de arrasto
+        if (dragState.dragType === 'slide') {
+            const endEl = event.target.closest('.fret');
+            if (endEl && endEl.classList.contains('slide-target')) {
+                const endFret = parseInt(endEl.dataset.fret);
+                const notation = `${dragState.startFret}${endFret > dragState.startFret ? '/' : '\\'}${endFret}`;
+                addComplexNotationToTab(dragState.startString, notation);
+                lastPlayedStringIndex = dragState.startString;
+                highlightAdjacentScaleNotes(dragState.startString, endFret); // Mostra próximas notas a partir do fim do slide
+            }
+        } else if (dragState.dragType === 'bend') {
+            addSingleNoteToTab(dragState.startString, dragState.startFret);
+            lastPlayedStringIndex = dragState.startString;
+            addEffectToTab('b');
+            highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
+        } else { // Foi um clique simples
+            addSingleNoteToTab(dragState.startString, dragState.startFret);
+            lastPlayedStringIndex = dragState.startString;
+            highlightAdjacentScaleNotes(dragState.startString, dragState.startFret);
+        }
+        
+        // Limpeza do estado e da UI
+        startEl.classList.remove('dragging');
+        startEl.querySelector('.fret-note-name').style.transform = 'translateY(0)';
+        editorContainer.querySelectorAll('.fret').forEach(f => f.classList.remove('slide-target'));
+        
+        document.removeEventListener('mousemove', handleDocumentMouseMove);
+        document.removeEventListener('mouseup', handleDocumentMouseUp);
+        dragState.isDragging = false;
+    }
+
     // --- Lógica dos Botões e Modais ---
-    efeitosContainer.addEventListener('click', (event) => {
-        const button = event.target.closest('.btn-efeito');
-        if (button && button.dataset.efeito) addEffectToTab(button.dataset.efeito);
-    });
+    efeitosContainer.addEventListener('click', (event) => { const button = event.target.closest('.btn-efeito'); if (button && button.dataset.efeito) addEffectToTab(button.dataset.efeito); });
     btnDesfazer.addEventListener('click', undoLastAction);
     btnSepararParte.addEventListener('click', addPartSeparator);
     btnLimpar.addEventListener('click', initTab);
     btnModoAcorde.addEventListener('click', toggleChordMode);
-    btnCopiar.addEventListener('click', () => {
-        if (!tabTexto.value) return;
-        navigator.clipboard.writeText(tabTexto.value).then(() => {
-            const originalText = btnCopiar.textContent;
-            btnCopiar.textContent = 'Copiado!';
-            setTimeout(() => { btnCopiar.textContent = originalText; }, 1500);
-        });
-    });
-    
+    btnCopiar.addEventListener('click', () => { if (!tabTexto.value) return; navigator.clipboard.writeText(tabTexto.value).then(() => { const originalText = btnCopiar.textContent; btnCopiar.textContent = 'Copiado!'; setTimeout(() => { btnCopiar.textContent = originalText; }, 1500); }); });
     btnSalvarMusica.addEventListener('click', () => {
-        const tab = tabTexto.value;
-        if (tab.replace(/[eBGDAE|]/g, '').replace(/-/g, '').trim() === '') {
-             alert('A tablatura está vazia!'); return;
-        }
+        if (isTabEmpty()) { alert('A tablatura está vazia!'); return; }
         const nomeMusica = prompt('Digite um nome para a sua música:');
-        if (!nomeMusica || nomeMusica.trim() === '') {
-             alert('Nome inválido. A música não foi salva.'); return;
-        }
+        if (!nomeMusica || nomeMusica.trim() === '') { alert('Nome inválido. A música não foi salva.'); return; }
         const musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
-        musicas.push({ nome: nomeMusica.trim(), tab: tab });
+        musicas.push({ nome: nomeMusica.trim(), tab: tabTexto.value });
         localStorage.setItem('minhasMusicasGuitarra', JSON.stringify(musicas));
         alert(`Música "${nomeMusica}" salva com sucesso!`);
         initTab();
@@ -481,38 +557,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnAbrirMusicasSalvas.addEventListener('click', () => { renderizarMusicasSalvas(); modalMusicas.classList.add('visivel'); });
     btnFecharMusicas.addEventListener('click', () => modalMusicas.classList.remove('visivel'));
-    modalMusicas.addEventListener('click', (event) => { if (event.target === modalMusicas) modalMusicas.classList.remove('visivel'); });
-
-    btnAbrirAcordes.addEventListener('click', () => { renderizarBibliotecaAcordes(); modalAcordes.classList.add('visivel'); });
+    
+    const clearChordSuggestions = () => { listaAcordes.querySelectorAll('.acorde-item').forEach(el => el.classList.remove('sugerido', 'desativado')); };
+    btnAbrirAcordes.addEventListener('click', () => { renderizarBibliotecaAcordes(); clearChordSuggestions(); modalAcordes.classList.add('visivel'); });
     btnFecharAcordes.addEventListener('click', () => modalAcordes.classList.remove('visivel'));
-    modalAcordes.addEventListener('click', (event) => { if (event.target === modalAcordes) modalAcordes.classList.remove('visivel'); });
     
     function renderizarMusicasSalvas() {
         listaMusicasSalvas.innerHTML = '';
         const musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
-        if (musicas.length === 0) {
-            listaMusicasSalvas.innerHTML = '<p>Nenhuma música salva ainda.</p>';
-            return;
-        }
+        if (musicas.length === 0) { listaMusicasSalvas.innerHTML = '<p>Nenhuma música salva ainda.</p>'; return; }
         musicas.forEach((musica, index) => {
             const musicaItem = document.createElement('div');
-            musicaItem.className = 'musica-item';
             const safeName = musica.nome.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             const safeTab = musica.tab.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             musicaItem.innerHTML = `<div class="musica-header"><h3>${safeName}</h3><button class="btn-excluir-musica" data-index="${index}">&times;</button></div><pre class="tab-salva">${safeTab}</pre>`;
             listaMusicasSalvas.appendChild(musicaItem);
         });
     }
-    
     listaMusicasSalvas.addEventListener('click', (event) => {
-        if (event.target.classList.contains('btn-excluir-musica')) {
-            if (confirm('Tem a certeza que deseja excluir esta música?')) {
-                const index = event.target.dataset.index;
-                let musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
-                musicas.splice(index, 1);
-                localStorage.setItem('minhasMusicasGuitarra', JSON.stringify(musicas));
-                renderizarMusicasSalvas();
-            }
+        if (event.target.classList.contains('btn-excluir-musica') && confirm('Tem a certeza que deseja excluir esta música?')) {
+            const index = event.target.dataset.index;
+            let musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
+            musicas.splice(index, 1);
+            localStorage.setItem('minhasMusicasGuitarra', JSON.stringify(musicas));
+            renderizarMusicasSalvas();
         }
     });
 
@@ -523,9 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
             acordeItem.className = 'acorde-item';
             acordeItem.dataset.chordIndex = index;
             let tabDiagram = '';
-            for(let i = 0; i < tuning.length; i++) {
-                tabDiagram += `${tuning[i]}|-${chord.shape[i].padStart(2, '-')}-|\n`;
-            }
+            for(let i = 0; i < tuning.length; i++) tabDiagram += `${tuning[i]}|-${chord.shape[i].padStart(2, '-')}-|\n`;
             acordeItem.innerHTML = `<h4>${chord.name}</h4><pre>${tabDiagram.trim()}</pre>`;
             listaAcordes.appendChild(acordeItem);
         });
@@ -533,35 +599,137 @@ document.addEventListener('DOMContentLoaded', () => {
 
     listaAcordes.addEventListener('click', (event) => {
         const chordItem = event.target.closest('.acorde-item');
-        if (chordItem) {
+        if (chordItem && !chordItem.classList.contains('desativado')) {
             const chordIndex = parseInt(chordItem.dataset.chordIndex);
-            addChordToTab(chordLibrary[chordIndex].shape);
-            modalAcordes.classList.remove('visivel');
+            const clickedChord = chordLibrary[chordIndex];
+            addChordToTab(clickedChord.shape);
+            clearChordSuggestions();
+            const suggestions = chordProgressions[clickedChord.name];
+            const mostProbable = suggestions ? suggestions[0] : null;
+
+            listaAcordes.querySelectorAll('.acorde-item').forEach(item => {
+                const itemName = item.querySelector('h4').textContent;
+                if (itemName === mostProbable) item.classList.add('sugerido');
+                else if (itemName !== clickedChord.name) item.classList.add('desativado');
+            });
         }
     });
 
-    // --- Geração do Guia de Escalas ---
+    // --- Lógica do Guia de Escalas e MODO SOLO ---
     function getNoteName(noteIndex) { return notesSharp[noteIndex % 12]; }
+    function getPentatonicMajor(rootNote) { const rootIndex = notesSharp.indexOf(rootNote); return [ rootIndex % 12, (rootIndex + 2) % 12, (rootIndex + 4) % 12, (rootIndex + 7) % 12, (rootIndex + 9) % 12 ]; }
     
-    function getPentatonicMajor(rootNote) {
-        const rootIndex = notesSharp.indexOf(rootNote);
-        return [ rootIndex % 12, (rootIndex + 2) % 12, (rootIndex + 4) % 12, (rootIndex + 7) % 12, (rootIndex + 9) % 12 ];
+    function clearSoloHighlights() { 
+        editorContainer.querySelectorAll('.fret').forEach(el => {
+            el.classList.remove('proxima-nota-sugerida', 'escala-completa', 'desativado', 'slide-target');
+            el.querySelector('.fret-note-name').textContent = '';
+        });
+    }
+
+    function highlightFullScale(rootNote) {
+        clearSoloHighlights();
+        if (!rootNote || rootNote === 'nenhuma') return;
+        const scaleNotes = getPentatonicMajor(rootNote);
+        const editorFretboard = editorContainer.querySelector('.fretboard');
+
+        for (let i = 0; i < NUM_STRINGS; i++) {
+            for (let j = 0; j <= NUM_FRETS; j++) {
+                const fretEl = editorFretboard.children[i].children[j];
+                const currentNoteIndex = (openStringNotes[i] + j) % 12;
+                if (scaleNotes.includes(currentNoteIndex)) {
+                    fretEl.classList.add('escala-completa');
+                    fretEl.querySelector('.fret-note-name').textContent = getNoteName(currentNoteIndex);
+                }
+            }
+        }
+    }
+
+    // LÓGICA RESTAURADA: Mostra notas vizinhas (anterior e próxima)
+    function highlightAdjacentScaleNotes(clickedStringIndex, clickedFretNumber) {
+        clearSoloHighlights();
+        const rootNote = escalaSelect.value;
+        if (!rootNote || rootNote === 'nenhuma') return;
+        const scaleNotes = getPentatonicMajor(rootNote);
+        const clickedNoteIndex = (openStringNotes[clickedStringIndex] + clickedFretNumber) % 12;
+        const indexOfClickedNoteInScale = scaleNotes.indexOf(clickedNoteIndex);
+        
+        // Se a nota clicada não está na escala, apenas desativa as notas que não pertencem
+        if (indexOfClickedNoteInScale === -1) {
+            editorContainer.querySelectorAll('.fret').forEach(fretEl => {
+                const fretNum = parseInt(fretEl.dataset.fret);
+                const strNum = parseInt(fretEl.dataset.string);
+                const noteIdx = (openStringNotes[strNum] + fretNum) % 12;
+                if (!scaleNotes.includes(noteIdx)) fretEl.classList.add('desativado');
+            });
+            return;
+        }
+
+        const prevNoteIndexInScale = (indexOfClickedNoteInScale - 1 + scaleNotes.length) % scaleNotes.length;
+        const nextNoteIndexInScale = (indexOfClickedNoteInScale + 1) % scaleNotes.length;
+        const prevScaleNote = scaleNotes[prevNoteIndexInScale];
+        const nextScaleNote = scaleNotes[nextNoteIndexInScale];
+        
+        const FRET_PROXIMITY = 5;
+        const editorFretboard = editorContainer.querySelector('.fretboard');
+
+        for (let i = 0; i < NUM_STRINGS; i++) {
+            for (let j = 0; j <= NUM_FRETS; j++) {
+                const fretEl = editorFretboard.children[i].children[j];
+                const currentNoteIndex = (openStringNotes[i] + j) % 12;
+                
+                if (!scaleNotes.includes(currentNoteIndex)) {
+                    fretEl.classList.add('desativado');
+                } else {
+                    const isProximate = (Math.abs(j - clickedFretNumber) <= FRET_PROXIMITY) || (j === 0 && clickedFretNumber <= FRET_PROXIMITY);
+                    if ((currentNoteIndex === prevScaleNote || currentNoteIndex === nextScaleNote) && isProximate) {
+                        fretEl.classList.add('proxima-nota-sugerida');
+                        fretEl.querySelector('.fret-note-name').textContent = getNoteName(currentNoteIndex);
+                    }
+                }
+            }
+        }
     }
     
+    function highlightSlideTargets() {
+        const rootNote = escalaSelect.value;
+        if (!rootNote || rootNote === 'nenhuma') return;
+        const scaleNotes = getPentatonicMajor(rootNote);
+        const stringRow = dragState.startElement.parentElement;
+
+        stringRow.querySelectorAll('.fret').forEach(fretEl => {
+            fretEl.classList.remove('slide-target');
+            const fretNumber = parseInt(fretEl.dataset.fret);
+            if(fretNumber === dragState.startFret) return;
+
+            const currentNoteIndex = (openStringNotes[dragState.startString] + fretNumber) % 12;
+            if (scaleNotes.includes(currentNoteIndex)) {
+                fretEl.classList.add('slide-target');
+            }
+        });
+    }
+
     function populateScaleSelector() {
-        const scaleOrder = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const defaultOption = document.createElement('option');
+        defaultOption.value = 'nenhuma';
+        defaultOption.textContent = '--- Desativado ---';
+        escalaSelect.appendChild(defaultOption);
+        const scaleOrder = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#', 'F', 'A#', 'D#', 'G#'];
         scaleOrder.forEach(rootNote => {
             const rootIndex = notesSharp.indexOf(rootNote);
-            const relativeMinorIndex = (rootIndex + 9) % 12; // A relativa menor está 3 semitons abaixo, ou 9 acima.
+            const relativeMinorIndex = (rootIndex + 9) % 12; 
             const option = document.createElement('option');
             option.value = rootNote;
-            option.textContent = `${getNoteName(rootIndex)} Maior / ${getNoteName(relativeMinorIndex)}m`; // Adiciona 'm' para indicar menor
+            option.textContent = `${getNoteName(rootIndex)} Maior / ${getNoteName(relativeMinorIndex)}m`;
             escalaSelect.appendChild(option);
         });
     }
 
     function displaySelectedScale(rootNote) {
         escalaDisplay.innerHTML = '';
+        if (!rootNote || rootNote === 'nenhuma') {
+            escalaDisplay.innerHTML = '<p style="text-align:center; color: #888;">Selecione uma escala acima para ver o diagrama completo.</p>';
+            return;
+        }
         const scaleNotes = getPentatonicMajor(rootNote);
         const rootIndex = scaleNotes[0];
         const title = document.createElement('h3');
@@ -592,8 +760,15 @@ document.addEventListener('DOMContentLoaded', () => {
     createFretboard(editorContainer, fretNumbersContainerWrapper, true);
     initTab();
     populateScaleSelector();
-    escalaSelect.addEventListener('change', (e) => displaySelectedScale(e.target.value));
-    if (escalaSelect.options.length > 0) displaySelectedScale(escalaSelect.value);
+    escalaSelect.addEventListener('change', (e) => {
+        displaySelectedScale(e.target.value);
+        if (isTabEmpty()) {
+            highlightFullScale(e.target.value);
+        } else {
+            clearSoloHighlights();
+        }
+    });
+    displaySelectedScale(escalaSelect.value);
 });
 </script>
 
