@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCE: Exame Ginecológico (Especular, Papanicolau e Toque)</title>
+    <style>
+        /* Estilos gerais do corpo do texto */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fdfdfd;
+            color: #333;
+        }
+
+        /* Estilos dos títulos */
+        h1, h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #ddeaf6;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #005a9c;
+        }
+        
+        /* Estilo da caixa de introdução */
+        .intro-text {
+            background-color: #eef7ff;
+            border: 1px solid #a3cff9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Estilos da lista e dos itens interativos */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .reveal-item {
+            display: none; /* ESCONDE OS ITENS INICIALMENTE */
+            border-left: 5px solid #007bff;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .reveal-item strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #005a9c;
+        }
+        
+        /* Estilo da caixa de destaque para termos técnicos */
+        .term-box {
+            display: inline-block;
+            background-color: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: 600;
+            color: #004a80;
+            margin: 2px 0;
+        }
+
+        /* Estilo para as imagens */
+        .reveal-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        
+        /* Estilo do container do botão (NÃO FIXO) */
+        #button-container {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            margin-top: 20px;
+        }
+
+        /* Estilo do botão */
+        #actionBtn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+        #actionBtn:hover {
+            background-color: #0056b3;
+        }
+        #actionBtn.restart {
+            background-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        #actionBtn.restart:hover {
+            background-color: #218838;
+        }
+
+        .note-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+
+        .alert-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .example-desc {
+            font-style: italic;
+            margin-top: 10px;
+            color: #555;
+            font-size: 0.95em;
+        }
+        
+        .image-osce-command {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OSCE: Exame Ginecológico Completo</h1>
+
+    <div class="intro-text">
+        <p>Este guia interativo te ajudará a dominar a sequência e os detalhes do Exame Especular, Coleta de Papanicolau e Toque Vaginal para a sua prova prática de OSCE. Pressione "Próximo Passo" para avançar.</p>
+    </div>
+
+    <h2>Fase 1: Preparo e Abordagem Geral</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>1. Finalidade do Exame Ginecológico</strong><br>
+            O objetivo geral é realizar uma inspeção completa das <span class="term-box">paredes vaginais</span>, <span class="term-box">fórnices vaginais</span>, <span class="term-box">conteúdo vaginal</span> e <span class="term-box">colo uterino</span>, além do rastreamento do câncer de colo uterino e avaliação bimanual.
+        </li>
+        <li class="reveal-item">
+            <strong>2. Orientação e Autorização da Paciente</strong><br>
+            Explique o procedimento de forma clara e obtenha o <span class="term-box">consentimento verbal</span> da paciente.
+        </li>
+        <li class="reveal-item">
+            <strong>3. Ambiência Física Adequada</strong><br>
+            Certifique-se de que o ambiente possui <span class="term-box">mesa ginecológica</span>, <span class="term-box">foco de luz</span>, <span class="term-box">biombo ou local reservado para troca de roupa</span>, <span class="term-box">cesto de lixo</span> e <span class="term-box">banqueta rotatória</span> (para o campo visual do profissional abranger o eixo da vagina).
+        </li>
+        <li class="reveal-item">
+            <strong>4. Posição da Paciente e Examinador</strong><br>
+            A paciente deve estar em <span class="term-box">posição ginecológica (litotomia)</span>, despida de vestes íntimas. O examinador posiciona-se <span class="term-box">em frente às pernas da paciente</span>.
+        </li>
+    </ul>
+
+    <h2>Fase 2: Exame Especular</h2>
+    <div class="reveal-item">
+        <img class="image-osce-command" src="https://i.imgur.com/S29PbsD.png" alt="Comandos OSCE - Exame Especular">
+        <p class="example-desc">Observe as instruções típicas de um cenário OSCE para o Exame Especular.</p>
+    </div>
+    <ul>
+        <li class="reveal-item">
+            <strong>5. Material Necessário para o Exame Especular</strong><br>
+            Tenha à mão: <span class="term-box">01 espéculo vaginal</span> (descartável ou de Collins) e <span class="term-box">par de luvas</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>6. Inserção do Espéculo (Técnica Essencial)</strong><br>
+            Utilize <span class="term-box">espéculo vaginal sem lubrificantes</span>, exceto soro fisiológico ou água morna.
+            Insira o espéculo <span class="term-box">obliquamente (15º em relação ao eixo sagital)</span> para evitar trauma uretral, fazendo <span class="term-box">pressão para baixo e para dentro</span>. Em seguida, <span class="term-box">rode transversalmente</span>, buscando que o <span class="term-box">colo uterino fique entre as valvas</span> do espéculo e a <span class="term-box">borboleta do espéculo para baixo e à direita</span> da mulher.
+        </li>
+        <li class="reveal-item">
+            <strong>7. Inspeção das Paredes Vaginais</strong><br>
+            Com o espéculo inserido, avalie a <span class="term-box">rugosidade</span>, <span class="term-box">coloração</span> e possíveis <span class="term-box">lesões</span> nas paredes vaginais.
+        </li>
+        <li class="reveal-item">
+            <strong>8. Inspeção dos Fórnices Vaginais (Fundos de Saco)</strong><br>
+            Verifique se os fórnices estão <span class="term-box">livres</span> ou com <span class="term-box">abaulamento</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>9. Inspeção do Conteúdo Vaginal</strong><br>
+            Observe se há <span class="term-box">leucorreia</span> (descreva: <span class="term-box">cor, odor, viscosidade e quantidade</span>), <span class="term-box">sangramento</span>, etc.
+        </li>
+        <li class="reveal-item">
+            <strong>10. Inspeção do Colo Uterino</strong><br>
+            Descreva a <span class="term-box">superfície</span>, <span class="term-box">coloração</span>, <span class="term-box">tamanho</span>, <span class="term-box">forma</span> e <span class="term-box">óstio</span>. Lembre-se de que os achados normais variam com a fase da vida da mulher (adolescência, idade adulta, menopausa, senectude), paridade e tipo de parto.
+            <br>
+            <div class="note-box">
+                <p><strong>Exemplo de Descrição de Exame Especular NORMAL:</strong></p>
+                <p>Paredes vaginais <span class="term-box">íntegras</span> com rugosidades <span class="term-box">normais para a idade</span>, fundos de saco <span class="term-box">livres</span>, conteúdo vaginal em <span class="term-box">pequena quantidade, transparente, fluido e inodoro</span>, colo uterino <span class="term-box">cilíndrico</span>, de <span class="term-box">médio volume</span>, <span class="term-box">óstio externo puntiforme</span>.</p>
+            </div>
+            <div class="note-box">
+                <p><strong>Tipos de Colo Uterino (Exemplos Visuais):</strong></p>
+                <ul>
+                    <li><span class="term-box">Colo normal - fisiológico:</span> Óstio do útero puntiforme, colo rosáceo, sem lesão aparente, sem secreção.</li>
+                    <img src="https://i.imgur.com/qVryGUM.png" alt="Colo normal - fisiológico">
+                    <li><span class="term-box">Colo em fenda:</span> Óstio do útero com abertura em fenda, colo rosáceo, sem lesões aparentes, sem secreção (pode ser gravidez ou inflamação).</li>
+                    <img src="https://i.imgur.com/UokMiWX.png" alt="Colo em fenda - grávida ou inflamado">
+                </ul>
+                <p><strong>Colos Patológicos:</strong></p>
+                <ul>
+                    <li><span class="term-box">Lesão com múltiplas características:</span> Óstio em fenda, colo eritematoso com mucosa hiperemiada, ectocérvice com 5 lesões (maior em 5h, elevada, amarela, contorno irregular, limite preciso; menor em 10h, elevada, puntiforme, amarelada, contorno regular, limite preciso), apresenta secreção sanguinolenta.</li>
+                    <img src="https://i.imgur.com/aUm1tap.png" alt="Colo patológico - múltiplas lesões">
+                    <li><span class="term-box">Lesão arredondada e elevada:</span> Aparentemente de origem endocervical, bordas regulares, simétrica.</li>
+                    <img src="https://i.imgur.com/vp9gUTv.png" alt="Colo patológico - lesão arredondada">
+                    <li><span class="term-box">Lesão rugosa:</span> Origem aparentemente endocervical e acomete a ectocérvice, localizada e com presença de sangramento.</li>
+                    <img src="https://i.imgur.com/gcrYMDX.png" alt="Colo patológico - lesão rugosa">
+                    <li><span class="term-box">Lesão sobrelevada e lisa:</span> Contorno irregular com origem endocervical e apresenta sangramento ectocervical.</li>
+                    <img src="https://i.imgur.com/EyKly2X.png" alt="Colo patológico - lesão sobrelevada">
+                    <li><span class="term-box">Lesão aspecto couve-flor:</span> Localizada entre a endocérvice e ectocérvice, aspecto couve-flor vegetante de contorno irregular e limites precisos, apresentando sangramento.</li>
+                    <img src="https://i.imgur.com/YbQeWP5.png" alt="Colo patológico - lesão couve-flor">
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Fase 3: Coleta de Citologia Oncótica (Papanicolau)</h2>
+    <div class="reveal-item">
+        <img class="image-osce-command" src="https://i.imgur.com/23vIg6L.png" alt="Comandos OSCE - Coleta de Papanicolau">
+        <p class="example-desc">Observe as instruções típicas de um cenário OSCE para a Coleta de Papanicolau.</p>
+    </div>
+    <ul>
+        <li class="reveal-item">
+            <strong>11. Material Necessário para a Coleta de Papanicolau</strong><br>
+            Tenha à mão: <span class="term-box">Espátula de Ayre</span>, <span class="term-box">escova endocervical</span>, <span class="term-box">lâmina de microscopia</span> com área fosca para identificação, <span class="term-box">lápis preto</span> e <span class="term-box">fixador celular</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>12. Finalidade do Papanicolau e Condições Prévias</strong><br>
+            Finalidade: <span class="term-box">Rastreamento do câncer do colo uterino</span>.
+            Condições prévias para amostra de qualidade: <span class="term-box">não estar menstruada</span> (preferencialmente aguardar o quinto dia após o término da menstruação); <span class="term-box">não usar creme vaginal</span>, <span class="term-box">não ter atividade sexual</span> e <span class="term-box">não realizar qualquer procedimento que altere o meio vaginal</span> por três dias antes do exame.
+            <div class="alert-box">
+                <strong>Atenção:</strong> Nas <span class="term-box">gestantes</span> a coleta <span class="term-box">endocervical deve ser evitada</span>.
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>13. Coleta da Ectocérvice (Espátula de Ayre)</strong><br>
+            Encaixe a <span class="term-box">ponta mais longa da espátula de Ayre</span> no óstio externo do colo uterino. Apoie firmemente e faça uma <span class="term-box">raspagem na ectocérvice em movimento de 360 graus</span>.
+            Disponha o material colhido em <span class="term-box">sentido horizontal</span>, ocupando <span class="term-box">2/3 da parte transparente da lâmina</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>14. Coleta da Endocérvice (Escova Endocervical)</strong><br>
+            Utilize a <span class="term-box">escova endocervical</span>. Introduza-a delicadamente no canal endocervical, deixando <span class="term-box">cerdas visíveis para fora do óstio externo</span>, e <span class="term-box">gire 360 graus</span>.
+            Disponha o material no <span class="term-box">1/3 restante da lâmina</span>, rolando a escova no <span class="term-box">modo inverso ao da coleta</span>, no <span class="term-box">sentido vertical</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>15. Fixação do Material na Lâmina</strong><br>
+            Imediatamente após a coleta, <span class="term-box">fixe o esfregaço</span>.
+            Métodos de fixação:
+            <ul>
+                <li><span class="term-box">Polietilenoglicol:</span> 03 ou 04 gotas e deixar secar ao ar livre.</li>
+                <li><span class="term-box">Álcool a 95 graus:</span> Lâmina submersa.</li>
+                <li><span class="term-box">Propinilgicol:</span> Borrifar a lâmina com o spray fixador celular a uma distância de 20cm.</li>
+            </ul>
+        </li>
+        <li class="reveal-item">
+            <strong>16. Retirada do Espéculo (Técnica Inversa)</strong><br>
+            Realize a técnica de retirada no <span class="term-box">sentido inverso da introdução</span> do espéculo, cuidadosamente para evitar trauma.
+        </li>
+    </ul>
+
+    <h2>Fase 4: Toque Vaginal</h2>
+    <div class="reveal-item">
+        <img class="image-osce-command" src="https://i.imgur.com/J5XAVVz.png" alt="Comandos OSCE - Toque Vaginal">
+        <p class="example-desc">Observe as instruções típicas de um cenário OSCE para o Toque Vaginal.</p>
+    </div>
+    <ul>
+        <li class="reveal-item">
+            <strong>17. Preparo e Material para Toque Vaginal</strong><br>
+            Explique o toque vaginal à paciente. Mantenha a paciente coberta com lençol.
+            Material: <span class="term-box">lençol ou camisola hospitalar descartáveis</span>, <span class="term-box">foco de luz</span> (não imprescindível, mas recomendado após especular), e <span class="term-box">lubrificante para luvas</span> (vaselina ou à base de água).
+        </li>
+        <li class="reveal-item">
+            <strong>18. Inserção dos Dedos</strong><br>
+            Enluve as mãos. Se for destro, a mão intravaginal será a direita. Uma boa técnica é apoiar o cotovelo no joelho flexionado para manter o braço leve.
+            <span class="term-box">Entreabra os pequenos lábios com o primeiro e quarto dedos</span>. Introduza na vagina, <span class="term-box">primeiro o dedo indicador (segundo dedo) e, na sequência, o terceiro dedo</span>. <span class="term-box">Gire a mão até que as polpas digitais fiquem para cima</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>19. Palpação Bimanual: Paredes Vaginais e Fundos de Saco</strong><br>
+            Realize a palpação bimanual: uma mão sobre o abdome e a outra intravaginal.
+            Palpe as <span class="term-box">paredes vaginais (anterior, posterior e laterais)</span>. Verifique a <span class="term-box">rugosidade, coloração e possíveis lesões</span>.
+            Avalie a <span class="term-box">procidência de paredes vaginais à manobra de Valsalva</span>. Palpe varrendo os <span class="term-box">fundos de saco</span> para a porção mais próxima do intróito vaginal, avaliando se estão <span class="term-box">livres ou preenchidos</span>.
+            Avalie <span class="term-box">retocele</span> (compressão parede posterior + Valsalva) e <span class="term-box">cistocele</span> (compressão parede anterior + Valsalva).
+            Verifique <span class="term-box">consistência, massas, retrações, nodulações</span> (ex: fezes endurecidas no reto) e <span class="term-box">dor à palpação/descompressão</span> do fundo de saco posterior (fundo de saco de Douglas).
+        </li>
+        <li class="reveal-item">
+            <strong>20. Palpação Bimanual: Colo Uterino</strong><br>
+            Busque o colo ao longo da parede posterior até encontrá-lo. A mão abdominal faz pressão no fundo uterino para aproximar o colo dos dedos da mão intravaginal.
+            Verifique: <span class="term-box">presença ou ausência do colo</span>, sua <span class="term-box">consistência</span>, <span class="term-box">arquitetura</span>, <span class="term-box">posição</span>, <span class="term-box">tamanho</span>, <span class="term-box">mobilidade</span> e <span class="term-box">dor à mobilização</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>21. Palpação Bimanual: Corpo Uterino</strong><br>
+            A mão abdominal comprime o fundo do útero para tentar delimitá-lo, em manobra conjunta com os dedos da mão intravaginal que palpa o colo, com movimento para cima para tentar delimitar o útero.
+            Verifique sua <span class="term-box">posição</span> (ex: anteversoflexão, retroversão), <span class="term-box">arquitetura</span>, <span class="term-box">tamanho</span>, <span class="term-box">formato</span>, <span class="term-box">simetria</span>, presença de <span class="term-box">tumorações</span>, <span class="term-box">consistência</span>, <span class="term-box">dor à palpação</span> e <span class="term-box">mobilidade</span>.
+            <div class="note-box">
+                <p><strong>Lembre-se:</strong> A posição do útero pode variar. A posição clássica (anteversoflexão) só se verifica com bexiga e ampola retal esvaziadas.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>22. Palpação Bimanual: Anexos Uterinos</strong><br>
+            Os dedos da mão intravaginal palpam o <span class="term-box">fórnice lateral direito da vagina</span> e a mão abdominal palpa o <span class="term-box">quadrante inferior direito do abdome (flanco)</span>. Tente delimitar entre os dedos o <span class="term-box">anexo direito (ovário, a tuba só será palpada se estiver alterada)</span>.
+            Verifique: <span class="term-box">tamanho</span>, <span class="term-box">posição</span>, <span class="term-box">consistência</span> e <span class="term-box">mobilidade</span>. Repita o procedimento do lado esquerdo.
+        </li>
+    </ul>
+
+    <h2>Fase 5: Interpretação e Exemplos de Achados</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>23. Achados Normais no Toque Vaginal</strong><br>
+            <ul>
+                <li>Em mulheres não gestantes: <span class="term-box">colo com consistência fibroelástica</span>, <span class="term-box">indolor à mobilização</span>, <span class="term-box">útero intrapélvico</span>, <span class="term-box">anexos palpáveis</span> (em pacientes não obesas), <span class="term-box">fundos de saco livres e não preenchidos</span>.</li>
+                <li>Em mulheres gestantes: <span class="term-box">colo com consistência amolecida</span> (dependendo da IG), <span class="term-box">corpo do útero delimitado em diferentes pontos do abdome</span> (intrapélvico até 12 semanas, entre sínfise púbica e cicatriz umbilical em 16 semanas, na cicatriz umbilical em 20 semanas). <span class="term-box">Fundos de saco preenchidos</span> (sinal de Nobile-Budin) e <span class="term-box">anexos palpáveis no primeiro trimestre</span> (dificultando a palpação com o progredir da gestação). Avaliar também <span class="term-box">bacia obstétrica</span>: ângulo subpúbico, espinhas isquiáticas e se promontório atingível.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Exercícios de Descrição de Achados (Para praticar na OSCE!)</h2>
+    <div class="intro-text">
+        <p>Pratique descrever os achados para os examinadores, como em uma OSCE.</p>
+    </div>
+    <ul>
+        <li class="reveal-item">
+            <strong>Exercício 1: Mulher de 28 anos com ovário direito aumentado (75cm³)</strong><br>
+            <div class="note-box">
+                <p><strong>Resposta Esperada:</strong></p>
+                <p>Colo <span class="term-box">consistência fibroelástica</span>, <span class="term-box">posteriorizado</span>, <span class="term-box">fechado</span>, <span class="term-box">indolor à mobilização</span>. Útero de <span class="term-box">volume normal</span>, <span class="term-box">intrapélvico</span>. Anexo direito <span class="term-box">aumentado</span>, mede aproximadamente <span class="term-box">7 cm</span>, consistência <span class="term-box">cística</span>, <span class="term-box">móvel</span> e <span class="term-box">indolor à mobilização</span>. Anexo esquerdo <span class="term-box">não palpável</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>Exercício 2: Gestante com IG de 16 semanas</strong><br>
+            <div class="note-box">
+                <p><strong>Resposta Esperada:</strong></p>
+                <p>Colo <span class="term-box">consistência amolecida</span>, <span class="term-box">posteriorizado</span> e <span class="term-box">impérvio</span>. Fundos de saco <span class="term-box">preenchidos</span>. Útero <span class="term-box">aumentado para aproximadamente 16 semanas de gestação</span> (entre cicatriz umbilical e sínfise púbica). Ângulo subpúbico <span class="term-box">adequado</span> (obtuso - maior que 90 graus), espinhas isquiáticas <span class="term-box">não palpáveis</span>, promontório <span class="term-box">inatingível</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>Exercício 3: Mulher de 55 anos histerectomizada (histerectomia subtotal)</strong><br>
+            <div class="note-box">
+                <p><strong>Resposta Esperada:</strong></p>
+                <p>Colo <span class="term-box">consistência fibroelástica</span>, <span class="term-box">pequeno</span>, <span class="term-box">posteriorizado</span>, <span class="term-box">fechado</span>, <span class="term-box">indolor à mobilização</span>. Útero <span class="term-box">não delimitado no toque bimanual</span>. Anexos <span class="term-box">não palpáveis</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>Exercício 4: Gestante com IG de 12 semanas</strong><br>
+            <div class="note-box">
+                <p><strong>Resposta Esperada:</strong></p>
+                <p>Colo <span class="term-box">consistência amolecida</span>, <span class="term-box">indolor à mobilização</span>, <span class="term-box">impérvio</span>. Útero <span class="term-box">intrapélvico</span>, <span class="term-box">aumentado para aproximadamente 12 semanas</span>. Anexos <span class="term-box">palpáveis bilateralmente de tamanho habitual</span> (ao redor de 3 cm). Fundos de saco <span class="term-box">preenchidos</span>. Ângulo subpúbico <span class="term-box">adequado</span>, espinhas <span class="term-box">não palpáveis</span>, promontório <span class="term-box">inatingível</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>Exercício 5: Mulher de 45 anos, útero com miomas, volume uterino de 675cm³</strong><br>
+            <div class="note-box">
+                <p><strong>Resposta Esperada:</strong></p>
+                <p>Colo <span class="term-box">consistência fibroelástica</span>, <span class="term-box">indolor à mobilização</span>, <span class="term-box">fechado</span>. Útero <span class="term-box">aumentado de volume</span>, fundo do útero encontra-se à <span class="term-box">altura da cicatriz umbilical</span>. Anexos <span class="term-box">não palpáveis</span>.</p>
+            </div>
+        </li>
+    </ul>
+
+    <div id="button-container">
+        <button id="actionBtn">Próximo Passo</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionBtn = document.getElementById('actionBtn');
+            const checklistItems = document.querySelectorAll('.reveal-item'); 
+            
+            let currentItemIndex = 0;
+
+            function showNextItem() {
+                if (currentItemIndex < checklistItems.length) {
+                    const currentItem = checklistItems[currentItemIndex];
+                    currentItem.style.display = 'block';
+                    // A rolagem suave continua útil para focar no item revelado
+                    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    currentItemIndex++;
+                }
+
+                if (currentItemIndex >= checklistItems.length) {
+                    actionBtn.textContent = 'Começar de Novo';
+                    actionBtn.classList.add('restart');
+                }
+            }
+
+            function resetChecklist() {
+                checklistItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                currentItemIndex = 0;
+                
+                actionBtn.textContent = 'Próximo Passo';
+                actionBtn.classList.remove('restart');
+                
+                // Rola a página para o topo ao reiniciar
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function handleButtonClick() {
+                if (currentItemIndex >= checklistItems.length) {
+                    resetChecklist();
+                } else {
+                    showNextItem();
+                }
+            }
+
+            actionBtn.addEventListener('click', handleButtonClick);
+        });
+    </script>
+
+</body>
+</html>

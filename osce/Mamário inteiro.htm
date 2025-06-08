@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCE: Propedêutica Mamária</title>
+    <style>
+        /* Estilos gerais do corpo do texto */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fdfdfd;
+            color: #333;
+        }
+
+        /* Estilos dos títulos */
+        h1, h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #ddeaf6;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #005a9c;
+        }
+        
+        /* Estilo da caixa de introdução */
+        .intro-text {
+            background-color: #eef7ff;
+            border: 1px solid #a3cff9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Estilos da lista e dos itens interativos */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .reveal-item {
+            display: none; /* ESCONDE OS ITENS INICIALMENTE */
+            border-left: 5px solid #007bff;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .reveal-item strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #005a9c;
+        }
+        
+        /* Estilo da caixa de destaque para termos técnicos */
+        .term-box {
+            display: inline-block;
+            background-color: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: 600;
+            color: #004a80;
+            margin: 2px 0;
+        }
+
+        /* Estilo para as imagens */
+        .reveal-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Estilo do container do botão (NÃO FIXO) */
+        #button-container {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            margin-top: 20px;
+        }
+
+        /* Estilo do botão */
+        #actionBtn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+        #actionBtn:hover {
+            background-color: #0056b3;
+        }
+        #actionBtn.restart {
+            background-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        #actionBtn.restart:hover {
+            background-color: #218838;
+        }
+
+        .note-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OSCE: Propedêutica Mamária Completa</h1>
+
+    <div class="intro-text">
+        <p>Este guia interativo detalha passo a passo o exame de mamas, desde a inspeção até a palpação de linfonodos. Pressione "Próximo Passo" para avançar e dominar a técnica!</p>
+    </div>
+
+    <h2>Fase 1: Abordagem e Inspeção Estática</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>1. Posicionamento da Paciente e do Examinador</strong><br>
+            A paciente deve estar <span class="term-box">em pé ou sentada na maca</span>. O examinador posiciona-se <span class="term-box">em frente à paciente</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>2. Inspeção Estática Geral</strong><br>
+            Observe as mamas quanto a: <span class="term-box">número</span>, <span class="term-box">simetria</span>, <span class="term-box">volume</span> (pequeno, médio, grande e gigante), <span class="term-box">formato</span> (cônico, pendular, etc.), <span class="term-box">contornos</span> (regulares ou irregulares), <span class="term-box">abaulamentos</span>, <span class="term-box">retrações</span>, <span class="term-box">cicatrizes</span> e modificações da <span class="term-box">pele</span>, das <span class="term-box">aréolas</span> e <span class="term-box">papilas</span>, e <span class="term-box">integridade da pele</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>3. Exemplos de Achados na Inspeção Estática</strong><br>
+            <div class="note-box">
+                <p><strong>Observações Comuns:</strong></p>
+                <ul>
+                    <li>Mama E: Presença de <span class="term-box">retração no quadrante superior lateral</span> e <span class="term-box">pele em casca de laranja</span> no quadrante inferior lateral.</li>
+                    <li>Mama D: Presença de <span class="term-box">úlcera na papila</span>.</li>
+                    <li>Mama E: Presença de <span class="term-box">retração no quadrante superior lateral</span> e <span class="term-box">quadrante inferior medial</span>. E presença de <span class="term-box">abaulamento no ligamento de Spencer</span>.</li>
+                    <li>Mama D: Presença de <span class="term-box">retração no quadrante inferior lateral</span>.</li>
+                </ul>
+            </div>
+            <img src="https://i.imgur.com/XDr3kcN.png" alt="Exemplos de Achados na Inspeção Estática">
+        </li>
+    </ul>
+
+    <h2>Fase 2: Inspeção Dinâmica</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>4. Objetivo e Posicionamento (Inspeção Dinâmica)</strong><br>
+            Objetivo: Pesquisar eventuais <span class="term-box">retrações ou abaulamentos</span> por meio da contração de músculos peitorais ou pela movimentação das mamas. A paciente permanece <span class="term-box">em pé ou sentada</span>, e o examinador <span class="term-box">em frente à paciente</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>5. Primeiro Movimento: Levantar e Abaixar Braços</strong><br>
+            Peça à paciente para <span class="term-box">levantar e abaixar os braços (3x)</span>. Avalie a <span class="term-box">simetria do deslizamento das mamas</span> no gradiado costal.
+        </li>
+        <li class="reveal-item">
+            <strong>6. Segundo Movimento: Cotovelos para Frente</strong><br>
+            Peça à paciente para realizar <span class="term-box">contração voluntária dos músculos peitorais</span>, com as mãos na cintura, <span class="term-box">impulsionando os cotovelos para frente</span>. Avalie a presença de <span class="term-box">abaulamentos</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>7. Terceiro Movimento: Cotovelos para Trás</strong><br>
+            Peça à paciente para realizar <span class="term-box">contração voluntária dos músculos peitorais</span>, com as mãos na cintura, <span class="term-box">impulsionando os cotovelos para trás</span>. Avalie a presença de <span class="term-box">retrações</span>.
+        </li>
+    </ul>
+
+    <h2>Fase 3: Palpação Superficial e Profunda</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>8. Posicionamento para Palpação</strong><br>
+            A paciente deve estar em <span class="term-box">decúbito dorsal</span> com as mãos na <span class="term-box">região occipital</span>. O examinador posiciona-se <span class="term-box">à direita da paciente</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>9. Palpação Superficial da Mama</strong><br>
+            Com uma mão, realize <span class="term-box">movimentos rotatórios com as falanges</span> em <span class="term-box">todos os quadrantes mamários</span>, na <span class="term-box">região aréolo-papilar</span> e no <span class="term-box">ligamento de Spencer</span>. Avalie <span class="term-box">temperatura local</span>, <span class="term-box">nódulos</span>, <span class="term-box">abaulamentos</span>, <span class="term-box">retrações</span> e presença da <span class="term-box">pele “casca de laranja”</span> (sinal de malignidade).
+            <div class="note-box">
+                <p><strong>Exemplos de Achados (Palpação Superficial):</strong></p>
+                <ul>
+                    <li>Mama E: <span class="term-box">Nódulo no quadrante superior lateral</span>, único, imóvel, endurecido; <span class="term-box">Nódulo no quadrante inferior medial</span>, único, imóvel, endurecido; <span class="term-box">Abaulamento no ligamento de Spencer</span> com consistência endurecida.</li>
+                    <li>Mama D: <span class="term-box">Nódulo no quadrante superior lateral</span>, único, imóvel, endurecido; <span class="term-box">Nódulo no quadrante inferior lateral</span>, único, imóvel, endurecido; <span class="term-box">Abaulamento no ligamento de Spencer</span> com consistência endurecida.</li>
+                    <li>Mama E: <span class="term-box">Pele em casca de laranja no quadrante inferior lateral</span>.</li>
+                    <li>Mama D: <span class="term-box">Úlcera na papila</span>.</li>
+                </ul>
+            </div>
+            <img src="https://i.imgur.com/GaGrpmN.png" alt="Exemplos de Achados na Palpação Superficial">
+        </li>
+        <li class="reveal-item">
+            <strong>10. Palpação Profunda da Mama (Técnica Raios de Roda)</strong><br>
+            Utilize a <span class="term-box">técnica raios de roda</span>. Palpe com a <span class="term-box">ponta dos dedos das duas mãos</span> sobre o gradeado costal, avaliando <span class="term-box">todos os quadrantes</span> e a <span class="term-box">região retroareolar</span>. É crucial <span class="term-box">não tirar os dedos</span> durante toda a manobra; se tirar, reinicie para não perder nenhum parênquima mamário. <span class="term-box">Não esqueça de palpar o ligamento de Spencer</span>.
+            <div class="note-box">
+                <p><strong>Exemplos de Achados (Palpação Profunda - mesmos da superficial, reforçando a detecção):</strong></p>
+                <ul>
+                    <li>Mama E: <span class="term-box">Nódulo no quadrante superior lateral</span>, único, imóvel, endurecido; <span class="term-box">Nódulo no quadrante inferior medial</span>, único, imóvel, endurecido; <span class="term-box">Abaulamento no ligamento de Spencer</span> com consistência endurecida.</li>
+                    <li>Mama D: <span class="term-box">Nódulo no quadrante superior lateral</span>, único, imóvel, endurecido; <span class="term-box">Nódulo no quadrante inferior lateral</span>, único, imóvel, endurecido; <span class="term-box">Abaulamento no ligamento de Spencer</span> com consistência endurecida.</li>
+                    <li>Mama E: <span class="term-box">Pele em casca de laranja no quadrante inferior lateral</span>.</li>
+                    <li>Mama D: <span class="term-box">Úlcera na papila</span>.</li>
+                </ul>
+            </div>
+            <img src="https://i.imgur.com/XDr3kcN.png" alt="Exemplos de Achados na Palpação Profunda (repetindo imagem para consistência)">
+        </li>
+    </ul>
+
+    <h2>Fase 4: Expressão Papilar</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>11. Técnica de Expressão Papilar</strong><br>
+            Com a paciente em <span class="term-box">decúbito dorsal</span> e mãos na região occipital (examinador à direita), utilize o <span class="term-box">polegar e indicador</span> ou a <span class="term-box">“manobra de ordenha”</span> da base da mama. Realize a compressão dos ductos nos <span class="term-box">dois eixos, longitudinal e transversal</span>, para avaliar a saída de secreção.
+        </li>
+        <li class="reveal-item">
+            <strong>12. Descrição da Descarga Papilar</strong><br>
+            Se houver descarga, descreva se é <span class="term-box">uni ou multiductal</span>, <span class="term-box">uni ou bilateral</span>, e o <span class="term-box">tipo de fluxo achado</span> (transparente, sanguinolento, purulento, lácteo, etc.). Se normal, descreva como <span class="term-box">ausência de descarga papilar bilateral</span>.
+        </li>
+    </ul>
+
+    <h2>Fase 5: Busca de Linfonodos</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>13. Posicionamento e Técnica de Palpação de Linfonodos</strong><br>
+            A paciente pode estar <span class="term-box">em pé</span> (examinador ao lado). Realize a inspeção e palpação das cadeias <span class="term-box">supraclaviculares</span>, <span class="term-box">infraclaviculares</span> e <span class="term-box">axilares</span>. Para a axila, o braço da paciente deve estar <span class="term-box">apoiado de forma relaxada no braço do examinador</span>, e a palpação deve ser feita com a outra mão, de forma <span class="term-box">espalmada</span> e realizando <span class="term-box">movimentos circulares</span> (“polpa digital” ou “mão em garra” ou “mão em pinça”).
+        </li>
+        <li class="reveal-item">
+            <strong>14. Características dos Linfonodos Palpáveis</strong><br>
+            Ao palpar, avalie: <span class="term-box">número</span>, <span class="term-box">tamanho</span> e <span class="term-box">localização</span> / <span class="term-box">consistência</span> (duro ou mole) / <span class="term-box">coalescência</span> (sim ou não) / <span class="term-box">limite</span> (precisos e imprecisos) / <span class="term-box">mobilidade</span> (móvel ou fixo) / <span class="term-box">dor</span>.
+            <div class="note-box">
+                <p><strong>Diferenciação de Linfonodos:</strong></p>
+                <ul>
+                    <li>Linfonodo inflamatório: <span class="term-box">mole</span>, <span class="term-box">não coalescente</span>, <span class="term-box">limite preciso</span>, <span class="term-box">móvel</span> e <span class="term-box">doloroso</span>.</li>
+                    <li>Linfonodo neoplásico: <span class="term-box">duro</span>, <span class="term-box">coalescente</span>, <span class="term-box">limite impreciso</span>, <span class="term-box">imóvel (fixo)</span> e <span class="term-box">indolor</span>.</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Informações Adicionais (Não Clínicas)</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>15. Prevenção Secundária do Câncer de Mama</strong><br>
+            Engloba <span class="term-box">detecção precoce</span> com conscientização da paciente, <span class="term-box">exame físico realizado por profissional capacitado</span> (palpação) e o <span class="term-box">rastreamento mamográfico</span>. O exame clínico da mama deve ser realizado <span class="term-box">a cada 6 meses</span> por ginecologista ou clínico geral.
+        </li>
+        <li class="reveal-item">
+            <strong>16. Importância do Exame Clínico da Mama (ECM)</strong><br>
+            É um método propedêutico importante para diagnóstico e defesa profissional, pois <span class="term-box">10% dos carcinomas de mama não são rastreáveis pelos métodos de imagem</span> e dependem de alterações clínicas. Pode detectar nódulos com até <span class="term-box">1cm de diâmetro</span> ou alterações cutâneas sutis, especialmente em mulheres mais jovens ou com mamas densas.
+        </li>
+        <li class="reveal-item">
+            <strong>17. Autoexame da Mama (AEM)</strong><br>
+            Recomenda-se a partir dos <span class="term-box">20 anos de idade</span>, a cada <span class="term-box">1 ou 2 meses</span>, <span class="term-box">4 a 6 dias após o término do fluxo menstrual</span>. Deve ser incentivado em populações com <span class="term-box">dificuldade de acesso a exames médicos rotineiros</span>. No Brasil, <span class="term-box">70% dos casos diagnosticados são de tumores maiores que 2cm</span> identificados pela própria paciente. Em mulheres com acesso ao rastreamento mamográfico e exame médico semestral, o autoexame é menos efetivo.
+        </li>
+    </ul>
+
+    <div id="button-container">
+        <button id="actionBtn">Próximo Passo</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionBtn = document.getElementById('actionBtn');
+            const checklistItems = document.querySelectorAll('.reveal-item'); 
+            
+            let currentItemIndex = 0;
+
+            function showNextItem() {
+                if (currentItemIndex < checklistItems.length) {
+                    const currentItem = checklistItems[currentItemIndex];
+                    currentItem.style.display = 'block';
+                    // A rolagem suave continua útil para focar no item revelado
+                    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    currentItemIndex++;
+                }
+
+                if (currentItemIndex >= checklistItems.length) {
+                    actionBtn.textContent = 'Começar de Novo';
+                    actionBtn.classList.add('restart');
+                }
+            }
+
+            function resetChecklist() {
+                checklistItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                currentItemIndex = 0;
+                
+                actionBtn.textContent = 'Próximo Passo';
+                actionBtn.classList.remove('restart');
+                
+                // Rola a página para o topo ao reiniciar
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function handleButtonClick() {
+                if (currentItemIndex >= checklistItems.length) {
+                    resetChecklist();
+                } else {
+                    showNextItem();
+                }
+            }
+
+            actionBtn.addEventListener('click', handleButtonClick);
+        });
+    </script>
+
+</body>
+</html>

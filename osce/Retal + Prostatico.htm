@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCE: Exame Proctológico e Prostático Integrado</title>
+    <style>
+        /* Estilos gerais do corpo do texto */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fdfdfd;
+            color: #333;
+        }
+
+        /* Estilos dos títulos */
+        h1, h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #ddeaf6;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #005a9c;
+        }
+        
+        /* Estilo da caixa de introdução */
+        .intro-text {
+            background-color: #eef7ff;
+            border: 1px solid #a3cff9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Estilos da lista e dos itens interativos */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .reveal-item {
+            display: none; /* ESCONDE OS ITENS INICIALMENTE */
+            border-left: 5px solid #007bff;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .reveal-item strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #005a9c;
+        }
+        
+        /* Estilo da caixa de destaque para termos técnicos */
+        .term-box {
+            display: inline-block;
+            background-color: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: 600;
+            color: #004a80;
+            margin: 2px 0;
+        }
+
+        /* Estilo para as imagens */
+        .reveal-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Estilo do container do botão (NÃO FIXO) */
+        #button-container {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            margin-top: 20px;
+        }
+
+        /* Estilo do botão */
+        #actionBtn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+        #actionBtn:hover {
+            background-color: #0056b3;
+        }
+        #actionBtn.restart {
+            background-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        #actionBtn.restart:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OSCE: Exame Proctológico e Prostático</h1>
+
+    <div class="intro-text">
+        <p>Siga a cronologia de eventos para realizar a prova prática. Pressione "Próximo Passo" para avançar.</p>
+    </div>
+
+    <h2>Fase 1: Abordagem Inicial e Preparo</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>1. Apresentação e Consentimento (Geral)</strong><br>
+            Apresente-se, confirme a identidade do paciente, explique a necessidade do exame (que abordará a região anal e a próstata) e obtenha o <span class="term-box">consentimento verbal explícito</span> após descrever o procedimento. Ofereça um acompanhante (chaperone).
+        </li>
+        <li class="reveal-item">
+            <strong>2. Posicionamento do Paciente</strong><br>
+            Instrua o paciente a deitar-se na <span class="term-box">posição de Sims</span> (decúbito lateral esquerdo com joelhos fletidos em direção ao peito), garantindo seu conforto e privacidade.
+        </li>
+    </ul>
+
+    <h2>Fase 2: Inspeção da Região Perianal</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>3. Inspeção Estática</strong><br>
+            Afaste as nádegas e verbalize: "Realizando a <span class="term-box">inspeção estática</span>, procurando por <span class="term-box">fissuras</span>, <span class="term-box">lesões</span>, <span class="term-box">orifícios de fístulas</span> ou <span class="term-box">hemorroidas externas</span>."
+        </li>
+        <li class="reveal-item">
+            <strong>4. Inspeção Dinâmica</strong><br>
+            Peça ao paciente para fazer força e verbalize: "Realizando a <span class="term-box">inspeção dinâmica</span>, observando o <span class="term-box">abaixamento do períneo</span> e a possível exteriorização de <span class="term-box">mamilos hemorroidários</span> ou <span class="term-box">prolapso retal</span>."
+        </li>
+    </ul>
+
+    <h2>Fase 3: Técnica do Toque Retal e Avaliação da Próstata</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>5. Avaliação do Tônus e Introdução do Dedo</strong><br>
+            Após calçar as luvas e lubrificar o dedo, aplique uma <span class="term-box">leve pressão na margem anal</span> com a polpa digital para avaliar o <span class="term-box">tônus do esfíncter</span> e aguardar o relaxamento. Em seguida, realize a introdução do dedo.
+        </li>
+        <li class="reveal-item">
+            <strong>6. Avaliação da Ampola Retal</strong><br>
+            Realize a <span class="term-box">introdução parcial</span> do dedo e faça um <span class="term-box">movimento rotacional</span> para avaliar a <span class="term-box">ampola do reto</span>, procurando por <span class="term-box">abaulamento</span>, <span class="term-box">retração</span> ou <span class="term-box">lesões</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>7. Localização e Avaliação Sistemática da Próstata</strong><br>
+            Com o dedo completamente introduzido, direcione-o para a <span class="term-box">parede anterior do reto</span> para localizar a glândula prostática. Palpe-a sistematicamente e verbalize os 5 parâmetros: <span class="term-box">Tamanho</span>, <span class="term-box">Consistência</span> (fibroelástica vs. endurecida), <span class="term-box">Superfície</span> (lisa vs. irregular), <span class="term-box">Sulco Mediano</span> (presente vs. ausente) e <span class="term-box">Sensibilidade</span> (dolorosa vs. indolor).
+            <img src="https://i.imgur.com/IX3CiWc.png" alt="Parâmetros de avaliação da próstata">
+        </li>
+        <li class="reveal-item">
+            <strong>8. Avaliação Superior do Reto</strong><br>
+            Após a avaliação da próstata (ou colo uterino em mulheres), faça um <span class="term-box">movimento rotacional 360°</span> para avaliar a região <span class="term-box">acima da linha pectínea</span> na ampola retal, procurando por outras lesões.
+        </li>
+    </ul>
+
+    <h2>Fase 4: Interpretação dos Achados (Foco na Próstata)</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>9. Interpretando: Próstata Normal vs. Aumentada (HPB)</strong><br>
+            Verbalize a diferença: Uma próstata <span class="term-box">normal</span> tem tamanho preservado. Na <span class="term-box">HPB</span>, o tamanho está aumentado, mas a consistência geralmente se mantém fibroelástica. A presença de um <span class="term-box">nódulo</span> é sempre um achado suspeito.
+            <img src="https://i.imgur.com/1lK0vDA.png" alt="Comparação entre Próstata Normal e Aumentada com Nódulo">
+        </li>
+        <li class="reveal-item">
+            <strong>10. Interpretando: Neoplasia Maligna (Câncer)</strong><br>
+            Verbalize os sinais de malignidade: a próstata pode estar aumentada, com <span class="term-box">consistência pétrea</span> (rígida), presença de <span class="term-box">nódulos</span> e, em casos avançados, <span class="term-box">ausência do sulco mediano</span>.
+            <img src="https://i.imgur.com/swTdkSD.png" alt="Neoplasia com nódulo e sulco presente">
+            <img src="https://i.imgur.com/ky0QWt8.png" alt="Neoplasia com sulco mediano ausente">
+        </li>
+    </ul>
+    
+    <h2>Fase 5: Finalização e Apresentação</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>11. Retirada e Inspeção da Luva</strong><br>
+            Faça a <span class="term-box">retirada cuidadosa do dedo</span> e realize a <span class="term-box">avaliação da luva</span>, observando a cor das fezes e a presença de sangue ou muco.
+        </li>
+        <li class="reveal-item">
+            <strong>12. Comunicar o Fim e Oferecer Higiene</strong><br>
+            Comunique ao paciente: "O exame terminou, correu tudo bem." Forneça gaze ou papel macio e permita que o paciente se limpe e se vista com privacidade. Agradeça a colaboração.
+        </li>
+        <li class="reveal-item">
+            <strong>13. Apresentação ao Examinador</strong><br>
+            Esteja pronto para descrever seus achados de forma profissional: "Ao toque retal, **ampola retal livre**, próstata de <span class="term-box">tamanho preservado</span>, consistência <span class="term-box">fibro-elástica</span>, superfície <span class="term-box">lisa</span>, com <span class="term-box">sulco mediano presente</span> e <span class="term-box">indolor</span> à palpação."
+        </li>
+    </ul>
+
+    <div id="button-container">
+        <button id="actionBtn">Próximo Passo</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionBtn = document.getElementById('actionBtn');
+            const checklistItems = document.querySelectorAll('.reveal-item'); 
+            
+            let currentItemIndex = 0;
+
+            function showNextItem() {
+                if (currentItemIndex < checklistItems.length) {
+                    const currentItem = checklistItems[currentItemIndex];
+                    currentItem.style.display = 'block';
+                    // A rolagem suave continua útil para focar no item revelado
+                    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    currentItemIndex++;
+                }
+
+                if (currentItemIndex >= checklistItems.length) {
+                    actionBtn.textContent = 'Começar de Novo';
+                    actionBtn.classList.add('restart');
+                }
+            }
+
+            function resetChecklist() {
+                checklistItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                currentItemIndex = 0;
+                
+                actionBtn.textContent = 'Próximo Passo';
+                actionBtn.classList.remove('restart');
+                
+                // Rola a página para o topo ao reiniciar
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function handleButtonClick() {
+                if (currentItemIndex >= checklistItems.length) {
+                    resetChecklist();
+                } else {
+                    showNextItem();
+                }
+            }
+
+            actionBtn.addEventListener('click', handleButtonClick);
+        });
+    </script>
+
+</body>
+</html>

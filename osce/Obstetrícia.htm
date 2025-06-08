@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCE: Exame Obstétrico (Palpação e Ausculta Fetal)</title>
+    <style>
+        /* Estilos gerais do corpo do texto */
+        body {
+            font-family: -apple-system, BlinkMacMacFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fdfdfd;
+            color: #333;
+        }
+
+        /* Estilos dos títulos */
+        h1, h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #ddeaf6;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #005a9c;
+        }
+        
+        /* Estilo da caixa de introdução */
+        .intro-text {
+            background-color: #eef7ff;
+            border: 1px solid #a3cff9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Estilos da lista e dos itens interativos */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .reveal-item {
+            display: none; /* ESCONDE OS ITENS INICIALMENTE */
+            border-left: 5px solid #007bff;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .reveal-item strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #005a9c;
+        }
+        
+        /* Estilo da caixa de destaque para termos técnicos */
+        .term-box {
+            display: inline-block;
+            background-color: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: 600;
+            color: #004a80;
+            margin: 2px 0;
+        }
+
+        /* Estilo para as imagens */
+        .reveal-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        
+        /* Estilos do botão flutuante */
+        #actionBtn {
+            position: fixed; /* Fixa o botão na tela */
+            bottom: 20px;    /* 20px do fundo */
+            right: 20px;     /* 20px da direita */
+            padding: 12px 25px; /* Tamanho do botão */
+            font-size: 16px; /* Tamanho da fonte */
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+        }
+        #actionBtn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+        #actionBtn.restart {
+            background-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        #actionBtn.restart:hover {
+            background-color: #218838;
+        }
+
+        .note-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+
+        .example-desc {
+            font-style: italic;
+            margin-top: 10px;
+            color: #555;
+            font-size: 0.95em;
+        }
+        
+        .image-osce-command {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OSCE: Exame Obstétrico (Palpação e Ausculta Fetal)</h1>
+
+    <div class="intro-text">
+        <p>Este guia interativo te ajudará a dominar as técnicas de palpação obstétrica e ausculta fetal para sua prova prática de OSCE. Pressione "Próximo Passo" para avançar.</p>
+    </div>
+
+    <div class="reveal-item">
+        <img class="image-osce-command" src="https://i.imgur.com/sKZFOjz.png" alt="Comandos OSCE - Exame Obstétrico">
+        <p class="example-desc">Observe as instruções típicas de um cenário OSCE para o Exame Obstétrico.</p>
+    </div>
+
+    <h2>Fase 1: Preparo e Posicionamento</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>1. Posicionamento da Paciente e do Examinador</strong><br>
+            A paciente deverá estar em <span class="term-box">decúbito dorsal com elevação de 30° da cabeça</span>. O médico examinador posiciona-se <span class="term-box">à direita da paciente</span>.
+            <div class="note-box">
+                <p><strong>Atenção às mudanças de posição do examinador:</strong></p>
+                <ul>
+                    <li>Ao palpar o <span class="term-box">fundo uterino e dorso fetal</span>, o médico estará ao lado direito da paciente com <span class="term-box">dorso voltado para os pés da paciente e com a face voltada para a paciente</span>.</li>
+                    <li>Ao palpar a <span class="term-box">escava e mobilizar o polo cefálico</span>, o <span class="term-box">dorso do examinador se volta para frente da paciente</span>.</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Fase 2: Medidas Uterinas</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>2. Medida da Altura Uterina (AU)</strong><br>
+            Primeiro, <span class="term-box">corrige-se a dextrotorção uterina medianizando o útero</span>. Em seguida, mede-se a AU com <span class="term-box">fita métrica</span>, da <span class="term-box">borda superior da sínfise púbica ao fundo uterino</span>. A fita métrica deve ficar <span class="term-box">entre os dedos da mão que determinará o fundo uterino</span>, usando a borda cubital da mesma.
+            <div class="note-box">
+                <p><strong>Valores de Referência da AU:</strong></p>
+                <p>A AU cresce aproximadamente <span class="term-box">4 cm por mês solar de gravidez</span>. Geralmente, ao redor de 40 semanas, uma multípara apresentará AU de <span class="term-box">36cm</span> aproximadamente, enquanto uma primigesta ao redor de <span class="term-box">36 cm até 38 semanas</span> e, após a descida uterina, <span class="term-box">32cm</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>3. Medida da Circunferência Abdominal (CA)</strong><br>
+            Mede-se a CA com <span class="term-box">fita métrica</span> na altura da <span class="term-box">cicatriz umbilical</span>.
+            <div class="note-box">
+                <p><strong>Valores de Referência da CA:</strong></p>
+                <p>Geralmente, ao redor de <span class="term-box">90 a 92cm</span> no final da gestação em mulheres não obesas.</p>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Fase 3: Palpação Obstétrica - Escola Francesa Adaptada (3 Tempos + Leopold)</h2>
+    <div class="note-box">
+        <p>A Escola Francesa Adaptada inclui as 3 manobras clássicas mais a 4ª Manobra de Leopold.</p>
+    </div>
+    <ul>
+        <li class="reveal-item">
+            <strong>4. Primeiro Tempo: Exploração da Escava</strong><br>
+            Com as <span class="term-box">mãos espalmadas paralelas à arcada crural</span>, distantes cerca de <span class="term-box">6 cm da linha mediana</span>. Deprime-se a parede <span class="term-box">de cima para baixo e de diante para trás</span>, na região fetal que se vai palpar.
+            <img src="https://i.imgur.com/MoUUgey.png" alt="Exploração da Escava">
+            <div class="note-box">
+                <p><strong>Possíveis Achados na Escava:</strong></p>
+                <ul>
+                    <li><span class="term-box">Escava completamente ocupada:</span> Polo cefálico.</li>
+                    <li><span class="term-box">Escava incompletamente ocupada:</span> Polo pélvico.</li>
+                    <li><span class="term-box">Escava vazia:</span> Apresentação córmica (transversa).</li>
+                </ul>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>5. Segundo Tempo: Exploração do Fundo Uterino</strong><br>
+            Com as <span class="term-box">mãos espalmadas no fundo uterino</span> para perceber o conteúdo fetal nesta região. <span class="term-box">Deprime-se a parede com a borda cubital</span>. Percebe-se a <span class="term-box">altura do útero</span>, seu <span class="term-box">volume</span>, a <span class="term-box">forma</span> e possíveis <span class="term-box">anomalias</span>.
+            <img src="https://i.imgur.com/i7695i2.png" alt="Exploração do Fundo Uterino">
+            <div class="note-box">
+                <p><strong>Achados Comuns no Fundo Uterino:</strong></p>
+                <ul>
+                    <li>Na maioria das vezes é ocupado pelo <span class="term-box">polo pélvico (depressível)</span>.</li>
+                    <li>Quando há presença do <span class="term-box">polo cefálico</span> (apresentação pélvica), percebe-se maior volume e este <span class="term-box">não é depressível</span>.</li>
+                    <li>Nesses casos, procede-se à <span class="term-box">manobra do rechaço</span> para observar o movimento característico do polo fetal.</li>
+                </ul>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>6. Manobra do Rechaço (Associada ao Segundo Tempo)</strong><br>
+            Imprime-se <span class="term-box">súbito impulso ao polo fetal</span>.
+            <div class="note-box">
+                <ul>
+                    <li><span class="term-box">Rechaço duplo:</span> O polo fetal se desloca e <span class="term-box">observa-se seu retorno à posição primitiva</span>.</li>
+                    <li><span class="term-box">Rechaço simples:</span> O polo fetal se desloca, mas <span class="term-box">não retorna à posição primitiva</span>.</li>
+                </ul>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>7. Terceiro Tempo: Exploração do Dorso</strong><br>
+            Com as <span class="term-box">mãos espalmadas</span>, progrida da região uterina para a <span class="term-box">região dos lados uterinos</span> e busque palpar o <span class="term-box">dorso fetal em um dos lados</span>.
+            <img src="https://i.imgur.com/WxYAO5A.png" alt="Exploração do Dorso Fetal">
+            <div class="note-box">
+                <p><strong>Características do Dorso Fetal:</strong></p>
+                <p>A região do dorso fetal é mais <span class="term-box">preenchida</span> em relação à região contralateral do útero, é <span class="term-box">superfície resistente e contínua</span> e <span class="term-box">plana no sentido longitudinal</span> e <span class="term-box">convexa no sentido transverso</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>8. Manobra de Budin (Associada ao Terceiro Tempo)</strong><br>
+            Realize <span class="term-box">pressão no fundo uterino com mãos espalmadas (em concha)</span> para que o dorso fique mais evidente.
+        </li>
+        <li class="reveal-item">
+            <strong>9. Quarto Tempo (Manobra de Leopold/Pawlick): Exploração da Mobilidade Cefálica</strong><br>
+            Prende-se o <span class="term-box">polo (cefálico)</span>, que se apresenta em relação com o estreito superior, entre os dedos <span class="term-box">polegar e médio da mão direita</span> (do examinador), imprimindo-lhe <span class="term-box">movimentos de lateralidade</span> que indicam o grau de penetração da apresentação na bacia.
+            <img src="https://i.imgur.com/undefined.png" alt="Manobra de Leopold (Exploração da Mobilidade Cefálica)">
+            <div class="note-box">
+                <p>Quando a apresentação está <span class="term-box">alta e móvel</span>, este polo (cefálico) balança de um lado para outro.</p>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Fase 4: Conceitos e Terminologia Fetal</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>10. Atitude Fetal</strong><br>
+            É a <span class="term-box">relação das diversas partes fetais entre si</span>. Em condições habituais (atitude obstétrica normal), o feto apresenta <span class="term-box">encurvamento da coluna vertebral para diante</span>, com a <span class="term-box">cabeça levemente fletida</span> (mento próximo ao esterno); as <span class="term-box">coxas fletidas sobre o abdome</span> e as <span class="term-box">pernas fletidas sobre as coxas</span>; os <span class="term-box">membros superiores com antebraços fletidos sobre os braços</span>, ficando aconchegado ao tórax.
+        </li>
+        <li class="reveal-item">
+            <strong>11. Situação Fetal</strong><br>
+            É a <span class="term-box">relação entre o maior eixo da cavidade uterina e o maior eixo fetal</span>.
+            Exemplos: <span class="term-box">Longitudinal</span> (eixos paralelos), <span class="term-box">Transversa</span> (eixos perpendiculares), <span class="term-box">Oblíqua</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>12. Apresentação Fetal</strong><br>
+            É a <span class="term-box">região fetal que ocupa a área do estreito superior da bacia e que nele se insinuará</span>.
+            Tipos: <span class="term-box">a) Cefálica</span>, <span class="term-box">b) Pélvica</span> e <span class="term-box">c) Córmica</span> (transversa).
+        </li>
+        <li class="reveal-item">
+            <strong>13. Posição Fetal</strong><br>
+            É o <span class="term-box">lado da mãe para o qual está voltado o dorso fetal</span>. É importante para a <span class="term-box">ausculta do foco fetal</span>.
+            Exemplos: Dorso à Direita, Dorso à Esquerda, Dorso Anterior, Dorso Posterior.
+        </li>
+    </ul>
+
+    <h2>Fase 5: Ausculta Fetal</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>14. Material para Ausculta Fetal</strong><br>
+            Poderão ser utilizados para ausculta dos <span class="term-box">BCF (batimentos cardio-fetais)</span>: <span class="term-box">estetoscópio clínico</span> (preferencialmente a campânula), <span class="term-box">estetoscópio de Pinard</span>, e <span class="term-box">sonar Doppler</span> (atualmente o mais utilizado).
+            <div class="note-box">
+                <p><strong>Intervalo de normalidade da frequência cardíaca fetal:</strong> <span class="term-box">120 a 160bpm</span>.</p>
+            </div>
+        </li>
+        <li class="reveal-item">
+            <strong>15. Objetivo da Ausculta Obstétrica</strong><br>
+            Reconhecer os <span class="term-box">ruídos fetais e maternos</span> da gestante e parturiente. Permite verificar a <span class="term-box">vitalidade do feto</span>, a <span class="term-box">prenhez única ou múltipla</span>, <span class="term-box">confirmar o diagnóstico da apresentação e posição</span> feito pela palpação e reconhecer <span class="term-box">sofrimento fetal</span>.
+        </li>
+        <li class="reveal-item">
+            <strong>16. Técnica para Localização do Foco de Ausculta Fetal</strong><br>
+            Primeiro, procede-se à <span class="term-box">palpação obstétrica para identificar a situação, posição e apresentação fetal</span>.
+            <img src="https://i.imgur.com/4bcZ9xr.png" alt="Técnica para localização do foco de ausculta fetal">
+            <div class="note-box">
+                <p><strong>Localização do Foco (Regra Geral):</strong></p>
+                <ul>
+                    <li>Nas <span class="term-box">apresentações cefálicas</span>: Foco geralmente no <span class="term-box">quadrante inferior ipsilateral ao dorso fetal</span>, no meio da linha imaginária (Ribemont-Dessaignes) entre cicatriz umbilical e eminência ileopectínea, ou na linha média (se dorso anterior/posterior).</li>
+                    <li>Nas <span class="term-box">apresentações pélvicas</span>: Foco geralmente no <span class="term-box">quadrante superior ipsilateral ao dorso</span>, no meio do prolongamento da linha umbilico-espinhosa ou na linha média.</li>
+                    <li>Nas <span class="term-box">apresentações córmicas (transversas)</span>: Foco na <span class="term-box">linha mediana próximo à cicatriz umbilical</span>.</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Fase 6: Exemplos de Situação, Apresentação e Posição Fetal com Foco de Ausculta</h2>
+    <ul>
+        <li class="reveal-item">
+            <strong>17. Exemplo 1: Situação Longitudinal, Apresentação Cefálica, Dorso à Direita</strong><br>
+            <p>Foco de ausculta esperado: <span class="term-box">QID (Quadrante Inferior Direito)</span>.</p>
+            <img src="https://i.imgur.com/LX8wf9w.png" alt="Situação Longitudinal, Cefálica, Dorso à Direita">
+        </li>
+        <li class="reveal-item">
+            <strong>18. Exemplo 2: Situação Longitudinal, Apresentação Pélvica, Dorso à Esquerda</strong><br>
+            <p>Foco de ausculta esperado: <span class="term-box">QSE (Quadrante Superior Esquerdo)</span>.</p>
+            <img src="https://i.imgur.com/L3SXHH1.png" alt="Situação Longitudinal, Pélvica, Dorso à Esquerda">
+        </li>
+        <li class="reveal-item">
+            <strong>19. Exemplo 3: Situação Transversa, Apresentação Córmica, Dorso Anterior</strong><br>
+            <p>Foco de ausculta esperado: <span class="term-box">Cicatriz umbilical</span>.</p>
+            <img src="https://i.imgur.com/Jt27dOe.png" alt="Situação Transversa, Córmica, Dorso Anterior">
+        </li>
+    </ul>
+
+    <button id="actionBtn">Próximo Passo</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionBtn = document.getElementById('actionBtn');
+            const checklistItems = document.querySelectorAll('.reveal-item'); 
+            
+            let currentItemIndex = 0;
+
+            function showNextItem() {
+                if (currentItemIndex < checklistItems.length) {
+                    const currentItem = checklistItems[currentItemIndex];
+                    currentItem.style.display = 'block';
+                    // A rolagem suave continua útil para focar no item revelado
+                    currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    currentItemIndex++;
+                }
+
+                if (currentItemIndex >= checklistItems.length) {
+                    actionBtn.textContent = 'Começar de Novo';
+                    actionBtn.classList.add('restart');
+                }
+            }
+
+            function resetChecklist() {
+                checklistItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                currentItemIndex = 0;
+                
+                actionBtn.textContent = 'Próximo Passo';
+                actionBtn.classList.remove('restart');
+                
+                // Rola a página para o topo ao reiniciar
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function handleButtonClick() {
+                if (currentItemIndex >= checklistItems.length) {
+                    resetChecklist();
+                } else {
+                    showNextItem();
+                }
+            }
+
+            actionBtn.addEventListener('click', handleButtonClick);
+        });
+    </script>
+
+</body>
+</html>
