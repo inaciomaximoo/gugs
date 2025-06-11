@@ -133,8 +133,11 @@
         .musica-salva-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; cursor: pointer; transition: background-color 0.2s; }
         .musica-salva-header:hover { background-color: rgba(255,255,255,0.05); }
         .musica-salva-header h3 { margin: 0; font-family: 'Cinzel', serif; font-size: 1.4em; color: #d4af37; }
-        .btn-excluir-musica { background: none; border: none; color: #888; font-size: 1.8em; cursor: pointer; transition: color 0.2s; padding: 0 10px; }
+        .musica-salva-header-botoes { display: flex; align-items: center; gap: 10px; }
+        .btn-excluir-musica, .btn-editar-musica { background: none; border: none; color: #888; font-size: 1.8em; cursor: pointer; transition: color 0.2s; padding: 0 10px; }
+        .btn-editar-musica { font-size: 1.4em; }
         .btn-excluir-musica:hover { color: #c92a2a; }
+        .btn-editar-musica:hover { color: #5cacee; }
 
         .musica-salva-conteudo {
             display: none;
@@ -621,6 +624,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnFecharMusicas.addEventListener('click', () => modalMusicas.classList.remove('visivel'));
     
     // --- LÓGICA DO MODAL DE MÚSICAS SALVAS ---
+    function carregarMusicaParaEdicao(index) {
+        const musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
+        if (!musicas[index]) return;
+
+        const tabParaEditar = musicas[index].tab;
+        tabLines = tabParaEditar.split('\n');
+        tabHistory = [];
+        lastPlayedStringIndex = -1;
+        skipNextSeparator = false;
+        
+        clearSoloHighlights();
+        updateTabText();
+        modalMusicas.classList.remove('visivel');
+    }
+    
     function getCharWidth(fontStyle) {
         const tempSpan = document.createElement('span');
         tempSpan.style.font = fontStyle;
@@ -718,7 +736,10 @@ document.addEventListener('DOMContentLoaded', () => {
             musicaItem.innerHTML = `
                 <div class="musica-salva-header">
                     <h3>${safeName}</h3>
-                    <button class="btn-excluir-musica" data-index="${index}">&times;</button>
+                    <div class="musica-salva-header-botoes">
+                        <button class="btn-editar-musica" data-index="${index}" title="Continuar Editando">&#9998;</button>
+                        <button class="btn-excluir-musica" data-index="${index}">&times;</button>
+                    </div>
                 </div>
                 <div class="musica-salva-conteudo">
                     <pre>${formattedTabHtml}</pre>
@@ -736,11 +757,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     listaMusicasSalvas.addEventListener('click', (event) => {
-        const header = event.target.closest('.musica-salva-header');
+        if (event.target.closest('.btn-editar-musica')) {
+            const index = parseInt(event.target.closest('.btn-editar-musica').dataset.index);
+            carregarMusicaParaEdicao(index);
+            return;
+        }
         
-        if (event.target.classList.contains('btn-excluir-musica')) {
+        if (event.target.closest('.btn-excluir-musica')) {
             if (confirm('Tem a certeza que deseja excluir esta música?')) {
-                const index = event.target.dataset.index;
+                const index = event.target.closest('.btn-excluir-musica').dataset.index;
                 let musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
                 musicas.splice(index, 1);
                 localStorage.setItem('minhasMusicasGuitarra', JSON.stringify(musicas));
@@ -748,7 +773,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return; 
         }
-
+        
+        const header = event.target.closest('.musica-salva-header');
         if (header) {
             const content = header.nextElementSibling;
             content.classList.toggle('visivel');
