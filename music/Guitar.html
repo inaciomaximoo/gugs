@@ -78,10 +78,26 @@
         .fret-marker.double { font-size: 0.7em; line-height: 1; display: flex; flex-direction: column; gap: 22px; }
         .fret-marker.double span { display: block; }
 
-        .fret-numbers-container { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; } .fret-numbers-container::-webkit-scrollbar { display: none; }
-        .fret-numbers { display: flex; width: fit-content; }
-        .fret-numbers div { flex-shrink: 0; box-sizing: border-box; text-align: center; color: #d4af37; font-family: 'Cinzel', serif; padding-top: 5px; }
-        .fret-numbers div:nth-child(1) { width: 35px; }
+        /* === NOVA RÉGUA DE TRASTES (INFERIOR) === */
+        .fret-numbers { 
+            display: flex; 
+            width: fit-content; 
+            background-color: #291810;
+        }
+        .fret-numbers div { 
+            flex-shrink: 0; 
+            box-sizing: border-box; 
+            border-right: 2px solid #a88a76;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9em;
+        }
+        /* Larguras dos segmentos da régua */
+        .fret-numbers div:nth-child(1) { width: 35px; border-right: 4px solid #1a1a1a; }
         .fret-numbers div:nth-child(2) { width: 65px; } .fret-numbers div:nth-child(3) { width: 62px; } .fret-numbers div:nth-child(4) { width: 59px; } .fret-numbers div:nth-child(5) { width: 56px; }
         .fret-numbers div:nth-child(6) { width: 54px; } .fret-numbers div:nth-child(7) { width: 52px; } .fret-numbers div:nth-child(8) { width: 50px; } .fret-numbers div:nth-child(9) { width: 48px; }
         .fret-numbers div:nth-child(10) { width: 46px; } .fret-numbers div:nth-child(11) { width: 45px; } .fret-numbers div:nth-child(n+12) { width: 44px; } .fret-numbers div:nth-child(n+16) { width: 42px; } .fret-numbers div:nth-child(n+20) { width: 40px; }
@@ -102,6 +118,16 @@
         #btn-salvar-musica:hover { background-color: #268c7f; }
         .btn-icon { font-size: 1.4em; padding: 8px 12px; line-height: 1; }
         
+        .acorde-manual-container { display: inline-flex; }
+        .split-button-container { display: inline-flex; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .split-button { border: none; padding: 10px 15px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1em; cursor: pointer; transition: background-color 0.2s ease; }
+        .split-button.right { border-left: 1px solid rgba(0,0,0,0.2); font-size: 1.4em; }
+        
+        #btn-novo-acorde-manual { background-color: #2a9d8f; color: white; }
+        #btn-novo-acorde-manual:hover { background-color: #268c7f; }
+        #btn-repetir-acorde-manual { background-color: #d4af37; color: #262626; }
+        #btn-repetir-acorde-manual:hover { background-color: #f7d065; }
+
         .escala-controles { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 25px; }
         .escala-controles label { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.2em; color: #ccc; }
         #escala-select { background-color: #444; color: #eaeaea; border: 1px solid #888; border-radius: 5px; padding: 8px 12px; font-family: 'Merriweather', serif; font-size: 1em; cursor: pointer; }
@@ -189,7 +215,6 @@
         
         <div id="editor-wrapper">
              <div id="guitarra-editor" class="fretboard-container"></div>
-             <div id="fret-numbers-container-wrapper" class="fret-numbers-container"></div>
         </div>
 
         <div id="efeitos-container">
@@ -202,7 +227,14 @@
                 <button class="btn-editor btn-efeito" data-efeito="\" title="Slide Down">\</button>
                 <button class="btn-editor btn-efeito" data-efeito="~" title="Vibrato">~</button>
                 <button id="btn-abrir-acordes" class="btn-editor">Acordes</button>
-                <button id="btn-modo-acorde" class="btn-editor">Acorde Manual</button>
+                <div class="acorde-manual-container">
+                    <button id="btn-iniciar-acorde-manual" class="btn-editor">Acorde Manual</button>
+                    <button id="btn-finalizar-acorde-manual" class="btn-editor active-mode" style="display: none;">Finalizar Acorde</button>
+                    <div id="container-acorde-repetir" class="split-button-container" style="display: none;">
+                        <button id="btn-novo-acorde-manual" class="split-button left">Novo</button>
+                        <button id="btn-repetir-acorde-manual" class="split-button right" title="Repetir Último Acorde">&#x21BA;</button>
+                    </div>
+                </div>
                 <button id="btn-add-dash" class="btn-editor btn-controle" title="Adicionar Pausa">--</button>
                 <button id="btn-separar-parte" class="btn-editor btn-controle btn-icon" title="Separar Parte">||</button>
                 <button id="btn-desfazer" class="btn-editor btn-remover btn-icon" title="Desfazer">&#8634;</button>
@@ -284,13 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Seleção dos Elementos do DOM ---
     const editorContainer = document.getElementById('guitarra-editor');
-    const fretNumbersContainerWrapper = document.getElementById('fret-numbers-container-wrapper');
     const tabTexto = document.getElementById('tablatura-texto');
     const btnLimpar = document.getElementById('btn-limpar');
     const btnCopiar = document.getElementById('btn-copiar');
     const btnSalvarMusica = document.getElementById('btn-salvar-musica');
     const btnSepararParte = document.getElementById('btn-separar-parte');
-    const btnModoAcorde = document.getElementById('btn-modo-acorde');
     const btnDesfazer = document.getElementById('btn-desfazer');
     const btnAddDash = document.getElementById('btn-add-dash');
     const efeitosContainer = document.getElementById('efeitos-container');
@@ -307,6 +337,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const escalaSelect = document.getElementById('escala-select');
     const escalaDisplay = document.getElementById('escala-display');
 
+    // Botões do Acorde Manual
+    const btnIniciarAcordeManual = document.getElementById('btn-iniciar-acorde-manual');
+    const btnFinalizarAcordeManual = document.getElementById('btn-finalizar-acorde-manual');
+    const containerAcordeRepetir = document.getElementById('container-acorde-repetir');
+    const btnNovoAcordeManual = document.getElementById('btn-novo-acorde-manual');
+    const btnRepetirAcordeManual = document.getElementById('btn-repetir-acorde-manual');
+
     // --- Variáveis de Estado ---
     let tabLines = [];
     let tabHistory = [];
@@ -314,26 +351,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let skipNextSeparator = false;
     let isChordModeActive = false;
     let manualChord = {};
+    let lastManualChordShape = null;
     let tabSavedFontSize = 1;
     
     let dragState = { isDragging: false, startX: 0, startY: 0, startFret: null, startString: null, startElement: null, dragType: 'none', didMove: false };
 
     // --- Funções de Geração da Interface ---
-    function createFretboard(container, fretNumContainer, isEditor = false) {
+    function createFretboard(container) {
         container.innerHTML = '';
         const fretboard = document.createElement('div');
         fretboard.className = 'fretboard';
-        if (fretNumContainer) {
-            fretNumContainer.innerHTML = '';
-            const fretNumbers = document.createElement('div');
-            fretNumbers.className = 'fret-numbers';
-            for (let j = 0; j <= NUM_FRETS; j++) {
-                const fretNumDiv = document.createElement('div');
-                if (j > 0) fretNumDiv.textContent = j;
-                fretNumbers.appendChild(fretNumDiv);
-            }
-            fretNumContainer.appendChild(fretNumbers);
-        }
+        
         for (let i = 0; i < NUM_STRINGS; i++) {
             const stringDiv = document.createElement('div');
             stringDiv.className = 'string';
@@ -357,6 +385,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             fretboard.appendChild(stringDiv);
         }
+        
+        const fretRuler = document.createElement('div');
+        fretRuler.className = 'fret-numbers';
+        for (let j = 0; j <= NUM_FRETS; j++) {
+            const fretRuleDiv = document.createElement('div');
+            if (j > 0) fretRuleDiv.textContent = j;
+            fretRuler.appendChild(fretRuleDiv);
+        }
+        fretboard.appendChild(fretRuler);
+        
         const markerFretsSingle = [3, 5, 7, 9, 15, 17, 19, 21];
         const markerFretsDouble = [12, 24];
         const attachMarker = (fretNum, type) => {
@@ -379,31 +417,43 @@ document.addEventListener('DOMContentLoaded', () => {
         markerFretsSingle.forEach(fretNum => attachMarker(fretNum, 'single'));
         markerFretsDouble.forEach(fretNum => attachMarker(fretNum, 'double'));
         container.appendChild(fretboard);
-        if (isEditor) {
-            fretboard.addEventListener('mousedown', handleFretMouseDown);
-            editorContainer.addEventListener('scroll', () => fretNumbersContainerWrapper.scrollLeft = editorContainer.scrollLeft );
-        }
-        return fretboard;
+        
+        fretboard.addEventListener('mousedown', handleFretMouseDown);
     }
 
     // --- Funções de Estado e Tablatura ---
     const isTabEmpty = () => tabLines.every(line => line.replace(/[eBGDAE|]/g, '').replace(/-/g, '').trim() === '');
     const saveState = () => { tabHistory.push(JSON.parse(JSON.stringify(tabLines))); };
+    
+    const resetChordModeState = () => {
+        isChordModeActive = false;
+        lastManualChordShape = null;
+        manualChord = {};
+
+        btnIniciarAcordeManual.style.display = 'inline-flex';
+        btnFinalizarAcordeManual.style.display = 'none';
+        containerAcordeRepetir.style.display = 'none';
+
+        clearChordHighlights();
+    };
+
     const undoLastAction = () => {
-        if (isChordModeActive) toggleChordMode();
-        if (tabHistory.length === 0) return;
+        resetChordModeState();
+        if (tabHistory.length === 0) {
+            initTab();
+            return;
+        }
         tabLines = tabHistory.pop();
         lastPlayedStringIndex = -1;
-        clearSoloHighlights();
         updateTabText();
+        highlightFullScale(escalaSelect.value);
     };
     const initTab = () => {
-        if (isChordModeActive) toggleChordMode();
+        resetChordModeState();
         tabLines = tuning.map(s => s.padEnd(2, ' ') + '|');
         tabHistory = [];
         lastPlayedStringIndex = -1;
         skipNextSeparator = true;
-        clearSoloHighlights();
         updateTabText();
         escalaSelect.dispatchEvent(new Event('change'));
     };
@@ -416,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const addPartSeparator = () => {
         saveState();
-        if (isChordModeActive) toggleChordMode();
+        resetChordModeState();
         if (tabLines[0].length <= 3) return;
         tabLines = tabLines.map(line => line + '--||--');
         skipNextSeparator = true;
@@ -432,6 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const addSingleNoteToTab = (stringIndex, char) => {
         saveState();
+        resetChordModeState();
         const charStr = char.toString();
         if (!skipNextSeparator) tabLines = tabLines.map(line => line + '--');
         const maxLength = Math.max(...tabLines.map(line => line.length));
@@ -445,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const addComplexNotationToTab = (stringIndex, notation) => {
         saveState();
+        resetChordModeState();
         if (!skipNextSeparator) tabLines = tabLines.map(line => line + '--');
         const maxLength = Math.max(...tabLines.map(line => line.length));
         for (let i = 0; i < NUM_STRINGS; i++) {
@@ -456,8 +508,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTabText();
     };
     const addEffectToTab = (effect) => {
-        if (isChordModeActive || lastPlayedStringIndex === -1 || tabLines[0].length <= 3) return;
+        if (lastPlayedStringIndex === -1 || tabLines[0].length <= 3) return;
         saveState();
+        resetChordModeState();
         const maxLength = Math.max(...tabLines.map(line => line.length));
         for (let i = 0; i < NUM_STRINGS; i++) {
             tabLines[i] = tabLines[i].padEnd(maxLength, '-');
@@ -483,25 +536,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Lógica do Modo de Acorde Manual ---
-    const toggleChordMode = () => {
-        isChordModeActive = !isChordModeActive;
-        btnModoAcorde.classList.toggle('active-mode', isChordModeActive);
-        clearSoloHighlights(); 
-        if (isChordModeActive) {
-            btnModoAcorde.textContent = 'Finalizar Acorde';
-            manualChord = {};
-            clearChordHighlights();
-        } else {
-            btnModoAcorde.textContent = 'Acorde Manual';
-            if (Object.keys(manualChord).length > 0) {
-                const shape = Array(NUM_STRINGS).fill('x');
-                for (const stringIdx in manualChord) shape[stringIdx] = manualChord[stringIdx];
-                addChordToTab(shape);
-            }
-            clearChordHighlights();
-            manualChord = {};
-        }
+    const startManualChordMode = () => {
+        isChordModeActive = true;
+        manualChord = {};
+        clearChordHighlights();
+
+        btnIniciarAcordeManual.style.display = 'none';
+        containerAcordeRepetir.style.display = 'none';
+        btnFinalizarAcordeManual.style.display = 'inline-flex';
     };
+
+    btnIniciarAcordeManual.addEventListener('click', startManualChordMode);
+    btnNovoAcordeManual.addEventListener('click', startManualChordMode);
+
+    btnFinalizarAcordeManual.addEventListener('click', () => {
+        isChordModeActive = false;
+        if (Object.keys(manualChord).length > 0) {
+            const shape = Array(NUM_STRINGS).fill('x');
+            for (const stringIdx in manualChord) {
+                shape[stringIdx] = manualChord[stringIdx];
+            }
+            addChordToTab(shape);
+            lastManualChordShape = shape; 
+            
+            btnFinalizarAcordeManual.style.display = 'none';
+            containerAcordeRepetir.style.display = 'inline-flex';
+        } else {
+            resetChordModeState();
+        }
+        clearChordHighlights();
+        manualChord = {};
+    });
+    
+    btnRepetirAcordeManual.addEventListener('click', () => {
+        if (lastManualChordShape) {
+            addChordToTab(lastManualChordShape);
+        }
+    });
+
     const handleChordBuildingClick = (fretElement) => {
         const stringIndex = parseInt(fretElement.dataset.string);
         const fretNumber = parseInt(fretElement.dataset.fret);
@@ -607,7 +679,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSepararParte.addEventListener('click', addPartSeparator);
     btnAddDash.addEventListener('click', addDashToTab);
     btnLimpar.addEventListener('click', initTab);
-    btnModoAcorde.addEventListener('click', toggleChordMode);
     btnCopiar.addEventListener('click', () => { if (!tabTexto.value) return; navigator.clipboard.writeText(tabTexto.value).then(() => { const originalText = btnCopiar.textContent; btnCopiar.textContent = 'Copiado!'; setTimeout(() => { btnCopiar.textContent = originalText; }, 1500); }); });
     btnSalvarMusica.addEventListener('click', () => {
         if (isTabEmpty()) { alert('A tablatura está vazia!'); return; }
@@ -634,6 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastPlayedStringIndex = -1;
         skipNextSeparator = false;
         
+        resetChordModeState();
         clearSoloHighlights();
         updateTabText();
         modalMusicas.classList.remove('visivel');
@@ -757,15 +829,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     listaMusicasSalvas.addEventListener('click', (event) => {
-        if (event.target.closest('.btn-editar-musica')) {
-            const index = parseInt(event.target.closest('.btn-editar-musica').dataset.index);
+        const targetButton = event.target.closest('button');
+
+        if (targetButton && targetButton.classList.contains('btn-editar-musica')) {
+            const index = parseInt(targetButton.dataset.index);
             carregarMusicaParaEdicao(index);
             return;
         }
         
-        if (event.target.closest('.btn-excluir-musica')) {
+        if (targetButton && targetButton.classList.contains('btn-excluir-musica')) {
             if (confirm('Tem a certeza que deseja excluir esta música?')) {
-                const index = event.target.closest('.btn-excluir-musica').dataset.index;
+                const index = parseInt(targetButton.dataset.index);
                 let musicas = JSON.parse(localStorage.getItem('minhasMusicasGuitarra')) || [];
                 musicas.splice(index, 1);
                 localStorage.setItem('minhasMusicasGuitarra', JSON.stringify(musicas));
@@ -797,6 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAbrirAcordes.addEventListener('click', () => {
         renderizarBibliotecaAcordes();
         clearChordSuggestions();
+        resetChordModeState();
         const rootNote = escalaSelect.value;
         if (rootNote && rootNote !== 'nenhuma') {
             const validChords = diatonicChords[rootNote] || [];
@@ -818,28 +893,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const chordIndex = parseInt(chordItem.dataset.chordIndex);
             const clickedChord = chordLibrary[chordIndex];
             addChordToTab(clickedChord.shape);
-
-            const rootNote = escalaSelect.value;
-            if (rootNote && rootNote !== 'nenhuma') {
-                const validChords = diatonicChords[rootNote] || [];
-                const clickedChordIndexInKey = validChords.indexOf(clickedChord.name);
-                
-                if (clickedChordIndexInKey !== -1) {
-                    const nextChordIndex = (clickedChordIndexInKey + 1) % validChords.length;
-                    const nextChordName = validChords[nextChordIndex];
-                    
-                    clearChordSuggestions();
-                    
-                    listaAcordes.querySelectorAll('.acorde-item').forEach(item => {
-                        const itemName = item.querySelector('h4').textContent;
-                        if (itemName === nextChordName) {
-                            item.classList.add('sugerido');
-                        } else if (!validChords.includes(itemName)) {
-                            item.classList.add('desativado');
-                        }
-                    });
-                }
-            }
+            resetChordModeState();
         }
     });
 
@@ -1001,16 +1055,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Inicialização ---
-    createFretboard(editorContainer, fretNumbersContainerWrapper, true);
+    createFretboard(editorContainer, document.getElementById('fret-numbers-container-wrapper'));
     initTab();
     populateScaleSelector();
     escalaSelect.addEventListener('change', (e) => {
         displaySelectedScale(e.target.value);
-        if (isTabEmpty()) {
-            highlightFullScale(e.target.value);
-        } else {
-            clearSoloHighlights();
-        }
+        highlightFullScale(e.target.value);
     });
     displaySelectedScale(escalaSelect.value);
 });
