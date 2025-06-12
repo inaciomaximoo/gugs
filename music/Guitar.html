@@ -83,6 +83,7 @@
             display: flex; 
             width: fit-content; 
             background-color: #291810;
+            border-top: 1px solid #4a3a2d;
         }
         .fret-numbers div { 
             flex-shrink: 0; 
@@ -357,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragState = { isDragging: false, startX: 0, startY: 0, startFret: null, startString: null, startElement: null, dragType: 'none', didMove: false };
 
     // --- Funções de Geração da Interface ---
-    function createFretboard(container) {
+    function createFretboard(container, isEditor = false) {
         container.innerHTML = '';
         const fretboard = document.createElement('div');
         fretboard.className = 'fretboard';
@@ -386,14 +387,16 @@ document.addEventListener('DOMContentLoaded', () => {
             fretboard.appendChild(stringDiv);
         }
         
-        const fretRuler = document.createElement('div');
-        fretRuler.className = 'fret-numbers';
-        for (let j = 0; j <= NUM_FRETS; j++) {
-            const fretRuleDiv = document.createElement('div');
-            if (j > 0) fretRuleDiv.textContent = j;
-            fretRuler.appendChild(fretRuleDiv);
+        if (isEditor) {
+            const fretRuler = document.createElement('div');
+            fretRuler.className = 'fret-numbers';
+            for (let j = 0; j <= NUM_FRETS; j++) {
+                const fretRuleDiv = document.createElement('div');
+                if (j > 0) fretRuleDiv.textContent = j;
+                fretRuler.appendChild(fretRuleDiv);
+            }
+            fretboard.appendChild(fretRuler);
         }
-        fretboard.appendChild(fretRuler);
         
         const markerFretsSingle = [3, 5, 7, 9, 15, 17, 19, 21];
         const markerFretsDouble = [12, 24];
@@ -418,7 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
         markerFretsDouble.forEach(fretNum => attachMarker(fretNum, 'double'));
         container.appendChild(fretboard);
         
-        fretboard.addEventListener('mousedown', handleFretMouseDown);
+        if (isEditor) {
+            fretboard.addEventListener('mousedown', handleFretMouseDown);
+        }
+        return fretboard;
     }
 
     // --- Funções de Estado e Tablatura ---
@@ -1034,7 +1040,7 @@ document.addEventListener('DOMContentLoaded', () => {
         title.innerHTML = `Visualização da Escala de ${getNoteName(rootIndex)} Maior Pentatônica`;
         const fretboardContainer = document.createElement('div');
         fretboardContainer.className = 'fretboard-container';
-        const fretboard = createFretboard(fretboardContainer, null, false);
+        const fretboard = createFretboard(fretboardContainer, false);
         for (let i = 0; i < NUM_STRINGS; i++) {
             for (let j = 0; j <= NUM_FRETS; j++) {
                 const currentNoteIndex = (openStringNotes[i] + j) % 12;
@@ -1055,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Inicialização ---
-    createFretboard(editorContainer, document.getElementById('fret-numbers-container-wrapper'));
+    createFretboard(editorContainer, true);
     initTab();
     populateScaleSelector();
     escalaSelect.addEventListener('change', (e) => {
